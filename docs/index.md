@@ -1,88 +1,75 @@
 ---
 layout: math
-title: "AI ripped superpermutations wide open"
+title: "How AI ripped superpermutations wide open"
 ---
 
-# AI ripped superpermutations wide open
-### — two weeks in the life of a 15-year-old problem
+# How AI ripped superpermutations wide open
+### *(and what I was doing while it happened)*
 
-*A field report from inside the storm: how the minimal superpermutation
-problem went from a decade of silence to (preliminary) total victory in
-fourteen days — told by a team that arrived three days late and still
-found something worth keeping.*
+After seeing the Jacobian conjecture and the Maxwell conjecture proven
+false, I decided to try Kimi K3 on the 4chan problem. If you don't know it:
+it's the question that was born on 4chan's /sci/ board in 2011 — what's the
+shortest string that contains every possible ordering of $n$ episodes as a
+contiguous binge-watch? People call them superpermutations; $s(n)$ is the
+answer. For $n = 6$ it's been stuck between 867 and 872 for over a decade.
 
-## 1. The problem in one breath
+Kimi did research and didn't find any new improvements at the time, so I
+went ahead and tried to improve the bounds myself. And we actually found
+something: a neat, human-understandable lemma — I'm calling it the
+**absorption lemma** — that says every "2-loop" in the problem has exactly
+five doors in, so if your walk has $R$ segments you must have entered at
+least $\lceil (R-1)/5 \rceil$ of those loops. The two best constructions
+anyone has ever found both hit that bound *exactly*, which is how you know
+it's the right invariant. Combined with a rigidity argument and an
+exhaustive check of all 10,068 possible covers, it proves $s(6) \ge 868$.
+[The full writeup with the math is here](absorption-lemma), and it's the
+one page of all this that I'd genuinely recommend reading.
 
-A **superpermutation** is a string containing every permutation of $n$
-symbols as a contiguous substring; $s(n)$ is its minimal length. Exact
-answers were known only for $n \le 5$: 1, 3, 9, 33, 153. For $n = 6$ the
-world has known since 2014 that $s(6) \le 872$ (Robin Houston's explicit
-string), and since 2011/2018 that $s(6) \ge 867$ (the anonymous 4chan
-poster / Houston–Pantone–Vatter lower bound — the proof born as a question
-about watching *Haruhi* in every possible order).
+Then I went looking for someone to tell about it — and that's when I found
+the Superpermutators Google group, and my heart sank a little. Not only was
+$s(6) \ge 868$ essentially known since an unpublished 2019 draft by Zach
+Hunter, but in the two weeks *right before we finished*, a wave of
+AI-assisted work had hit the problem:
 
-For ten years, nothing moved. [The layperson's version of the story](layperson).
+- **July 17** — Raudvere drops a Lean-4 machine-checked proof of
+  $s(6) \ge 868$ (and 5886 for $n = 7$, for *every* $n \ge 5$):
+  [superperm-coeff2](https://github.com/urdvr/superperm-coeff2)
+- **July 28** — Hunter & Raudvere finish the 2019 draft properly, Lean
+  again: $s(6) \ge 869$, $s(7) \ge 5888$:
+  [superpermutations-hunter](https://github.com/urdvr/superpermutations-hunter)
+- **July 29** — vlad-ds posts a computer-assisted proof that
+  $s(6) = 872$ *exactly*: [a6-872](https://github.com/vlad-ds/a6-872).
+  Preliminary, audits invited, but if it holds up, the n = 6 story is over.
 
-## 2. August 2026: fourteen days
+So my 868 is not a new lower bound. It's an *independent* proof of
+something the field got three days earlier by three different methods. In
+computer-assisted math, independent confirmations genuinely matter — but
+let's be honest about what happened here: AI ripped superpermutations wide
+open, and I got to watch it happen in real time from about three days
+behind the wave.
 
-| date | result | method |
-|---|---|---|
-| Jul 17 | $s(6) \ge 868$, $s(7) \ge 5886$, all $n \ge 5$ | Raudvere, **Lean 4 machine-checked** ([coeff2](https://github.com/urdvr/superperm-coeff2)) |
-| Jul 28 | $s(6) \ge 869$, $s(7) \ge 5888$, $s(8) \ge 46103$ | Hunter & Raudvere, **Lean 4**, completing Hunter's 2019 draft ([hunter](https://github.com/urdvr/superpermutations-hunter)) |
-| Jul 29 | **$s(6) = 872$ exactly** | vlad-ds, computer-assisted partition exhaustion, adversarially audited, *preliminary* ([a6-872](https://github.com/vlad-ds/a6-872)) |
-| Aug 1 | $s(6) \ge 868$, independently | **this project** — the elementary one: absorption lemma + rigidity + exhaustive cover TSP |
+And since everyone loves the punchline: **you need to watch 872 episodes of
+the first 6 Haruhi episodes back to back in order to have watched every way
+you could have arranged them during the binge itself.** That's what ten
+years of silence and two weeks of chaos were about.
 
-All four efforts were substantially AI-assisted. The last decade produced
-zero progress; the last fortnight produced (provisionally) the answer.
+---
 
-## 3. Our proof — the one you can actually read
+### Where things actually stand
 
-Our independent $s(6) \ge 868$ is deliberately built from elementary
-pieces, and it is (we claim) the easiest of the four to understand end to
-end:
+| $n$ | lower bound | upper bound | status |
+|---|---|---|---|
+| 6 | 872 (preliminary, vlad-ds) | 872 (Houston 2014) | **probably done** |
+| 7 | 5888 (Hunter & Raudvere, Lean) | 5906 (Coanda/Egan/Houston 2019) | the open frontier |
+| 8 | 46103 (Hunter & Raudvere, Lean) | 46204 | wide open |
 
-1. **The absorption lemma.** Every "2-loop" (a 30-vertex cycle structure)
-   has exactly 5 ports of entry. A path with $R$ segments uses $R-1$
-   transitions, so the number $v$ of 2-loops you must enter satisfies
-   $$v \ge \lceil (R-1)/5 \rceil.$$
-   Both champion strings — the classical one *and* Houston's record — hit
-   this bound **exactly**. It is the right invariant. ([The full article,
-   with the math rendered](absorption-lemma).)
-2. **Rigidity at the minimum.** If you enter the minimum 24 loops, they
-   cannot overlap — so the whole problem collapses to a finite
-   traveling-salesman puzzle over 120 classes.
-3. **Finite computation.** All **10,068** possible covers, solved: every
-   one costs more than the old bound. Done.
+The n = 7 gap is where the game is now. Our [baseline
+notes](https://github.com/levkropp/superperm/blob/main/notes/s7_baseline.md)
+already have one fun observation in them: the absorption lemma holds at
+$n = 7$ too, and the current 5906 champion is the only known string
+anywhere that *doesn't* saturate it (it's off by exactly one). Make of
+that what you will.
 
-Same conclusion as coeff2 (868), proven independently, with every artifact
-under 100 KB and a 30-minute laptop verification path.
-[The certificate](certificate) · [Repo](https://github.com/levkropp/superperm)
-
-## 4. Why our proof "doesn't matter" — and why it does
-
-Three days before we finished, the Lean monsters landed: coeff2's
-factorial-gain criterion covering all $n \ge 5$ at once, then Hunter &
-Raudvere at 869/5888, then the partition proof of $s(6) = 872$. All of
-them machine-checked or machine-audited at a level our CP-SAT certificate
-does not match.
-
-So the 868 here is a **second, independent confirmation** — which in
-computer-assisted mathematics is a feature, not a consolation prize. And
-the machinery built for it (validated GPU BFS prover, exhaustive cover
-pipeline, the absorption lemma itself) is reusable for the next frontier:
-$s(7)$, where the gap is $5888 \le s(7) \le 5906$ and nobody — yet —
-claims victory.
-
-## 5. The map now
-
-- $s(6) = 872$ (preliminary; audits invited — the authors *want* adversaries).
-- $s(7)$: **5888 ≤ s(7) ≤ 5906** — the open frontier.
-- $s(8)$: 46103 ≤ s(8) ≤ 46204.
-- The next decade of the problem: tightening from both sides, with AI in
-  the loop everywhere.
-
-*Read next: [the absorption lemma](absorption-lemma) (our piece),
-[coeff2](https://github.com/urdvr/superperm-coeff2) and
-[hunter](https://github.com/urdvr/superpermutations-hunter) (the Lean
-proofs), [a6-872](https://github.com/vlad-ds/a6-872) (the claimed finish
-line).*
+The repo with all the verification machinery:
+[github.com/levkropp/superperm](https://github.com/levkropp/superperm).
+The lemma, properly typeset: [here](absorption-lemma).
