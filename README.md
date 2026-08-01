@@ -17,6 +17,29 @@ data, and scripts that establish the new lower bound, plus the research
 log of how it was found (GPU provers, exact TSP machinery, structural
 lemmas, and the dead ends that were ruled out).
 
+
+## ⚠️ Status of the problem (July–August 2026) — read first
+
+This repository was written when we believed s(6) ≥ 868 was new. Days
+earlier, three stronger results had already landed publicly:
+
+- **s(6) ≥ 869, s(7) ≥ 5888, s(8) ≥ 46103** — Hunter & Raudvere,
+  Lean-4 machine-checked, completing Zach Hunter's 2019 draft:
+  [urdvr/superpermutations-hunter](https://github.com/urdvr/superpermutations-hunter)
+- **s(6) ≥ 868, s(7) ≥ 5886** (all n ≥ 5) — Raudvere, Lean-4
+  machine-checked: [urdvr/superperm-coeff2](https://github.com/urdvr/superperm-coeff2)
+- **s(6) = 872 exactly** — vlad-ds, computer-assisted (preliminary,
+  audits invited): [vlad-ds/a6-872](https://github.com/vlad-ds/a6-872)
+
+**What this repository is, then:** an *independent* proof of s(6) ≥ 868 by
+a different method (absorption lemma + v=24 rigidity + exhaustive cover
+TSP), with every step verified — a second, independent confirmation of a
+bound the field now holds three ways. It is no longer the first proof of
+that bound, and the headline claims elsewhere in these files ("first
+improvement since 2011/2018") should be read with the date above in mind.
+
+---
+
 ## The proof in one paragraph
 
 In the permutation overlap graph (720 vertices; edge weight = symbols to

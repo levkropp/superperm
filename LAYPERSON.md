@@ -25,7 +25,14 @@ binge be?
 
 And there it sat. For over a decade, nobody moved either number.
 
-## What's new
+## What's new — with an important correction
+
+*This page was written on 1 August 2026. Two days earlier, independent
+teams had already posted **stronger** results: s(6) ≥ 869 (Hunter &
+Raudvere, Lean-checked) and even s(6) = 872 exactly (vlad-ds,
+preliminary). The 868 bound below is therefore an independent confirmation
+by a different method — not the first proof. The story of how fast this
+problem is moving is itself remarkable.*
 
 **We proved you can't do better than 868.** The binge needs at least 868
 episodes of runtime. The gap is now 868–872.

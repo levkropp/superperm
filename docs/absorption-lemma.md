@@ -202,3 +202,9 @@ invariant that prices that constraint correctly.
 *Verification artifacts (enumeration scripts, cover lists, solver logs, and
 the independent checker) live in the repository; see the
 [certificate](certificate) for the full chain.*
+
+**Note (August 2026):** this lemma, found independently here, was published
+days after stronger machine-checked results already covered the same bound
+(coeff2: s(6) ≥ 868, and Hunter–Raudvere: s(6) ≥ 869). It remains the
+elementary form of the counting argument — tight on both extremal strings —
+and the route we used to *verify* the bound independently.
