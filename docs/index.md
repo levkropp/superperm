@@ -6,7 +6,7 @@
 > in over a decade. The upper bound remains 872 (Houston 2014), so
 > **868 ≤ s(6) ≤ 872**.
 
-**[Lay explanation](LAYPERSON.md)** · **[Full proof](CERTIFICATE_868.md)** ·
+**[Lay explanation](layperson)** · **[Full proof](certificate)** ·
 **[Verification & reproduction](#verify-it-yourself)**
 
 A *superpermutation* on n symbols is a string containing every permutation
@@ -66,9 +66,9 @@ CI runs the fast+moderate checks on every push (see
 
 ## Repository map
 
-- `CERTIFICATE_868.md` — the proof with every link in the chain.
-- `LAYPERSON.md` — the result explained without prerequisites.
-- `REPORT.md`, `VALIDATION.md` — the research log: machinery, findings,
+- [`CERTIFICATE_868.md`](certificate) — the proof with every link in the chain.
+- [`LAYPERSON.md`](layperson) — the result explained without prerequisites.
+- `REPORT.md`, `VALIDATION.md` (in the repo: ../../tree/main) — the research log: machinery, findings,
   dead ends (including why every LP relaxation caps at 840, and why the
   outer automorphism of S₆ cannot help).
 - `code/` — the verification scripts plus the full toolset: the overlap
