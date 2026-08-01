@@ -1,10 +1,10 @@
-# s(6) ≥ 868 — a new lower bound for the minimal superpermutation problem
+# The absorption lemma — an elementary proof that s(6) ≥ 868
 
-> **Theorem (computer-assisted).** Every superpermutation on 6 symbols has
-> length at least **868**. This improves the 2011/2018 lower bound of 867
-> (anonymous 4chan poster; Houston–Pantone–Vatter) — the first improvement
-> in over a decade. The upper bound remains 872 (Houston 2014), so
-> **868 ≤ s(6) ≤ 872**.
+> **An elementary, fully-verified proof that every superpermutation on 6
+> symbols has length at least 868** — built from one counting idea (the
+> absorption lemma) that both champion superpermutations saturate exactly.
+> Independently discovered here; the bound was also reached days earlier by
+> two machine-checked efforts (see the status note below).
 
 **[Lay explanation](LAYPERSON.md)** · **[Full proof](CERTIFICATE_868.md)** · **[The absorption lemma](https://levkropp.github.io/superperm/absorption-lemma)** ·
 **[Verification & reproduction](#verify-it-yourself)**

@@ -1,103 +1,88 @@
-# s(6) ≥ 868 — a new lower bound for the minimal superpermutation problem
+---
+layout: default
+title: "AI ripped superpermutations wide open"
+---
 
-> **Theorem (computer-assisted).** Every superpermutation on 6 symbols has
-> length at least **868**. This improves the 2011/2018 lower bound of 867
-> (anonymous 4chan poster; Houston–Pantone–Vatter) — the first improvement
-> in over a decade. The upper bound remains 872 (Houston 2014), so
-> **868 ≤ s(6) ≤ 872**.
+# AI ripped superpermutations wide open
+### — two weeks in the life of a 15-year-old problem
 
-**[Lay explanation](layperson)** · **[Full proof](certificate)** · **[The absorption lemma](absorption-lemma)** ·
-**[Verification & reproduction](#verify-it-yourself)**
+*A field report from inside the storm: how the minimal superpermutation
+problem went from a decade of silence to (preliminary) total victory in
+fourteen days — told by a team that arrived three days late and still
+found something worth keeping.*
 
-A *superpermutation* on n symbols is a string containing every permutation
-of the symbols as a contiguous substring; s(n) is the minimal length. Known
-exactly: s(1..5) = 1, 3, 9, 33, 153. For n = 6 the best published bounds
-were 867 ≤ s(6) ≤ 872. This repository contains the complete machinery,
-data, and scripts that establish the new lower bound, plus the research
-log of how it was found (GPU provers, exact TSP machinery, structural
-lemmas, and the dead ends that were ruled out).
+## 1. The problem in one breath
 
-## The proof in one paragraph
+A **superpermutation** is a string containing every permutation of $n$
+symbols as a contiguous substring; $s(n)$ is its minimal length. Exact
+answers were known only for $n \le 5$: 1, 3, 9, 33, 153. For $n = 6$ the
+world has known since 2014 that $s(6) \le 872$ (Robin Houston's explicit
+string), and since 2011/2018 that $s(6) \ge 867$ (the anonymous 4chan
+poster / Houston–Pantone–Vatter lower bound — the proof born as a question
+about watching *Haruhi* in every possible order).
 
-In the permutation overlap graph (720 vertices; edge weight = symbols to
-append), minimal length = 6 + min Hamiltonian path weight. The
-Houston–Pantone–Vatter invariant gives wt ≥ p + c + v − 2 (permutations,
-completed 1-cycles, entered 2-loops). Two new ingredients close the gap:
+For ten years, nothing moved. [The layperson's version of the story](layperson).
 
-1. **Absorption lemma** — every 2-loop has exactly 5 generators, and jump
-   targets enter a loop only by landing on one, so `v ≥ ⌈(R−1)/5⌉`
-   (tight on both known extremal strings).
-2. **Rigidity of v = 24** — 24 entered 30-vertex loops covering 720
-   vertices must be an *exact cover*; each 1-cycle then has a unique
-   "port" (generator), forcing R = 120 full arcs and
-   `wt = 600 + TSP(cover)` over the 120 classes. All **10,068** exact
-   covers (29 S₆-orbits) have class-TSP **≥ 265** (CP-SAT certified).
+## 2. August 2026: fourteen days
 
-So: v ≥ 25 ⇒ wt ≥ 837 + 25 = **862**, and v = 24 ⇒ wt ≥ 600 + 265 =
-**865**. Every complete walk has wt ≥ 862, hence **s(6) = 6 + wt ≥ 868**. ∎
+| date | result | method |
+|---|---|---|
+| Jul 17 | $s(6) \ge 868$, $s(7) \ge 5886$, all $n \ge 5$ | Raudvere, **Lean 4 machine-checked** ([coeff2](https://github.com/urdvr/superperm-coeff2)) |
+| Jul 28 | $s(6) \ge 869$, $s(7) \ge 5888$, $s(8) \ge 46103$ | Hunter & Raudvere, **Lean 4**, completing Hunter's 2019 draft ([hunter](https://github.com/urdvr/superpermutations-hunter)) |
+| Jul 29 | **$s(6) = 872$ exactly** | vlad-ds, computer-assisted partition exhaustion, adversarially audited, *preliminary* ([a6-872](https://github.com/vlad-ds/a6-872)) |
+| Aug 1 | $s(6) \ge 868$, independently | **this project** — the elementary one: absorption lemma + rigidity + exhaustive cover TSP |
 
-The same scheme **retro-proves s(4) = 33 and s(5) = 153** exactly — the
-strongest soundness check available.
+All four efforts were substantially AI-assisted. The last decade produced
+zero progress; the last fortnight produced (provisionally) the answer.
 
-## Verify it yourself
+## 3. Our proof — the one you can actually read
 
-Everything needed is in this repo — total download < 1 MB of data. **No
-gigabyte checkpoints are required**: the certificate is the 10,068-cover
-list (80 KB compressed), 29 orbit representatives, and exact-solver runs
-that take minutes on a laptop.
+Our independent $s(6) \ge 868$ is deliberately built from elementary
+pieces, and it is (we claim) the easiest of the four to understand end to
+end:
 
-```bash
-pip install -r requirements.txt          # numpy, scipy, ortools
+1. **The absorption lemma.** Every "2-loop" (a 30-vertex cycle structure)
+   has exactly 5 ports of entry. A path with $R$ segments uses $R-1$
+   transitions, so the number $v$ of 2-loops you must enter satisfies
+   $$v \ge \lceil (R-1)/5 \rceil.$$
+   Both champion strings — the classical one *and* Houston's record — hit
+   this bound **exactly**. It is the right invariant. ([The full article,
+   with the math rendered](absorption-lemma).)
+2. **Rigidity at the minimum.** If you enter the minimum 24 loops, they
+   cannot overlap — so the whole problem collapses to a finite
+   traveling-salesman puzzle over 120 classes.
+3. **Finite computation.** All **10,068** possible covers, solved: every
+   one costs more than the old bound. Done.
 
-# fast checks (seconds)
-python code/certify.py --string data/houston_872.txt --n 6   # 872 is valid
-python code/verify_v1_absorption.py      # absorption lemma (+ 200 random walks)
+Same conclusion as coeff2 (868), proven independently, with every artifact
+under 100 KB and a 30-minute laptop verification path.
+[The certificate](certificate) · [Repo](https://github.com/levkropp/superperm)
 
-# moderate (a few minutes)
-python code/verify_v2_covers.py          # re-enumerate all 10,068 covers
-python code/verify_family_orbit.py       # class-TSP on the family orbit
+## 4. Why our proof "doesn't matter" — and why it does
 
-# the full certificate (~30 min, 15 threads)
-python code/verify_orbits_tsp.py         # all 29 orbits certify TSP >= 265
-```
+Three days before we finished, the Lean monsters landed: coeff2's
+factorial-gain criterion covering all $n \ge 5$ at once, then Hunter &
+Raudvere at 869/5888, then the partition proof of $s(6) = 872$. All of
+them machine-checked or machine-audited at a level our CP-SAT certificate
+does not match.
 
-CI runs the fast+moderate checks on every push (see
-[Actions](../../actions)).
+So the 868 here is a **second, independent confirmation** — which in
+computer-assisted mathematics is a feature, not a consolation prize. And
+the machinery built for it (validated GPU BFS prover, exhaustive cover
+pipeline, the absorption lemma itself) is reusable for the next frontier:
+$s(7)$, where the gap is $5888 \le s(7) \le 5906$ and nobody — yet —
+claims victory.
 
-## Repository map
+## 5. The map now
 
-- [`CERTIFICATE_868.md`](certificate) — the proof with every link in the chain.
-- [`LAYPERSON.md`](layperson) — the result explained without prerequisites.
-- `REPORT.md`, `VALIDATION.md` (in the repo: ../../tree/main) — the research log: machinery, findings,
-  dead ends (including why every LP relaxation caps at 840, and why the
-  outer automorphism of S₆ cannot help).
-- `code/` — the verification scripts plus the full toolset: the overlap
-  graph model (`permgraph.py`), exact ATSP (`cpsat_tsp.py`, `exact_tsp.py`),
-  the CPU arc-prover (`prove_par.c`), and the GPU BFS prover
-  (`gpu_bfs.py`) that certifies s(5) = 153 with 41M nodes and finds exactly
-  the 8 known minimal solutions at the next budget.
-- `data/` — Houston's 872 string, the cover list, orbit reps, the TSP
-  results table, and the 2018 HPV lower-bound paper (PDF).
-- `notes/` (in the research log repo) — structural findings: the δ-jump
-  graph is the Coxeter Cayley graph of S₅ with an icosahedral 24-block
-  quotient; the v-ladder constraining any 871-string to v ≤ 28, E ≥ 7.
+- $s(6) = 872$ (preliminary; audits invited — the authors *want* adversaries).
+- $s(7)$: **5888 ≤ s(7) ≤ 5906** — the open frontier.
+- $s(8)$: 46103 ≤ s(8) ≤ 46204.
+- The next decade of the problem: tightening from both sides, with AI in
+  the loop everywhere.
 
-## What would move the bound next
-
-- **869**: the v = 25 channel (R ≤ 125) or GTSP-min over all covers
-  (~6 CPU-hours with the beam route sketched in REPORT).
-- **871/872 (settling s(6))**: the exact 720-city ATSP has never been
-  solved to optimality (Concorde crashed in 2014); the instance is in
-  `data/` (weights matrix) — a certified optimum of 866 would prove
-  s(6) = 872 exactly.
-
-## References
-
-- Anonymous 4chan poster, R. Houston, J. Pantone, V. Vatter, *A lower
-  bound on the length of the shortest superpattern*, OEIS A180632 (2018).
-- R. Houston, *Tackling the minimal superpermutation problem*,
-  arXiv:1408.5108 (2014).
-- M. Engen, V. Vatter, *Containing all permutations*, Amer. Math. Monthly
-  128 (2021).
-- G. Egan, *Superpermutations* (gregegan.net) — constructions and the
-  n = 7 records.
+*Read next: [the absorption lemma](absorption-lemma) (our piece),
+[coeff2](https://github.com/urdvr/superperm-coeff2) and
+[hunter](https://github.com/urdvr/superpermutations-hunter) (the Lean
+proofs), [a6-872](https://github.com/vlad-ds/a6-872) (the claimed finish
+line).*
