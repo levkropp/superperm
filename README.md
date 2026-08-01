@@ -114,14 +114,25 @@ known champions shows the 5906 record is the only known string anywhere
 that does *not* saturate it (v=142 vs floor 141) — the signature of the
 non-standard kernel, and the first thing to understand.
 
-## What would move the bound next
+## What we're doing now: the absorption lemma at n=7
 
-- **869**: the v = 25 channel (R ≤ 125) or GTSP-min over all covers
-  (~6 CPU-hours with the beam route sketched in REPORT).
-- **871/872 (settling s(6))**: the exact 720-city ATSP has never been
-  solved to optimality (Concorde crashed in 2014); the instance is in
-  `data/` (weights matrix) — a certified optimum of 866 would prove
-  s(6) = 872 exactly.
+s(6) is (preliminarily) settled at 872 by vlad-ds/a6-872, with two
+machine-checked 868/869 proofs besides ours — so our s(6) program is
+done. The open game is **s(7) (5888 ≤ s(7) ≤ 5906)**, attacked with the
+absorption lemma:
+
+- The lemma holds at n=7 (840 two-loops, 6 generators each): both 5907
+  champions saturate it; the 5906 champion is the only known string
+  anywhere that doesn't (v=142 vs floor 141).
+- Every one of its 142 entered loops is *essential* (≥ 2 uniquely-covered
+  classes) — the record can't be rethreaded; a shorter string needs a
+  genuinely different 141-loop cover.
+- **The knife-edge question**: does a family of 141 two-loops cover all
+  720 one-cycles? Yes + cheap traversal ⟹ a **5905-string** (new record,
+  upper bound). No ⟹ **s(7) ≥ 5906** (new lower bound, settled).
+- Running now: a 16-thread exact-cover enumeration at n=7 (any 141-cover
+  = exact 120-cover + 21 loops). See
+  [`notes/s7_baseline.md`](notes/s7_baseline.md).
 
 ## References
 

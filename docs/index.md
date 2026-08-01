@@ -67,7 +67,7 @@ years of silence and two weeks of chaos were about.
 | 7 | 5888 (Hunter & Raudvere, Lean) | 5906 (Coanda/Egan/Houston 2019) | the open frontier |
 | 8 | 46103 (Hunter & Raudvere, Lean) | 46204 | wide open |
 
-The n = 7 gap is where the game is now. Our [baseline
+The n = 7 gap is where the game is now, and we've narrowed it to one question: **can 141 of the 840 two-loops cover all 720 one-cycles?** Yes+cheap = a 5905-string (new record); no = s(7) >= 5906 (settled). [The 5905 question, explained](5905-question). Our [baseline
 notes](https://github.com/levkropp/superperm/blob/main/notes/s7_baseline.md)
 already have one fun observation in them: the absorption lemma holds at
 $n = 7$ too, and the current 5906 champion is the only known string
