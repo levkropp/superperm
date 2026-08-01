@@ -1,0 +1,25 @@
+name: verify
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Houston 872 string is a valid superpermutation (independent checker)
+        run: python code/certify.py --string data/houston_872.txt --n 6
+      - name: V1 absorption lemma
+        run: python code/verify_v1_absorption.py
+      - name: V2 exact-cover enumeration (10,068)
+        run: python code/verify_v2_covers.py
+      - name: V3 class-TSP on the family orbit (>= 265)
+        run: python code/verify_family_orbit.py

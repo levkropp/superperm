@@ -1,0 +1,205 @@
+[
+ {
+  "orbit": 0,
+  "orbit_size": 8,
+  "status": "OPTIMAL",
+  "objective": 267.0,
+  "certified_bound": 267.0
+ },
+ {
+  "orbit": 1,
+  "orbit_size": 9,
+  "status": "OPTIMAL",
+  "objective": 269.0,
+  "certified_bound": 269.0
+ },
+ {
+  "orbit": 2,
+  "orbit_size": 10,
+  "status": "OPTIMAL",
+  "objective": 269.0,
+  "certified_bound": 269.0
+ },
+ {
+  "orbit": 3,
+  "orbit_size": 11,
+  "status": "OPTIMAL",
+  "objective": 269.0,
+  "certified_bound": 269.0
+ },
+ {
+  "orbit": 4,
+  "orbit_size": 17,
+  "status": "OPTIMAL",
+  "objective": 272.0,
+  "certified_bound": 272.0
+ },
+ {
+  "orbit": 5,
+  "orbit_size": 18,
+  "status": "OPTIMAL",
+  "objective": 271.0,
+  "certified_bound": 271.0
+ },
+ {
+  "orbit": 6,
+  "orbit_size": 21,
+  "status": "OPTIMAL",
+  "objective": 270.0,
+  "certified_bound": 270.0
+ },
+ {
+  "orbit": 7,
+  "orbit_size": 2,
+  "status": "OPTIMAL",
+  "objective": 269.0,
+  "certified_bound": 269.0
+ },
+ {
+  "orbit": 8,
+  "orbit_size": 6,
+  "status": "OPTIMAL",
+  "objective": 269.0,
+  "certified_bound": 269.0
+ },
+ {
+  "orbit": 9,
+  "orbit_size": 7,
+  "status": "OPTIMAL",
+  "objective": 269.0,
+  "certified_bound": 269.0
+ },
+ {
+  "orbit": 10,
+  "orbit_size": 12,
+  "status": "OPTIMAL",
+  "objective": 269.0,
+  "certified_bound": 269.0
+ },
+ {
+  "orbit": 11,
+  "orbit_size": 13,
+  "status": "OPTIMAL",
+  "objective": 269.0,
+  "certified_bound": 269.0
+ },
+ {
+  "orbit": 12,
+  "orbit_size": 14,
+  "status": "OPTIMAL",
+  "objective": 269.0,
+  "certified_bound": 269.0
+ },
+ {
+  "orbit": 13,
+  "orbit_size": 15,
+  "status": "OPTIMAL",
+  "objective": 269.0,
+  "certified_bound": 269.0
+ },
+ {
+  "orbit": 14,
+  "orbit_size": 16,
+  "status": "OPTIMAL",
+  "objective": 269.0,
+  "certified_bound": 269.0
+ },
+ {
+  "orbit": 15,
+  "orbit_size": 19,
+  "status": "OPTIMAL",
+  "objective": 272.0,
+  "certified_bound": 272.0
+ },
+ {
+  "orbit": 16,
+  "orbit_size": 20,
+  "status": "OPTIMAL",
+  "objective": 270.0,
+  "certified_bound": 270.0
+ },
+ {
+  "orbit": 17,
+  "orbit_size": 1,
+  "status": "OPTIMAL",
+  "objective": 267.0,
+  "certified_bound": 267.0
+ },
+ {
+  "orbit": 18,
+  "orbit_size": 5,
+  "status": "OPTIMAL",
+  "objective": 269.0,
+  "certified_bound": 269.0
+ },
+ {
+  "orbit": 19,
+  "orbit_size": 24,
+  "status": "OPTIMAL",
+  "objective": 271.0,
+  "certified_bound": 271.0
+ },
+ {
+  "orbit": 20,
+  "orbit_size": 25,
+  "status": "OPTIMAL",
+  "objective": 271.0,
+  "certified_bound": 271.0
+ },
+ {
+  "orbit": 21,
+  "orbit_size": 27,
+  "status": "OPTIMAL",
+  "objective": 271.0,
+  "certified_bound": 271.0
+ },
+ {
+  "orbit": 22,
+  "orbit_size": 3,
+  "status": "OPTIMAL",
+  "objective": 269.0,
+  "certified_bound": 269.0
+ },
+ {
+  "orbit": 23,
+  "orbit_size": 22,
+  "status": "OPTIMAL",
+  "objective": 274.0,
+  "certified_bound": 274.0
+ },
+ {
+  "orbit": 24,
+  "orbit_size": 23,
+  "status": "OPTIMAL",
+  "objective": 271.0,
+  "certified_bound": 271.0
+ },
+ {
+  "orbit": 25,
+  "orbit_size": 4,
+  "status": "OPTIMAL",
+  "objective": 269.0,
+  "certified_bound": 269.0
+ },
+ {
+  "orbit": 26,
+  "orbit_size": 26,
+  "status": "OPTIMAL",
+  "objective": 272.0,
+  "certified_bound": 272.0
+ },
+ {
+  "orbit": 27,
+  "orbit_size": 28,
+  "status": "OPTIMAL",
+  "objective": 271.0,
+  "certified_bound": 271.0
+ },
+ {
+  "orbit": 28,
+  "orbit_size": 0,
+  "status": "FEASIBLE",
+  "objective": 267.0,
+  "certified_bound": 265.0
+ }
+]
