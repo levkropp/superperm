@@ -36,10 +36,14 @@ not algebraically assumed.
 1. **splits ≤ (n−1)(v − (n−2)!)** — a new necessary R–v coupling, strictly
    stronger than the absorption lemma wherever A > 0.
 2. wt at n=7: $wt = 5038 + 6v - A + E$ (checked on all three champions).
-   Combined with HPV ($wt \ge 5757 + v$): **5v + E ≥ 719 + A**.
-3. **The 5905 design target is pinned**: a string of length 5905 needs
-   (v = 141, splits = 124, **A = 2 exactly**, E = 17). The champion has
-   A = 8; the path to 5905 runs through *fewer* accidents, not more.
+   Combined with HPV ($wt \ge 5757 + v$): **5v + E ≥ 719 + A**, with
+   slack σ = 5v + E − 719 − A ≥ 0 (Coanda: 3, L2: 0, Egan: 0 — Egan is
+   exactly tight at 727 = 719 + 8).
+3. **The 5905 design target is pinned**: a string of length 5905
+   (wt = 5898, tight) needs **(v = 141, splits = 124, A = 2, E = 16)** —
+   from wt = 5038 + 6v − A + E and splits = 6(v−120) − A. Note E = 16,
+   one *below* the champion's 17: the 5905 path must be cheaper in every
+   coordinate, not just v.
 
 ## Where it points
 
