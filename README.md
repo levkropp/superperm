@@ -105,14 +105,27 @@ CI runs the fast+moderate checks on every push (see
   graph is the Coxeter Cayley graph of S₅ with an icosahedral 24-block
   quotient; the v-ladder constraining any 871-string to v ≤ 28, E ≥ 7.
 
-## Ongoing: s(7) (5888 ≤ s(7) ≤ 5906)
+## Ongoing: s(7) (5888 ≤ s(7) ≤ 5906) — the absorption lemma and beyond
 
-The same machinery is now pointed at n=7 — see
-[`notes/s7_baseline.md`](notes/s7_baseline.md): the absorption lemma holds
-at n=7 (840 2-loops, 6 generators each) and the decomposition of all three
-known champions shows the 5906 record is the only known string anywhere
-that does *not* saturate it (v=142 vs floor 141) — the signature of the
-non-standard kernel, and the first thing to understand.
+The absorption lemma turned out to be a special case of a stronger
+identity, the **Split Identity** (see
+[`notes/split_identity.md`](notes/split_identity.md), verified exactly on
+all five known extremal strings at n=6 *and* n=7):
+
+> splits = (n−1)(v − (n−2)!) − A,  where A = *accidents* (entered-loop
+> generators covered mid-arc).
+
+It upgrades HPV to `5v + E ≥ 719 + A` at n=7 (Egan/Houston's 5906 is
+exactly tight: 727 = 719 + 8) and pins the frontier questions precisely:
+
+- the 5906 champion has v = 142 and **A = 8**;
+- a 5905-string must live at exactly **(v = 141, splits = 124, A = 2,
+  E = 16)** — cheaper than the champion in *every* coordinate.
+
+Current hunt: enumerate 141-loop covers of the 720 1-cycles at n=7
+(checkpointed 8-thread enumeration; the exact-cover count at n=6 was
+10,068 — at n=7 it is vastly larger, which is itself informative).
+Baseline decompositions: [`notes/s7_baseline.md`](notes/s7_baseline.md).
 
 ## What we're doing now: the absorption lemma at n=7
 

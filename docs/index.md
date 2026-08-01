@@ -67,7 +67,7 @@ years of silence and two weeks of chaos were about.
 | 7 | 5888 (Hunter & Raudvere, Lean) | 5906 (Coanda/Egan/Houston 2019) | the open frontier |
 | 8 | 46103 (Hunter & Raudvere, Lean) | 46204 | wide open |
 
-The n = 7 gap is where the game is now, and we've narrowed it to one question: **can 141 of the 840 two-loops cover all 720 one-cycles?** Yes+cheap = a 5905-string (new record); no = s(7) >= 5906 (settled). [The 5905 question, explained](5905-question). Our [baseline
+The n = 7 gap is where the game is now. Since then the absorption lemma grew up: it's a special case of the **Split Identity** (splits = (n-1)(v-(n-2)!) - A, where A counts "accidents" - generators covered mid-arc instead of entered cleanly). It holds exactly on all five champion strings at n=6 and n=7, and it pins the target with no room to move: a 5905-string must sit at exactly (v=141, splits=124, A=2, E=16), cheaper than the champion in every coordinate. The hunt is on. [The 5905 question, explained](5905-question) and [the Split Identity](https://github.com/levkropp/superperm/blob/main/notes/split_identity.md). Our [baseline
 notes](https://github.com/levkropp/superperm/blob/main/notes/s7_baseline.md)
 already have one fun observation in them: the absorption lemma holds at
 $n = 7$ too, and the current 5906 champion is the only known string
