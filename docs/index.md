@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: math
 title: "AI ripped superpermutations wide open"
 ---
 
