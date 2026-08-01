@@ -105,6 +105,15 @@ CI runs the fast+moderate checks on every push (see
   graph is the Coxeter Cayley graph of S₅ with an icosahedral 24-block
   quotient; the v-ladder constraining any 871-string to v ≤ 28, E ≥ 7.
 
+## Ongoing: s(7) (5888 ≤ s(7) ≤ 5906)
+
+The same machinery is now pointed at n=7 — see
+[`notes/s7_baseline.md`](notes/s7_baseline.md): the absorption lemma holds
+at n=7 (840 2-loops, 6 generators each) and the decomposition of all three
+known champions shows the 5906 record is the only known string anywhere
+that does *not* saturate it (v=142 vs floor 141) — the signature of the
+non-standard kernel, and the first thing to understand.
+
 ## What would move the bound next
 
 - **869**: the v = 25 channel (R ≤ 125) or GTSP-min over all covers
