@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ page.title | default: "s(6) >= 868" }}</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\(',right:'\\)',display:false}]});"></script>
+<style>
+  body { font-family: Georgia, 'Times New Roman', serif; max-width: 46em;
+         margin: 2.5em auto; padding: 0 1em; line-height: 1.65; color: #111; }
+  h1,h2,h3 { font-family: inherit; line-height: 1.25; }
+  h1 { border-bottom: 1px solid #999; padding-bottom: .3em; }
+  blockquote { margin: 1em 0; padding: .5em 1em; background: #f7f7f7;
+               border-left: 3px solid #999; }
+  code, pre { font-family: 'SF Mono', Menlo, Consolas, monospace; font-size: .9em; }
+  pre { background: #f7f7f7; padding: 1em; overflow-x: auto; }
+  a { color: #0645ad; }
+  .thm { border: 1px solid #bbb; border-left: 4px solid #444;
+         padding: .6em 1em; margin: 1.2em 0; background: #fafafa; }
+  .thm .tag { font-variant: small-caps; font-weight: bold; }
+</style>
+</head>
+<body>
+{{ content }}
+</body>
+</html>

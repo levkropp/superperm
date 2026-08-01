@@ -6,7 +6,7 @@
 > in over a decade. The upper bound remains 872 (Houston 2014), so
 > **868 ≤ s(6) ≤ 872**.
 
-**[Lay explanation](layperson)** · **[Full proof](certificate)** ·
+**[Lay explanation](layperson)** · **[Full proof](certificate)** · **[The absorption lemma](absorption-lemma)** ·
 **[Verification & reproduction](#verify-it-yourself)**
 
 A *superpermutation* on n symbols is a string containing every permutation
