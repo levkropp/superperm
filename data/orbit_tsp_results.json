@@ -198,8 +198,9 @@
  {
   "orbit": 28,
   "orbit_size": 0,
-  "status": "FEASIBLE",
+  "status": "OPTIMAL",
   "objective": 267.0,
-  "certified_bound": 265.0
+  "certified_bound": 267.0,
+  "note": "closed by code/orbit28b.c: exhaustive branch-and-bound over the 120 fixed arc starts, free start, 2.399e10 nodes, no walk with E <= 28 (total jump weight <= 266)"
  }
 ]

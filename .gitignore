@@ -1,1 +1,15 @@
 *.pdf
+__pycache__/
+*.pyc
+code/macro7
+code/orbit28bb
+code/orbit28bb2
+code/bs6
+code/omstretch
+code/sf6a
+code/sf6b
+code/sf6c
+code/sf6d
+code/sf6e
+.venv/
+.e28/

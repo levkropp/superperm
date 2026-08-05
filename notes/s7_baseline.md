@@ -23,11 +23,21 @@ Findings:
   non-standard kernel (palindromic nsk word, 2-fold symmetry) bought.
   Interpretation: at n=7 the frontier dips *below* the absorption diagonal
   by one — the only known example of that happening anywhere.
-- HPV accounting at n=7: wt ≥ 5757 + v. hunter's 5888 = 5757+131.
-  Next point (5889) = 5757+132, i.e., prove v ≥ 132 in all paths, or
-  strengthen the counting at v ∈ {120..131} with rigidity machinery
-  (exact-cover enumeration at n=7: 120 disjoint 2-loops of the 840 —
-  feasibility unknown, likely much larger than n=6's 10,068).
+- HPV accounting at n=7: wt ≥ 5757 + v, i.e. **length ≥ 5764 + v**. Note the
+  direction: the invariant bounds v from *above* for a given length, it does
+  not force v up. A string of length L has v ≤ L − 5764.
+
+  *(Erratum. An earlier version of this file read "hunter's 5888 = 5757+131",
+  mixing units: 5757 is a **weight** offset and 5888 is a **length**. The
+  arithmetic 5757+131 = 5888 is true but meaningless. Correctly: length 5888
+  → wt 5881 → v ≤ 124.)*
+
+- What actually has to be discharged. Covering forces v ≥ 120 (720 classes,
+  six per entered loop), and length L forces v ≤ L − 5764. So proving
+  s(7) ≥ 5906 is a **ladder of 22 rungs**, v = 120..141, each needing
+  slack ≥ 142 − v. This is the same 22-level obligation the vlad-ds `a7`
+  bundle indexes by δ = length − 5884. See
+  [`m7_capacity.md`](m7_capacity.md) for the current state of that attack.
 
 ## Comparison with the n=6 ladder
 

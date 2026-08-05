@@ -55,8 +55,12 @@ strings, and a 400-walk random stress test (400/400 exact).
    **5v + E ≥ 719 + A**, with slack σ = 5v + E − 719 − A ≥ 0
    (L2: 0, Coanda: 3, Egan: 0 — exactly tight at 727 = 719 + 8).
 3. **The 5905 family (one parameter, not a single point).** A string of
-   length 5905 (wt = 5898, tight) needs v ≥ 141, and at v = 141 the
-   identities give the one-parameter family
+   length 5905 has wt = 5898, so HPV (wt ≥ 5757 + v) forces **v ≤ 141** —
+   an upper bound, not a lower one. *(Erratum: this line previously read
+   "needs v ≥ 141", with the inequality reversed. The direction is stated
+   correctly elsewhere in this repo at n=6, "any 871-string has v ≤ 28";
+   it flipped only when carried to n=7.)* The v = 141 member is the
+   HPV-tight one, and there the identities give the one-parameter family
 
    > splits = 126 − A,  E = 14 + A,  R = 846 − A.
 
@@ -65,7 +69,9 @@ strings, and a 400-walk random stress test (400/400 exact).
    Nothing in the lemma selects one — each is a different search target.
    The A = 0 member (no accidents, fewest heavy jumps) is arguably the
    most elegant target; the A = 2 member keeps the champion's arc count
-   R = 844 exactly.
+   R = 844 exactly. Members with v < 141 are equally admissible and are
+   *not* excluded by anything here; ruling out length 5905 means clearing
+   the whole rung range v ∈ [120, 141], not the single point v = 141.
 
 ## Open questions
 

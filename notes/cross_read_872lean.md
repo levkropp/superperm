@@ -1,6 +1,31 @@
-# Cross-read: the vlad-ds 872 Lean proof vs. our lemmas
+# Cross-read: the vlad-ds 872 proof vs. our lemmas
 
-## Their method in one paragraph
+> ## ⚠️ Reliability warning — read before using this note
+>
+> This note was written from second-hand impressions, and its description of
+> the vlad-ds method is **substantially wrong**. Having since cloned
+> [vlad-ds/a6-872](https://github.com/vlad-ds/a6-872) and read it:
+>
+> - It is **not** a Lean-4 machine-checked proof. It is Python plus a
+>   certificate ledger, and the author explicitly labels it preliminary and
+>   invites audits. (The Lean-4 work at n=6 is Raudvere's `superperm-coeff2`
+>   and Hunter & Raudvere's `superpermutations-hunter` — different repos,
+>   different method.)
+> - There is **no Jacques genus identity** and no "defect equation
+>   m + a + b + η = 4" anywhere in it.
+> - The coordinates are **(e, l, s, j)**, not (r, q, p).
+> - There is no "3600-row pool".
+>
+> The n=7 half of the bundle (`a7/`) reduces surviving cases to a
+> **macro-chain capacity test**, which is the object I actually reproduced
+> and extended — see [`m7_capacity.md`](m7_capacity.md). That note is
+> grounded in the source; this one is not.
+>
+> Keeping this file only as a record of a wrong reading, so it isn't
+> re-derived. The "what transfers" items below were checked against our own
+> data and stand on their own; the method summary does not.
+
+## Their method in one paragraph *(this paragraph is the incorrect part)*
 
 Normalize away improper weight-2 edges (Lemma 2: an optimal path avoiding
 σ² always exists), delete cost ≥ 4 edges, and describe the remaining cheap

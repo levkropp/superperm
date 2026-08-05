@@ -1,0 +1,50 @@
+CERTIFICATE: no split-free 6-symbol superpermutation has E <= 28
+Generated 2026-08-03T21:09:55Z
+
+CLAIM.  length = 844 + E for a split-free n=6 walk, and s(6) = 872 = 844 + 28.
+An exhaustive search over split-free walks with E <= 28 found none, so
+split-free => length >= 873.  The classical 873 IS split-free, hence the
+shortest split-free 6-superpermutation is exactly 873 and NO 872 champion
+is split-free.
+
+SEARCH.  code/splitfree6b.c (sf6c), plus code/splitfree6c.c (sf6d, 2 cut
+levels) and code/splitfree6d.c (sf6e, 3 cut levels).  The extra levels
+change only the parallel decomposition: all three give identical node
+counts (5357787 at E<=25) and all three still FIND the known E=29 walk.
+
+c325624cad8d4b9bd8a32d0311c1a698  code/sf6c
+e9d94a517d9628f4b4a7b9d810fefca1  code/sf6d
+d9d33d41ce7c560f95310879a342760e  code/sf6e
+
+COVERAGE TREE (each node = direct verdict, or delegated to a refinement
+verified exact by node accounting before use):
+  2000 shards @depth8            1998 direct verdicts
+   |- shard 1199 -> 20 of 40000  19 direct + piece 19199
+   |    \- 19199 -> 48 @depth16  48 direct
+   \- shard 0    -> 20 of 40000  19 direct + piece 0
+        \- 0 -> 48 @depth16       47 direct + piece 0
+             \- 0 -> 16 of 768    14 direct + pieces 0, 720
+                  \- {0,720} -> 8 each of 6144   14 direct + 0, 1488
+                       |- 1488 -> 8 @depth24     8 direct
+                       \- 0    -> 18 @depth24    16 direct + pieces 5, 16
+                            \- {5,16} -> 9 each of 162   18 direct
+
+REFINEMENT EXACTNESS (work below the cut, computed both ways):
+  depth 8  : 1784777 == 1784777
+  depth 16 : 370586159 == 370586159
+  depth 24 : 70566880 == 70566880
+
+  e28         1998 verdicts  2.1530e+13 nodes
+  e28s0         19 verdicts  2.5836e+09 nodes
+  e28s1199      19 verdicts  5.9778e+08 nodes
+  e28s0d        47 verdicts  4.9805e+12 nodes
+  e28s1199d     48 verdicts  2.2272e+12 nodes
+  e28s0dd       14 verdicts  8.3999e+10 nodes
+  e28f          15 verdicts  8.6200e+10 nodes
+  e28g           8 verdicts  7.8758e+10 nodes
+  e28h          17 verdicts  6.7071e+11 nodes
+  e28i          18 verdicts  1.5376e+11 nodes
+
+  TOTAL       2203 verdicts  2.9815e+13 nodes
+  FEASIBLE    0
+  CAP HIT     0
