@@ -723,9 +723,62 @@ CLAIMS = [
      lambda r: False,
      lambda r: True),
 
+    ("CORECAP", "[EXH]",
+     "a CORE-only free chain of single blocks covers at most n-2 of them -- "
+     "exhaustive at n = 5, 6, 7, and NOT just the Pentad orbit",
+     "A core edge needs the exit arc full and l + l' >= 2n-3 with l, l' <= n-1, "
+     "so both blocks have length n-2 or n-1 and two consecutive (n-2)s are "
+     "impossible.  The om step out of a length-l block is a^(l-1)b, so a core "
+     "chain is a word in s = a^(n-2)b and u = a^(n-3)b -- and <s,u> = H has "
+     "order (n-1)!, so there is NO group-order cap.  What caps it is class "
+     "burning: a length-l block burns l of its loop's n-1 classes, and the "
+     "walk visits each permutation once.\n"
+     "Exhausted directly.  Left multiplication permutes classes and commutes "
+     "with right multiplication by a and b, so the structure is homogeneous "
+     "and the chain may start at the identity WLOG.  Branching on l in "
+     "{n-2, n-1} subject to the forced-om constraint and class-disjointness:\n"
+     "    n = 5   longest = 3 = n-2   block lengths [3, 4, 3]\n"
+     "    n = 6   longest = 4 = n-2   block lengths [4, 5, 5, 4]\n"
+     "    n = 7   longest = 5 = n-2   block lengths [5, 6, 6, 6, 5]\n"
+     "The witnesses matter: they are NOT all-complete, so this is strictly "
+     "more than the Pentad Lemma / RES, which cap chains of COMPLETE "
+     "traversals at ord(s) = n-2.  The cap survives mixing n-2 and n-1 blocks, "
+     "and the extremal chain starts and ends on a short block.\n"
+     "GAP, stated: this exhausts chains of SINGLE BLOCKS.  A component with "
+     "two or more blocks has a head block and a tail block joined by an "
+     "arbitrary group displacement, so the argument does not cover it.  "
+     "Measured L(0) = n-2 anyway on all 1463 census strings AND off the corpus "
+     "(constructed v = 121 arc sets at every A, and annealer-perturbed sets) "
+     "-- but that part is [MEAS].",
+     lambda r: False,
+     lambda r: True),
+
+    ("PFRINGE", "[THM]",
+     "p >= ceil(comps/c) - F with c the core-chain cap and F the fringe-edge "
+     "count -- vacuous at champions, EXACT at S = 0",
+     "Core edges alone cap a chain at c components (CORECAP, c = n-2).  In a "
+     "decomposition into p chains covering `comps` components, chain i splits "
+     "into (f_i + 1) core-runs separated by its f_i fringe edges, each run "
+     "covering <= c components.  Summing, comps <= c(F_used + p), so\n"
+     "    p >= comps/c - F_used >= ceil(comps/c) - F,\n"
+     "F being the fringe edges available.  Sound in the useful direction.\n"
+     "WHY IT IS WORTH HAVING, given FRINGE says fringe edges are abundant: "
+     "abundance was measured on a corpus dominated by champions.  F scales "
+     "with S, and at S = 0 it is **exactly zero** -- 120 core / 0 fringe at "
+     "n = 6, 720 core / 0 fringe at n = 7.  There the bound reads "
+     "p >= comps/(n-2) = (n-3)!, which IS `RUNG0`.  So FRINGE's negative "
+     "verdict holds at champions and fails at the exact cover, and the "
+     "interesting rungs are the low-v ones where S is small.\n"
+     "Applied at n = 7, v = 121 (a 5905 there needs p <= 21): the bound closes "
+     "A = 2, 3, 4, 5 (F = 1 or 2, giving p >= 22 or 23) and leaves A = 1 short "
+     "by one.  A = 1 then closes anyway on the packing floor, which returns "
+     "p >= 24.  See `code/rung7.py`.",
+     lambda r: False,
+     lambda r: True),
+
     ("FRINGE", "[MEAS]",
-     "core-only free chains cap at exactly n-2, but fringe edges are ABUNDANT, "
-     "so the core/fringe split explains p and does not bound it",
+     "L(0) = n-2 exactly at every n, and fringe edges are abundant AT "
+     "CHAMPIONS but exactly zero at S = 0 -- so the split bounds p only at low S",
      "With FORCE in hand the natural bound is p >= (core-runs) - (fringe edges "
      "used) >= ceil(comps/(n-2)) - F_used, since core edges alone form a "
      "functional graph.  Measuring L(f) = the longest free chain, in "
@@ -747,8 +800,16 @@ CLAIMS = [
      "Compare Chain-Count's general form c_{n-1} <= (n-2)(1 + Y + (B - "
      "c_{n-1})), recorded in the arsenal as VACUOUS away from B = (n-2)!.  "
      "This is the same wall reached from the free-join side: the f = 0 case is "
-     "sharp and everything above it is unbounded.  Registered so the route is "
-     "not tried a third time.",
+     "sharp and everything above it is unbounded.\n"
+     "CORRECTION -- 'abundant' was measured on a corpus dominated by "
+     "champions, and is FALSE at small S.  Fringe count against S:\n"
+     "    n = 6   S=0: 120 core, **0 fringe**   ...   S=25: 8 core, 8 fringe\n"
+     "    n = 7   S=0: 720 core, **0 fringe**   ...   S=124: 8 core, 7 fringe\n"
+     "At an exact cover every block is a complete traversal, l = l' = n-1, "
+     "l + l' = 2n-2 >= 2n-3, so EVERY edge is core and F = 0 exactly.  So the "
+     "bound of PFRINGE is vacuous at champions and exact at S = 0, where it "
+     "reproduces RUNG0.  The negative verdict above stands only for the "
+     "high-S / champion regime; the low-v rungs are where it bites.",
      lambda r: False,
      lambda r: True),
 

@@ -1337,3 +1337,107 @@ So the target has sharpened from
 > break-consistent path cover, given that the unconstrained one is 1"*.
 
 Nothing above is a bound, and `v + p ≥ 143` at n = 7 remains open.
+
+---
+
+## 12. The core cap is a theorem, and it closes the `v = 121` rung
+
+§10 concluded that the core/fringe split "supplies no number". That conclusion
+was drawn from champion arc sets and **is wrong at small `S`**. This section
+corrects it and turns the split into a bound that closes a rung.
+
+### 12a. Where §10 went wrong
+
+Fringe count is not a constant fraction — it scales with `S`:
+
+| n | at `S = 0` | at the champion |
+|---|---|---|
+| 6 | 120 core, **0 fringe** | 8 core, 8 fringe |
+| 7 | 720 core, **0 fringe** | 8 core, 7 fringe |
+
+At an exact cover every block is a complete traversal, so `l = l′ = n−1`,
+`l + l′ = 2n−2 ≥ 2n−3`, and **every edge is core**. The "75% of edges are
+fringe" figure in §10c is a corpus average dominated by champions. Fringe
+abundance is a property of the high-`S` regime, and §5c says the 5905
+requirement is tightest at *low* `v`, which is exactly where `S` is small.
+
+### 12b. `CORECAP` [EXH] — the cap is `n−2`, and it is not the Pentad cap
+
+The bound needs an upper bound on how many components one core-only chain can
+cover. A core edge needs `l + l′ ≥ 2n−3` with `l, l′ ≤ n−1`, so both blocks have
+length `n−2` or `n−1` and two consecutive `(n−2)`s are impossible. The om step
+out of a length-`l` block is `a^{l−1}b`, so a core chain is a word in
+`s = a^{n−2}b` and `u = a^{n−3}b` — and `⟨s,u⟩ = H` has order `(n−1)!`, so
+**nothing caps it by group order.** What caps it is class burning.
+
+Exhausted directly (left multiplication permutes classes and commutes with right
+multiplication by `a` and `b`, so the chain may start at the identity WLOG):
+
+| n | longest core-only chain | extremal block lengths |
+|---|---|---|
+| 5 | **3** = n−2 | `[3, 4, 3]` |
+| 6 | **4** = n−2 | `[4, 5, 5, 4]` |
+| 7 | **5** = n−2 | `[5, 6, 6, 6, 5]` |
+
+The witnesses matter: they **mix** `n−2` and `n−1` blocks and start and end on a
+short one. So this is strictly stronger than the Pentad Lemma and `RES`, which
+cap chains of *complete* traversals at `ord(s) = n−2`. The same number arises
+from a different mechanism. `code/freejoin.py --corecap`.
+
+**Gap, stated.** This exhausts chains of *single blocks*. A component with two
+or more blocks has a head block and a tail block joined by an arbitrary group
+displacement, so the argument does not cover it. Measured `L(0) = n−2` anyway on
+all 1463 census strings **and off the corpus** — constructed `v = 121` arc sets
+at every `A`, and annealer-perturbed sets — but that part is `[MEAS]`.
+
+### 12c. `PFRINGE` [THM]
+
+Chain `i` splits into `f_i + 1` core-runs separated by its `f_i` fringe edges,
+each run covering at most `c` components. Summing over a decomposition into `p`
+chains covering `comps` components, `comps ≤ c(F_used + p)`, so
+
+> **`PFRINGE`.  `p ≥ ⌈comps/c⌉ − F`**, with `c` the core cap and `F` the
+> available fringe edges.
+
+At `S = 0` this reads `p ≥ comps/(n−2) = (n−3)!` — which **is `RUNG0`**, now
+recovered as a special case rather than a separate argument.
+
+### 12d. `v = 121` closes for every `A`, over the cover-plus-one-loop family
+
+`RUNG1` (§5d) closed this rung for `A = 0` only, and said so. Adding just *some*
+of a fresh loop's `n−1` generators gives `S = k`, `A = (n−1) − k`, so sweeping
+every nonempty subset sweeps every `A`. A 5905 at `v = 121` needs `p ≤ 21`:
+
+| `A` | 5 | 4 | 3 | 2 | 1 | 0 |
+|---|---|---|---|---|---|---|
+| fringe `F` | 1 | 1 | 1 | 2 | 3 | 45 |
+| `PFRINGE` bound on `p` | 23 | 23 | 23 | **22** | 21 | — |
+| verdict | closed | closed | closed | closed | *short by 1* | §5d |
+
+`A = 1` is short by exactly one — and then closes anyway on the **packing**
+floor, which returns `p ≥ 24` there. So the rung does not actually need
+`PFRINGE` at `A = 1`; the two sound floors close different parts of it.
+
+`code/rung7.py` prices the family, every value a sound *lower* bound on `CH3`
+(the packing floor understates `p`, which understates the bound, so a MINIMUM
+computed this way is safe to conclude from). Over 25 fresh loops per base cover
+— 1,575 arc sets each, spanning every `A` from 0 to 6, on all four base covers
+on disk:
+
+```
+minimum CH3 over the family = 144        (a 5905 needs 141)
+```
+
+with the histogram identical on every base (`{144: 425, 145: 75, 146: 775,
+147: 109, 148: 191}`). The full sweep — all 720 fresh loops × 63 generator
+subsets, 45,360 arc sets per base — is a ~1.5 h run; this note will be updated
+with its figure. The margin is 3 against a requirement of 141, so the sampled
+result is not marginal.
+
+> **No 5905 in the sampled cover-plus-one-loop family at `v = 121`, at any `A`.**
+
+**Scope, stated plainly.** This is exhaustive over *exact cover + one partial
+fresh loop*. It is **not** exhaustive over all `v = 121` arc sets: for `A > 0`
+the 121 entered loops need not contain an exact cover, and nothing here rules
+that out. `RUNG1`'s "every `A = 0` arc set is a cover plus one loop" holds only
+at `A = 0`. So §5d's caveat is narrowed, not removed.

@@ -169,6 +169,72 @@ def chain_law(g, arcs, cap=400_000):
     return best, True
 
 
+def corecap(n):
+    """Longest core-only chain of SINGLE BLOCKS, exhaustively.
+
+    A core edge needs the exit arc full and `l + l' >= 2n-3` with `l, l' <= n-1`,
+    so both blocks have length n-2 or n-1 and two consecutive (n-2)s cannot
+    occur.  The om step out of a length-l block is `a^(l-1) b`, so a core chain
+    is a word in `s = a^(n-2)b` and `u = a^(n-3)b` -- and `<s,u> = H` has order
+    (n-1)!, so nothing caps it by group order.  What caps it is CLASS BURNING: a
+    length-l block burns l of its loop's n-1 classes and the walk visits each
+    permutation once.
+
+    Left multiplication permutes classes and commutes with right multiplication
+    by a and b, so the structure is homogeneous and the chain may start at the
+    identity without loss.
+
+    This is strictly stronger than the Pentad Lemma / RES, which cap chains of
+    COMPLETE traversals at ord(s) = n-2: here the block lengths may mix, and the
+    extremal witness does mix.
+    """
+    from superstruct import Struct
+    st = Struct(n)
+    best, witness = [0], [None]
+
+    def go(gen, burned, prev_l, seq):
+        if len(seq) > best[0]:
+            best[0], witness[0] = len(seq), list(seq)
+        for l in (n - 2, n - 1):
+            if prev_l is not None and prev_l + l < 2 * n - 3:
+                continue
+            cls, x, ok = set(), gen, True
+            for _ in range(l):
+                c = st.cls_id[x]
+                if c in burned or c in cls:
+                    ok = False
+                    break
+                cls.add(c)
+                x = st.comp(x, st.a)
+            if not ok:
+                continue
+            last = st.comp(gen, st.apow[l - 1])
+            go(st.comp(last, st.b), burned | cls, l, seq + [l])
+
+    go(st.ident, frozenset(), None, [])
+    return best[0], witness[0]
+
+
+def main_corecap(ns):
+    fail = 0
+    for n in ns:
+        if n < 4:
+            continue
+        c, w = corecap(n)
+        ok = (c == n - 2)
+        fail += not ok
+        print(f"  n = {n}: longest core-only chain of single blocks = {c}"
+              f"   (n-2 = {n - 2})   {'OK' if ok else '<== NOT n-2'}")
+        note = ("  -- mixes n-2 and n-1, so this is more than the Pentad cap"
+                if w and len(set(w)) > 1 else "")
+        print(f"          extremal block lengths {w}{note}")
+    if fail:
+        print("\n  CORECAP does not hold at some n")
+        return 1
+    print("\n  CORECAP: the cap is exactly n-2 at every n tested")
+    return 0
+
+
 def relaxed_p(g, arcs, cap=300_000):
     """Min path cover of the COMPONENT graph, ignoring break-point consistency.
 
@@ -261,6 +327,42 @@ def main_relax(ns, limit=None):
         print("      " + "  ".join(f"{v}:({a},{b})"
                                    for v, (a, b) in sorted(byv.items())))
     return 0
+
+
+def main_pfringe(ns):
+    """Gate PFRINGE: p >= ceil(comps/(n-2)) - F, on every string on disk."""
+    import census
+    import pbound
+    cache, bad, seen = {}, 0, 0
+    slack = collections.Counter()
+    for n, label, path in census.sources(9):
+        if n not in ns:
+            continue
+        for digits in census.read_strings(path):
+            if not digits or max(digits) != n or min(digits) != 1:
+                continue
+            p_ = string_to_path(digits, n)
+            if len(p_) != math.factorial(n):
+                continue
+            g = cache.setdefault(n, Gen(n))
+            arcs = [tuple(a) for a in design_of(p_)]
+            _b, _S, C, p = pbound.value(g, arcs)
+            if not pbound.value.exact:
+                continue          # an unverified p cannot gate anything
+            e, _ld, _ = graph(g, arcs)
+            F = sum(1 for s in e for x in e[s] if not x[2])
+            bound = -(-C // (n - 2)) - F
+            seen += 1
+            slack[p - bound] += 1
+            if p < bound:
+                bad += 1
+                if bad < 3:
+                    print(f"    VIOLATION {label}: p={p} bound={bound} "
+                          f"comps={C} F={F}")
+    print(f"\n  PFRINGE  p >= ceil(comps/(n-2)) - F :  {seen - bad}/{seen}")
+    print(f"  slack (p - bound): {dict(sorted(slack.items())[:8])} ...")
+    print(f"  exactly tight on {slack[0]} strings")
+    return 1 if bad else 0
 
 
 def main_chains(ns):
@@ -358,9 +460,15 @@ if __name__ == "__main__":
     ap.add_argument("--n", type=int, action="append")
     ap.add_argument("--chains", action="store_true")
     ap.add_argument("--relax", action="store_true")
+    ap.add_argument("--corecap", action="store_true")
+    ap.add_argument("--pfringe", action="store_true")
     args = ap.parse_args()
     print(__doc__.split("Usage:")[0].strip())
     ns = args.n or [5, 6, 7]
+    if args.corecap:
+        sys.exit(main_corecap(ns))
+    if args.pfringe:
+        sys.exit(main_pfringe(ns))
     if args.relax:
         sys.exit(main_relax(ns))
     sys.exit(main_chains(ns) if args.chains else main(ns))
