@@ -397,6 +397,100 @@ def cpsat(cov, seed_order=None, seconds=300.0, workers=8, verbose=True):
     return order, int(s.BestObjectiveBound())
 
 
+def pentad_covers(st, rng, tries=200):
+    """Partitions of the (n-1)! classes into (n-3)! disjoint <s>-orbits.
+
+    The 5913 walk decomposes into 24 free chains of 5 blocks each -- complete
+    <s>-orbits, the Pentad cap.  So ANY cover built from disjoint Pentads gives
+    (n-3)! chains, the minimum, and the only remaining cost is linking them.
+    Randomised greedy over the 1008 orbits; each is a set of 30 classes.
+    """
+    orbits = st.s_orbits()
+    ocls = []
+    for orb in orbits:
+        cs = set()
+        for lid in orb:
+            cs |= st.loop_classes(lid)
+        ocls.append(frozenset(cs))
+    need = len({st.cls_id[p] for p in st.perms})
+    mask = [sum(1 << c for c in cs) for cs in ocls]
+    full = (1 << need) - 1
+    span = len(ocls[0])
+    want = need // span
+    out, idx = [], list(range(len(orbits)))
+    for _ in range(tries):
+        rng.shuffle(idx)
+        used, pick = 0, []
+        for i in idx:
+            if used & mask[i] == 0:
+                used |= mask[i]
+                pick.append(i)
+                if len(pick) == want:
+                    break
+        if used == full:
+            out.append([orbits[i] for i in pick])
+    return out
+
+
+def chain_from_orbit(st, g):
+    """The chain of complete traversals entered at `g`: g, gs, ..., gs^(n-3).
+
+    Returns (arc starts covering the orbit, chain entry, chain exit).
+    """
+    n = st.n
+    starts, x = [], g
+    for _ in range(n - 2):
+        h = x
+        for _ in range(n - 1):
+            starts.append(h)
+            h = st.comp(h, st.a)
+        x = st.comp(x, st.s)
+    last = st.comp(g, st.apow[0])
+    # exit = end of the final block's last arc
+    fin = st.comp(g, st.s)
+    for _ in range(n - 4):
+        fin = st.comp(fin, st.s)
+    tail = st.comp(fin, st.apow[n - 2])
+    return starts, g, st.end_of(tail)
+
+
+def link_atsp(C, seconds=60.0, workers=8):
+    """Exact ATSP over the chains (tiny: (n-3)! nodes)."""
+    from ortools.sat.python import cp_model
+    K = len(C)
+    m = cp_model.CpModel()
+    lits, arcs = {}, []
+    for i in range(K):
+        for j in range(K):
+            if i == j:
+                continue
+            v = m.NewBoolVar(f"x{i}_{j}")
+            lits[(i, j)] = v
+            arcs.append((i, j, v))
+        a = m.NewBoolVar(f"s{i}")
+        lits[(K, i)] = a
+        arcs.append((K, i, a))
+        b = m.NewBoolVar(f"e{i}")
+        lits[(i, K)] = b
+        arcs.append((i, K, b))
+    m.AddCircuit(arcs)
+    m.Minimize(sum(C[i][j] * lits[(i, j)]
+                   for i in range(K) for j in range(K) if i != j))
+    s = cp_model.CpSolver()
+    s.parameters.max_time_in_seconds = seconds
+    s.parameters.num_search_workers = workers
+    st_ = s.Solve(m)
+    from ortools.sat.python import cp_model as cm
+    if st_ not in (cm.OPTIMAL, cm.FEASIBLE):
+        return None, None
+    nxt = {i: j for (i, j), v in lits.items() if s.Value(v)}
+    seq, x = [], nxt[K]
+    while x != K:
+        seq.append(x)
+        x = nxt[x]
+    return int(s.ObjectiveValue()), seq
+
+
 def validate(cov, order, n, expect_T=None):
     """A candidate is only real if the STRING round-trips."""
     s = cov.string(order)
