@@ -744,6 +744,41 @@ CLAIMS = [
      lambda r: False,
      lambda r: True),
 
+    ("SFPENT", "[MEAS]",
+     "the all-complete split-free family goes from BEATING Egan at n = 5 to "
+     "losing by 5 at n = 7 -- the gap grows, so no better constructor is in "
+     "sight",
+     "For a split-free walk T = 1 + sum over joins of (w-2), so with the cover "
+     "fixed the ordering problem is an asymmetric TSP (`code/sftsp.py`, which "
+     "re-costs all four known split-free walks and rebuilds them exactly).\n"
+     "Take the all-complete family: every block a complete traversal, so the "
+     "chains are complete <s>-orbits and the walk is a partition of the (n-1)! "
+     "classes into (n-3)! disjoint orbits, one rotation chosen per orbit, then "
+     "the chains ordered.  That is a GTSP with (n-3)! clusters of n-2, solved "
+     "EXACTLY by CP-SAT (`code/pentad_search.py`).  Structure:\n"
+     "    blocks (n-2)!,  chains (n-3)!,  free joins (n-2)!-(n-3)!,\n"
+     "    links (n-3)!-1 each costing >= 2,  floor T = Egan_T - 1.\n"
+     "Measured with one uniform method:\n"
+     "    n=5  floor  7  achieved  7  excess 0  Egan_T  8  -> BEATS Egan by 1\n"
+     "    n=6  floor 29  achieved 30  excess 1  Egan_T 30  -> ties Egan\n"
+     "    n=7  floor 143 achieved 149 excess 6  Egan_T 144 -> loses by 5\n"
+     "n = 5 and n = 6 reproduce the known optima (153, 873) exactly -- that is "
+     "the gate -- and n = 6 also reproduces the proved fact that its floor 29 "
+     "is unreachable.  At n = 7 the 149 is the exact optimum over **1507 "
+     "distinct Pentad partitions**, each solved to OPTIMAL: link cost 52 (867 "
+     "times), 54 (503), 55 (137), never below 52 against a floor of 46.\n"
+     "SO: can split-free do better as n grows?  Not in this family, and the "
+     "trend runs the wrong way.  The excess over the floor is 0, 1, 6 and "
+     "split-free goes from beating Egan to losing to it.  Fragmented walks "
+     "(5912 has B = 145, Y = 3) only improve n = 7 from +5 to +4.  The other "
+     "known constructor, SFREC's sigma(n) <= s(n-1)+n!, loses (n-4)!-1.  Both "
+     "routes shed about (n-4)!.\n"
+     "Not a proof: three data points, and the n = 7 figure searches partitions "
+     "rather than exhausting them.  Refuting it needs a split-free family that "
+     "is neither all-complete nor the recursion.",
+     lambda r: False,
+     lambda r: True),
+
     ("SFGAP", "[MEAS]",
      "g(n) = s(n-1) + n! - s(n) grows like (n-4)! absolutely and decays like "
      "n^-4 relatively -- but it only UPPER-bounds the deficit, so it excludes "

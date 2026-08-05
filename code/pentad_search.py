@@ -44,9 +44,6 @@ import sftsp                                                      # noqa: E402
 from permgraph import weight                                      # noqa: E402
 from superstruct import Struct                                    # noqa: E402
 
-N = 7
-
-
 def orbits_of(st):
     """The 1008 <s>-orbits of generators, with their 30-class masks."""
     seen, out = set(), []
@@ -169,13 +166,24 @@ def gtsp(st, orbs, pick, cap=4, seconds=60.0, workers=8):
     return int(s.ObjectiveValue()), [states[i][1] for i in seq], s.StatusName(stt)
 
 
-def main(tries, parts, seconds, cap):
+def main(n, tries, parts, seconds, cap):
+    N = n
     st = Struct(N)
     rng = random.Random(11)
     orbs = orbits_of(st)
     nclass = len({st.cls_id[p] for p in st.perms})
-    print(f"\n  {len(orbs)} <s>-orbits, {nclass} classes, "
-          f"{nclass // 30} orbits needed per partition")
+    span = len(orbs[0][1])
+    blocks = math.factorial(N - 2)
+    chains = math.factorial(N - 3)
+    freej = blocks - chains
+    floor = 2 * (chains - 1)
+    egan = (N - 1) * math.factorial(N - 3)
+    print(f"\n  n = {N}: {len(orbs)} <s>-orbits of {span} classes, "
+          f"{nclass} classes, {nclass // span} per partition")
+    print(f"  {blocks} blocks, {chains} chains, {freej} free joins, "
+          f"{chains-1} links")
+    print(f"  T = {1+freej} + linkcost;  floor linkcost {floor} -> T {1+freej+floor}"
+          f"  (= Egan_T - 1 = {egan-1});  Egan_T = {egan}")
     ps = partitions(orbs, nclass, rng, tries)
     print(f"  {len(ps)} distinct Pentad partitions found")
     best = (10 ** 9, None)
@@ -185,16 +193,18 @@ def main(tries, parts, seconds, cap):
         if cost is None:
             print(f"   part {k:3d}: {status}", flush=True)
             continue
-        T = 1 + 96 + cost
+        T = 1 + freej + cost
         flag = ""
         if T < best[0]:
             best = (T, gs)
             flag = "  <-- best"
         print(f"   part {k:3d}: link cost {cost:3d}   T = {T}   "
               f"length {sftsp.base(N)+T}   [{status}]{flag}", flush=True)
-    print(f"\n  best T = {best[0]}   length {sftsp.base(N)+best[0]}   "
-          f"({time.time()-t0:.0f}s)   record to beat: T=148 (5912)")
-    if best[1] is not None and best[0] <= 148:
+    print(f"\n  n = {N}: best T = {best[0]}   length {sftsp.base(N)+best[0]}"
+          f"   floor {1+freej+floor}   EXCESS over floor = "
+          f"{best[0]-(1+freej+floor)}   Egan_T = {egan}   ({time.time()-t0:.0f}s)")
+    known = {5: 7, 6: 30, 7: 148}      # best split-free T known
+    if best[1] is not None and best[0] <= known.get(N, 10**9):
         starts = []
         for g in best[1]:
             starts += chain_starts(st, g)
@@ -202,7 +212,7 @@ def main(tries, parts, seconds, cap):
         order = [cov.ix[s] for s in starts]
         good, digits, T = sftsp.validate(cov, order, N)
         if good:
-            path = f"data/n7/sf7_{len(digits)}.txt"
+            path = f"data/sf{N}_{len(digits)}.txt"
             print(f"  writing {path}")
             with open(path, "w") as fh:
                 fh.write("".join(map(str, digits)) + "\n")
@@ -211,10 +221,11 @@ def main(tries, parts, seconds, cap):
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
+    ap.add_argument("--n", type=int, default=7)
     ap.add_argument("--tries", type=int, default=4000)
     ap.add_argument("--parts", type=int, default=40)
     ap.add_argument("--seconds", type=float, default=60.0)
     ap.add_argument("--cap", type=int, default=4)
     args = ap.parse_args()
     print(__doc__.split("Usage:")[0].strip())
-    sys.exit(main(args.tries, args.parts, args.seconds, args.cap))
+    sys.exit(main(args.n, args.tries, args.parts, args.seconds, args.cap))

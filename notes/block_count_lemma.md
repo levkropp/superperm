@@ -1292,3 +1292,91 @@ lower bound is §11's split-free ladder, the upper is the 5912 above — and
 is **not** proved; it needs `σ(7) ≥ 5907`, i.e. the split-free floor `β₇` raised
 from 125 to 143. That is 18 units, and it is the concrete open problem behind
 this section.
+
+---
+
+## 14. Can a better split-free constructor exist as `n` grows?
+
+§13 left this as the concrete open question. The answer, as far as measurement
+reaches: **not in either family we can search, and the trend runs the wrong
+way.**
+
+### 14a. Split-free ordering is an asymmetric TSP
+
+For a split-free walk `S = 0`, so `T = B + Y`; a δ-join has `w = 2` and is free,
+a costly join of weight `w` adds 1 to `B` and `w−3` to `Y`. Hence
+
+```
+T  =  1 + Σ_joins (w − 2)
+```
+
+With the cover fixed, minimising length over orderings is an ATSP on `(n−1)!`
+nodes with `cost(u→v) = weight(end u, start v) − 2`, zero exactly on δ-steps.
+`code/sftsp.py` re-costs all four known split-free walks and rebuilds their
+strings byte-exactly — that is the gate everything else rests on.
+
+### 14b. The all-complete family, solved exactly
+
+If every block is a complete traversal, the free chains are complete
+`⟨s⟩`-orbits and the walk is: a partition of the `(n−1)!` classes into `(n−3)!`
+disjoint orbits, one rotation per orbit, then the chains ordered. A GTSP with
+`(n−3)!` clusters of `n−2` — which CP-SAT solves **exactly**.
+
+`⟨s⟩` acts on **generators**, not loops. (An earlier attempt iterated the
+generators of an orbit's *loops* and produced 21 different class-sets and
+negative link costs — two symptoms of one error.) The 5040 generators fall into
+1008 orbits of 5, each covering exactly 30 classes, invariant under all 5
+rotations.
+
+```
+blocks (n−2)!   chains (n−3)!   free joins (n−2)!−(n−3)!
+links (n−3)!−1, each costing ≥ 2      floor  T = Egan_T − 1
+```
+
+| n | floor `T` | achieved | excess | `Egan_T` | vs Egan |
+|---|---|---|---|---|---|
+| 5 | 7 | **7** | 0 | 8 | **beats by 1** |
+| 6 | 29 | **30** | 1 | 30 | ties |
+| 7 | 143 | **149** | 6 | 144 | **loses by 5** |
+
+n = 5 and n = 6 reproduce the known optima (153 and 873) exactly — the gate —
+and n = 6 also reproduces the *proved* fact that its floor of 29 is unreachable.
+At n = 7 the 149 is the exact optimum over **1507 distinct Pentad partitions**,
+each solved to `OPTIMAL`:
+
+```
+link cost   52 (867 partitions)   54 (503)   55 (137)      never below 52
+                                                            floor is 46
+```
+
+### 14c. The 5913 ordering was already optimal
+
+Worth recording, because it kills the obvious hope. The 5913 walk decomposes as
+
+```
+600 δ joins (0)   96 free joins (1)   23 links (≥2, summing to 52)   →  T = 149
+```
+
+Its 24 chains are complete Pentads. Handing exactly those 24 chains to CP-SAT as
+a 24-node ATSP returns **OPTIMAL 52** — the value the walk already has. So the
+six units of slack against the floor are **not in the ordering**; they are in
+the cover, and 1507 covers do not find them.
+
+### 14d. The answer
+
+Both constructors we have shed about `(n−4)!` against Egan:
+
+* **all-complete**: excess over the floor runs 0, 1, 6, and the family goes from
+  beating Egan to losing by 5;
+* **`SFREC`** (`σ(n) ≤ s(n−1) + n!`): loses `(n−4)! − 1` by construction.
+
+Fragmented walks help only marginally — 5912 (`B = 145, Y = 3`) improves n = 7
+from `+5` to `+4`.
+
+> So on current evidence a better split-free constructor does **not** appear as
+> `n` grows; the gap to Egan widens. Registered as `SFPENT` **[MEAS]**.
+
+**Not a proof.** Three data points, and the n = 7 figure searches partitions
+rather than exhausting them. Refuting it needs a split-free family that is
+neither all-complete nor the recursion — and nothing in the structure suggests
+where such a family would come from.
