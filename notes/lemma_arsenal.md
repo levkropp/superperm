@@ -403,7 +403,7 @@ not the state of the art.
 | the A-split at rungs v ≥ 122 | **[DEAD]** — see §11; the refined lemma is *below* HPV there and falls off fast (121, 110, 105, 100 at v = 121…124), so splitting by A adds nothing |
 | inter-loop δ-edges `≤ S` (the natural route to proving `comps ≥ v − S` by contracting loops) | **[REF]** — 5907-jupiter has 239 inter-loop edges against `S = 120` |
 | excluding `A = 1` at length 872 by enumerating arc-start systems | **[DEAD]** — the test `T ≥ S + comps` is HPV in disguise and `S + comps = v ≤ 29` in all five sub-cases (v = 25…29), so it can never be violated. Demonstrated, not assumed: `code/a1.py` at v = 25 gives `S+comps ∈ [27,29]` over 4,000 systems. Excluding A = 1 needs a **Y** lower bound off the exact-cover rung — §10/§11's open lever. |
-| ~~any **ordering-free** invariant of the arc set as a route past HPV~~ | **REVIVED** — this was recorded [DEAD] on the grounds that the best such bound is `T ≥ S + comps`, minimum `(n−2)!` = HPV. That generalised one invariant to all of them and is wrong. §2.7g's `CH3` adds the free-chain count `p` and reaches **29 against HPV's 24** at the n = 6 exact-cover rung, with 0 violations and 1,029/1,030 exactly tight on the census. The entry is kept as a reminder of how the over-generalisation happened. |
+| any **ordering-free** invariant of the arc set as a route past HPV | **REVIVED** — this was recorded [DEAD] on the grounds that the best such bound is `T ≥ S + comps`, minimum `(n−2)!` = HPV. That generalised one invariant to all of them and is wrong. §2.7g's `CH3` adds the free-chain count `p` and reaches **29 against HPV's 24** at the n = 6 exact-cover rung, with 0 violations and 1,029/1,030 exactly tight on the census. The entry is kept as a reminder of how the over-generalisation happened. |
 | Hamiltonian path in the **weight-3 port digraph** on complete traversals (→ HPV exactly), and the "minimum path-cover of the weight-3 arc set" dial below it | **[DEAD]** — from a complete traversal's exit, `l + l′ = 2n−2 ≥ 2n−3` forces the unique om exit (§3.2), so that digraph has **out-degree 1** and is a disjoint union of `(n−3)!` cycles of length `n−2`. Path cover is exactly `(n−3)!`, no search needed. Kills the whole "3 weight-3 successors give slack" family of arguments; raw out-degree A003319 = 1,1,3,13,71 is right but not the binding quantity. |
 | GTSP/GLKH with one entry per 1-cycle and forced full traversal | **[DEAD]** as posed — that model is split-free with no partial arcs, so it provably cannot represent the n=7 champion (R = 844 arcs over 720 classes, S = 124). Solver class is fine; the instance must let a class be covered 1..n times. |
 | this repo's ladder as a route to a **record** lower bound | **[DEAD]** — §7.1: same numerator as Hunter, denominator 4× worse, never overtakes. |
@@ -505,8 +505,8 @@ forcing N up as S rises), not from lowering `dirty` on its own. Note
 `N ≥ n_partial` (§1.6) is far from binding here: at v = 122 it gives only
 N ≥ 24 against N = 122.
 
-~~**This is the single most concrete open lever in the whole file**~~ —
-**[REF], see [`notes/second_order.md`](second_order.md) §D.** It is not a lever:
+**[REF]** — recorded here as "the single most concrete open lever in the whole
+file", and it is not one. See [`notes/second_order.md`](second_order.md) §D. It is not a lever:
 `dirty = 2S` is **attained exactly** by 12,672 of the 44,121 length-872 optima,
 and the n = 7, 8, 9 records fall short by only 1–4 absolute (ratios .9958,
 .9976, .9999, rising toward 1). Any true bound is `dirty ≤ 2S − O(1)`, additive

@@ -19,7 +19,8 @@ THE STRUCTURE THAT MAKES IT EASY.  Measure the FREE-JOIN digraph -- states are
     n=7 5906 champion              18     832  0 for 698, 1 for 134
     n=7 5913 exact cover          120     720  1 for all 720
 
-**On every real walk measured, out-degree is at most 1** (claim `CH1`).  Free
+**Out-degree is USUALLY at most 1** -- `CH1` claimed always and is [REF]; see
+`code/freejoin.py`, which proves the length-gated `FORCE` instead.  Free
 joins have `w <= 3`; `w <= 2` between distinct components is impossible (they
 would be one component), so a free join is a weight-3 jump, and of the <= 9
 weight-<=3 targets of an arc end at most one is the entry of another component.
@@ -78,10 +79,11 @@ def free_succ(opts):
     """state -> its zero-cost successor states.
 
     A state is (component, break-point); `opts[i][k] = (entry, exit, rot)`.
-    On real walks this is single-valued (CH1) -- that is what makes the inner
-    problem a path cover -- but it is NOT single-valued in general: arc sets an
-    annealer wanders through reach out-degree 3.  So the list is returned and
-    `runs` branches over it.
+    This is usually single-valued -- that is what makes the inner problem a path
+    cover -- but NOT always, and not only off-distribution: out-degree reaches 2
+    on the n=6 census and 3 at n=7.  `CH1` claimed otherwise and is [REF];
+    `FORCE` (`code/freejoin.py`) is the true, length-gated form.  So the list is
+    returned and `runs` branches over it.
     """
     entry_of = collections.defaultdict(list)
     for i, os in enumerate(opts):
@@ -230,8 +232,8 @@ def packing_fast(opts):
     builds a frozenset for each -- thousands of set constructions per call, and
     the reason an evaluation cost ~2.4 s.  The packing bound only needs the
     CO-OCCURRENCE graph: which pairs of components lie on a common run.  When
-    free out-degree is <= 1 (CH1, true of every real walk) the forced path from
-    a state is unique, so one forward walk per state gives that graph directly,
+    free out-degree is <= 1 -- which CH1 claimed always and freejoin.py refutes
+    -- the path from a state is unique, so one forward walk per state gives that graph directly,
     and bitmask ints make the greedy independent set nearly free.
 
     Returns None when some state has out-degree > 1, because then a single

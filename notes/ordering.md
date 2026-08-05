@@ -205,7 +205,7 @@ Every claim, against the audit rule and against the `SIG2` correction.
 | `IN1`, `IN2` | — | ordering-free | safe |
 | `IN3` (HPV), `KICK2` | — | **lower** bound on `T` / kicks | safe under `INFL` |
 | `S5` (Exposure Bound) | — | lower bound on `T` | safe, and safe under `SIG2` too: an all-full loop's arcs are full, so by `SIG2` no `σ²` edge touches them and its δ-cycle is entered and left only by weight-≥3 jumps — exactly what the derivation assumes |
-| `A2b` (`T ≥ v + Y`) | — | lower bound on `T` | statement safe under `INFL`, but its **derivation** went through `IN5`. Now a bare `[CONJ]` again; via `IN5b` the most one gets is `T ≥ v + Y − σ2` |
+| `A2b` (`T ≥ v + Y`) | — | lower bound on `T` | statement safe under `INFL`; its old derivation went through `IN5` and via `IN5b` gave only `T ≥ v + Y − σ2`. Now **[THM]** outright — `A2` is proved in [`pbound.md`](pbound.md) §8, and `SIG2X` puts `σ2 = 0` at the optimum |
 | `IN4` (`dirty ≤ n_partial ≤ 2S`) | — | ordering-dependent bounded **above** by ordering-free | safe: inflation only *lowers* `dirty` |
 | `IN5` (`B ≥ comps`) | ordering-free | forces `B` up, so `T ≥ S + comps` | **[REF]** — killed by `SIG2`, not by `INFL`; **recovered against the optimum** by `SIG2X` |
 | `A1EQF` (`A=1 ⟹ B=1`) | ordering-free | **upper** bound on `B`, `Y` | **[REF]** — killed by `INFL` |

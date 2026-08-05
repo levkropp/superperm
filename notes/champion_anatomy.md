@@ -93,7 +93,7 @@ explained. Registered as `MOD4`.
 | `T = (n−1)d + (B+Y) − A` and the other identities | **[THM]** | 44,564/44,564 | 108/108 |
 | A1 `B+Y−A = (n−2)k` (HPV-tight) | **[THM]** | 43,395/43,395 | 13/13 |
 | `B ≥ comps` | **[REF]** as stated — [THM] against the optimum ([`ordering.md`](ordering.md)) | 44,564/44,564 | 108/108 |
-| A2/A2b/A2c | **[CONJ]** | 44,564/44,564 | 108/108 |
+| A2/A2b/A2c | **[THM]** — proved via the loop quotient's cycle rank, [`pbound.md`](pbound.md) §8 | 44,564/44,564 | 108/108 |
 | `S + comps = v` | **[MEAS]** | 44,564/44,564 | 67/108 |
 | `B = comps` at an optimum | **[CONJ]** | 44,370/44,370 | 27/27 |
 | `μ_max ≤ 3` | **[MEAS]** | 44,564/44,564 | 108/108 |
@@ -177,7 +177,9 @@ measure as 873 here until the rotation was dropped.
    question. It is not about individual strings.
 2. Explain `MOD4`, and the missing `A = 1` at n = 6. The stitch detector
    (`a_cost_law.md` motif) is the tool; it has not been built yet.
-3. Prove A2 (`comps ≥ v − S`). Still open; the loop-contraction route is
-   [REF].
+3. **Prove A2 — DONE.** `comps ≥ v − S` is a theorem: contract to the loop
+   quotient and count its **cycle rank**, not its edges. The loop-contraction
+   route recorded here as [REF] bounded the edges, which is the wrong question
+   of the right object. [`pbound.md`](pbound.md) §8.
 4. Does n = 8 admit `k = 2`? By A1 that needs `B+Y−A = 12`; the n = 7 family
    reaches 10 along `B = 10 + A`.

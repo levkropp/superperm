@@ -86,9 +86,13 @@ sub-case of the table, so `S + comps ≤ 29` **can never be violated**.
 > the five rungs.** No amount of enumeration over arc-start sets can prove
 > `A = 1` impossible at 872.
 
-This is the same wall as `notes/second_order.md` §A3: *no ordering-free
-invariant of the arc set can beat HPV.* The A = 1 question is one more instance,
-and it was worth finding out cheaply rather than after a long enumeration.
+This is the same wall as `notes/second_order.md` §A3 — but note the wall was
+mis-described there and here. The retracted claim was *"no ordering-free
+invariant of the arc set can beat HPV"*; what is actually true is only that
+`S + comps` cannot, since `min(S + comps) = (n−2)!` exactly. `CH3` adds the
+free-chain count `p` and **does** beat HPV — 29 against 24 at the n = 6
+exact-cover rung ([`pbound.md`](pbound.md)). The `A = 1` question really is
+blocked, but by the Inflation Lemma, not by this.
 
 ## 5. What a proof would actually need
 

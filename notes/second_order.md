@@ -41,7 +41,7 @@ precisely the mechanism by which a record improves on it.
 | 7 | 5906 | 17 | 5908 | **0** |
 | 8 | 46204 | 5 | 46205 | **0** |
 
-## A2 / A2b / A2c — one conjecture in three forms — **[CONJ]**
+## A2 / A2b / A2c — one theorem in three forms — **[THM]**
 
 > $$\mathrm{comps} \;\ge\; v - S
 > \quad\Longleftrightarrow\quad S + B \ge v
@@ -52,8 +52,14 @@ Survives **both** corpora (177/177 and 108/108). Equivalences: $N = B +
 \mathrm{dirty}$ and $T = S+B+Y$ turn each into the next. The link from the
 second form back to the first used to be $B \ge \mathrm{comps}$ (IN5), which is
 **[REF]** — see §F. The repaired `IN5b` gives only
-$S + B + \sigma_2 \ge v$, so the four forms above are equivalent to each other
-but no longer implied by the δ-graph; A2 is a bare conjecture again.
+$S + B + \sigma_2 \ge v$, so the four forms are equivalent to each other but
+not implied by the δ-graph.
+
+**PROVED** since this was written, by a different route entirely: contract to
+the **loop quotient** `Q` on the `v` entered loops. An arc of class `C` exits
+into the loop of the *next* arc of `C`, so each multiply-covered class
+contributes an edge-disjoint cycle to `Q`; `Q`'s **cycle rank** then forces
+`v ≤ S + q` with `comps ≥ q`. Full proof in [`pbound.md`](pbound.md) §8.
 
 Why it matters: `lemma_arsenal.md` §11 proves **HPV is precisely
 `dirty ≤ S + N + Y − v`**, and states that any improvement must have the form
@@ -92,8 +98,7 @@ $\mathrm{comps} = (n-2)!$), and $S + \mathrm{comps} = v$ on all 177 census
 strings — though **not** on constructed walks (67/108), so the identity is
 **[MEAS]**, not a theorem.
 
-> ~~**Consequence: no ordering-free invariant of the arc set can beat HPV.**~~
-> **RETRACTED.** What is true is only that *this* quantity cannot: `min(S +
+> **RETRACTED: "no ordering-free invariant of the arc set can beat HPV."** What is true is only that *this* quantity cannot: `min(S +
 > comps) = (n−2)!`, exactly HPV. The conclusion was over-generalised from one
 > invariant to all of them, and it is false.
 
@@ -142,7 +147,7 @@ against the floor $(n-3)!-1 = 719$).
 |---|---|---|---|---|
 | A1 | `B+Y−A = (n−2)k`, `costly = (n−2)k+A−Y−1` | **[THM]** | 166/166 | 13/13 |
 | IN5 | `B ≥ comps` (ordering-free) | **[REF]** — see §F and [`ordering.md`](ordering.md) §3; repaired to `B + σ2 ≥ comps` | 177/177 | 108/108 |
-| A2/b/c | `comps ≥ v−S` ⟺ `T ≥ v+Y` ⟺ `dirty ≤ S+N−v` | **[CONJ]** | 177/177 | 108/108 |
+| A2/b/c | `comps ≥ v−S` ⟺ `T ≥ v+Y` ⟺ `dirty ≤ S+N−v` | **[THM]** — [`pbound.md`](pbound.md) §8 | 177/177 | 108/108 |
 | A3 | `S + comps = v` | **[MEAS]** | 177/177 | 67/108 |
 | B2 | `μ_max ≤ 3` | **[MEAS]** | 177/177 | 108/108 |
 | B3 | no optimum at `d = 0` | **[CONJ]** | 5/5 | 24/24 |
@@ -378,8 +383,10 @@ Verified on all **188** `B = 1` walks in the corpus (n = 5…9): `Y = 0`
 ### F1. A reformulation of A2, for the record
 
 Writing `comps = R − e + cyc` with `e` the number of δ-edges, and using
-`v = (R+A)/(n−1)`, the open conjecture `A2` (`comps ≥ v − S`) becomes an edge
-count:
+`v = (R+A)/(n−1)`, `A2` (`comps ≥ v − S`) becomes an edge count. *This framing
+is what refuted the first proof attempt and is kept for that reason; the proof
+that works counts the quotient's cycle rank instead —* [`pbound.md`](pbound.md)
+*§8.*
 
 > $$\textbf{A2} \iff \#\{\delta\text{-escapes}\} + \mathrm{cyc}
 > \;\ge\; (n-2)! - \tfrac{n-2}{n-1}S + \tfrac{A}{n-1}$$

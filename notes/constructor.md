@@ -287,9 +287,10 @@ That is a design criterion rather than a bound, and with `A1u` it specifies what
 a record search should look for: an arc set with `B+Y−A ≥ (n−2)s` whose
 components form one free chain.
 
-**`CH1` is corpus-narrow.** Free out-degree ≤ 1 holds on every real walk
-measured, and is forced at exact covers, but the annealer walks straight into
-arc sets with out-degree **3**. The chainer now branches instead of following a
+**`CH1` is false**, not merely corpus-narrow — see [`pbound.md`](pbound.md)
+§10a. Free out-degree exceeds 1 on the census itself (19 states reach 2 at
+n = 6; 38 reach 2 and 11 reach 3 at n = 7), and the annealer reaches **3**.
+The correct length-gated statement is `FORCE`: at most one *core* out-edge. The chainer now branches instead of following a
 function; the argument is unaffected, since it needs only chain *maximality*.
 This is the third time in this repo a regularity true on all 44,564 corpus
 strings has failed off-distribution — cf. [`notes/ordering.md`](ordering.md) §4.

@@ -522,10 +522,9 @@ CLAIMS = [
      lambda r: False,        # checked directly in the note, not row-wise
      lambda r: True),
 
-    ("CH1", "[MEAS]",
-     "the FREE-JOIN graph on (component, break-point) states has out-degree "
-     "<= 1, so free continuation is forced and chaining is a path cover, not a "
-     "TSP",
+    ("CH1", "[REF]",
+     "the FREE-JOIN graph has out-degree <= 1  -- FALSE, and false on REAL "
+     "strings, not just off-distribution; superseded by FORCE",
      "A free join costs max(0,w-3) = 0, so w <= 3; w <= 2 between distinct "
      "delta-components would merge them, so it is a weight-3 jump, and of the "
      "<= 9 weight-<=3 targets of an arc end at most one is another component's "
@@ -536,7 +535,13 @@ CLAIMS = [
      "weight-3 exit on om (arsenal 3.2), which is unique.  Away from there it "
      "is measured, not proved.  `code/chainer.py` asserts it and exploits it: "
      "exact Y at the n=6 exact cover (6, against the old heuristic's 9) and at "
-     "the n=7 champion (0 in 3 ms, where the old chainer returned 5 in 50 s).",
+     "the n=7 champion (0 in 3 ms, where the old chainer returned 5 in 50 s).\n"
+     "REFUTED, `code/freejoin.py`: out-degree exceeds 1 on the CENSUS, not "
+     "merely on annealer states -- 19 states reach 2 at n = 6 and 38 reach 2 "
+     "with 11 reaching 3 at n = 7.  The record already said 'away from an exact "
+     "cover it is measured, not proved'; it is now measured FALSE.  Nothing in "
+     "chainer.py depended on it (it branches over the successor list), and the "
+     "correct length-gated statement is FORCE.",
      lambda r: False,
      lambda r: True),
 
@@ -690,6 +695,60 @@ CLAIMS = [
      "so those searches were structurally incapable of reaching it, not merely "
      "unlucky.  Compare LOOP1: optima are >= 3 loop-swaps apart, same rigidity "
      "seen from the arc-set side.",
+     lambda r: False,
+     lambda r: True),
+
+    ("FORCE", "[THM]",
+     "every free-join state has at most ONE core out-edge, and it lands "
+     "exactly on start.b -- the correct, length-gated CH1.  1463/1463",
+     "CH1 ('free-join out-degree <= 1') is false, even on the census.  The "
+     "provable statement is LENGTH-GATED.  Struct.exits(g, l) returns the 3! "
+     "weight-3 targets of a block of l arcs, each with a CAP -- how far the "
+     "next block may run before re-entering a class this one burned -- and "
+     "coset_lemma.py verifies that exactly one target survives cap >= l' "
+     "precisely when l + l' >= 2n-3, the survivor being om.  Call an edge CORE "
+     "when the exit arc is full and l + l' >= 2n-3, FRINGE otherwise.  Then om "
+     "is a single group element, so the core target is the single permutation "
+     "start.b, and distinct components have distinct arcs and hence distinct "
+     "entries -- so at most one core out-edge per state.\n"
+     "Gate (`code/freejoin.py`): max CORE out-degree is 1 at n = 5, 6 and 7, "
+     "0 exceptions in 1463 strings, and every core edge lands on start.b.  "
+     "NOTE the convention: exits() measures from the block's last ARC START, "
+     "not its end, so the om target is start.b and end.b is simply the wrong "
+     "group element.\n"
+     "COROLLARY: out-degree >= 2 forces a FRINGE edge, and a fringe edge needs "
+     "an incomplete block at one end (l = l' = n-1 gives 2n-2 >= 2n-3, always "
+     "core).  That is the mechanism RES was reaching for through residues -- "
+     "and lengths, unlike residues, do not go mixed at the champions.",
+     lambda r: False,
+     lambda r: True),
+
+    ("FRINGE", "[MEAS]",
+     "core-only free chains cap at exactly n-2, but fringe edges are ABUNDANT, "
+     "so the core/fringe split explains p and does not bound it",
+     "With FORCE in hand the natural bound is p >= (core-runs) - (fringe edges "
+     "used) >= ceil(comps/(n-2)) - F_used, since core edges alone form a "
+     "functional graph.  Measuring L(f) = the longest free chain, in "
+     "components, reachable using exactly f fringe edges (`code/freejoin.py "
+     "--chains`), over the whole corpus:\n"
+     "    n = 5   f: 0->3  1->3  2->3\n"
+     "    n = 6   f: 0->4  1->4  2->7  3->7  4->9  5->9  6->9\n"
+     "    n = 7   f: 0->5  1->5  2->8  3->9  4->10  5->13  6->14  7->18 ...\n"
+     "L(0) = n-2 EXACTLY at all three n -- the Pentad cap recovered as the "
+     "f = 0 case, which is the honest content of RES and of CHLB.  Past that, "
+     "L grows at roughly 1.4 components per fringe edge at n = 7.\n"
+     "THE ROUTE FAILS, and cleanly.  The bound needs an upper bound on fringe "
+     "edges, and there is none: fringe edges are 75% of all free edges across "
+     "the corpus, and at the 5906 champion specifically there are **118 fringe "
+     "against 16 core**, with the 18-component chain needing 10 of them.  A "
+     "budget of 10 is not scarcity.  So the core/fringe split says WHY long "
+     "chains are possible -- they buy fringe edges, which need incomplete "
+     "blocks, which need splits -- but supplies no numerical bound.\n"
+     "Compare Chain-Count's general form c_{n-1} <= (n-2)(1 + Y + (B - "
+     "c_{n-1})), recorded in the arsenal as VACUOUS away from B = (n-2)!.  "
+     "This is the same wall reached from the free-join side: the f = 0 case is "
+     "sharp and everything above it is unbounded.  Registered so the route is "
+     "not tried a third time.",
      lambda r: False,
      lambda r: True),
 

@@ -16,8 +16,10 @@ generalises *one* invariant to *all* of them.
 Two claims registered earlier this session supply a second ordering-free term:
 
 * **`CH2`** — `Y ≥ p − 1`, where `p` is the fewest **free chains** covering the
-  δ-components. Free continuation is forced (`CH1`), every chaining decomposes
-  into maximal free chains, and every join *between* chains costs ≥ 1.
+  δ-components. Every chaining decomposes into maximal free chains, and every
+  join *between* chains costs ≥ 1. (This once cited `CH1`, "free continuation
+  is forced" — now **[REF]**, see §10a. The argument never needed it: it needs
+  only chain *maximality*.)
 * **`SIG2X`** — the minimum length is attained at `σ2 = 0`, where `B ≥ comps`
   does hold. A lower bound is only ever used against the optimum, so that is
   enough.
@@ -201,7 +203,7 @@ not coverage. So: a consistency check, and not an exclusion of 5905.
 `packing_lb` built its co-occurrence graph out of `runs`, which materialises a
 frozenset for **every prefix of every forced path from every state** — thousands
 of set constructions per evaluation. `packing_fast` skips all of it: when free
-out-degree is ≤ 1 (`CH1`, true of every real walk) the forced path from a state
+out-degree is ≤ 1 — which `CH1` claimed always and §10a refutes — the path from a state
 is unique, so one forward walk per state gives the same graph, and bitmask ints
 make the greedy independent set nearly free. It returns `None` under branching,
 where a single walk would *miss* co-occurrences, shrink the adjacency, inflate
@@ -242,7 +244,8 @@ global minimum, which no search delivers.
 
 ## 5. Can `min F ≥ 142` be argued structurally at n = 7?
 
-Write `F = S + comps + (p−1)`. Assuming `A2` (`comps ≥ v − S`, still **[CONJ]**),
+Write `F = S + comps + (p−1)`. By `A2` (`comps ≥ v − S`, **[CONJ]** when this
+section was written and **[THM]** since — §8),
 
 > `F ≥ v + p − 1`
 
@@ -374,8 +377,9 @@ capped at 5 nor collapsing to 1. So `v + p ≈ 164`, far above the 143 that `CH3
 needs. **Generic arc sets are nowhere near the boundary; the champions are the
 exceptional points.**
 
-That relocates the question. `p = 1` means the free-join graph — a *functional*
-graph, out-degree ≤ 1 by `CH1` — admits a single path through every component. A
+That relocates the question. `p = 1` means the free-join graph admits a single
+path through every component. (It is *not* functional — `CH1` claimed that and
+is refuted in §10a — but its **core** subgraph is, by `FORCE`.) A
 Hamiltonian path in a functional graph is a fragile, exceptional property, and
 the 5906 champion has one over its 18 components. So:
 
@@ -553,7 +557,11 @@ it. Here the corpus could not have contradicted it — the claim was about a
 
 ## 6. Attacking `A2`, the conjecture the whole reduction rests on
 
-`CH3 ≥ v + p − 1` needs `A2` (`comps ≥ v − S`), still **[CONJ]**. Its one
+> **Resolved in §8** — `A2` is a theorem. §§6–7 are the record of how it was
+> attacked before that, and are kept because `A2PATH`/`A2RESCUE` are true and
+> are what exposed the exit identity the proof turns on.
+
+`CH3 ≥ v + p − 1` needs `A2` (`comps ≥ v − S`). Its one
 recorded proof route is `REF1` — contract each loop and bound the quotient edges
 by `S` — refuted by 5907-jupiter, 239 inter-loop edges against `S = 120`.
 
@@ -1169,3 +1177,97 @@ Hamiltonian path over all `comps` components. §9b now adds that this property i
 obstructed at low `v`, and no hint at all as to why.
 
 `A2` is proved; this is not, and nothing above should be read as if it were.
+
+---
+
+## 10. `FORCE`: the correct `CH1`, and why it still does not bound `p`
+
+§9e said the missing piece is a lower bound on `p` without the
+residue-uniformity hypothesis. This section reports the attempt: one new
+theorem, one refuted claim, and one route closed with a reason.
+
+### 10a. `CH1` is false — on the census, not just off it
+
+`CH1` was recorded as "the free-join digraph on `(component, break-point)`
+states has out-degree ≤ 1". Its own entry admitted "away from an exact cover it
+is measured, not proved". It is now measured **false**, and not only on the
+annealer states `chainer.py` already warned about — on real strings:
+
+```
+n = 6   out-degree {0: 107808, 1: 27516, 2: 19}
+n = 7   out-degree {0: 123848, 1: 37112, 2: 38, 3: 11}
+```
+
+Nothing depended on it: `chainer.free_succ` returns a *list* and `runs`
+branches over it. `CH1` → **[REF]**.
+
+### 10b. `FORCE` [THM] — the length-gated version
+
+`Struct.exits(g, l)` returns the `3!` weight-3 targets of a block of `l` arcs,
+each with a **cap**: how far the next block may run before re-entering a class
+this one already burned. `coset_lemma.py` verifies that exactly one target
+survives `cap ≥ l′` precisely when `l + l′ ≥ 2n−3`, and that the survivor is om.
+
+> **`FORCE`.** Call a free edge **core** when the exit arc is full and
+> `l + l′ ≥ 2n−3`, **fringe** otherwise. Then om is a single group element, so
+> the core target is the single permutation `start·b`; distinct components have
+> distinct arcs and hence distinct entries. **Every state has at most one core
+> out-edge, and it lands on `start·b`.** *1463/1463, zero exceptions.*
+
+One convention trap, recorded because it cost a run: `exits()` measures from the
+block's last **arc start**, not its end, so the om target is `start·b`. Using
+`end·b` is simply the wrong group element and fails on 243 of 245 n = 7 strings.
+
+So out-degree ≥ 2 forces a **fringe** edge, and a fringe edge needs an
+incomplete block at one end — `l = l′ = n−1` gives `2n−2 ≥ 2n−3` and is always
+core. That is the mechanism `RES` was reaching for through residues, and
+*lengths, unlike residues, do not go mixed at the champions*.
+
+### 10c. The chain-length law, and why the bound is not there
+
+With `FORCE` the natural bound is
+
+```
+p ≥ (number of core-runs) − (fringe edges used) ≥ ⌈comps/(n−2)⌉ − F_used,
+```
+
+since core edges alone form a functional graph. Measuring `L(f)` — the longest
+free chain, in components, reachable using exactly `f` fringe edges — over the
+whole corpus:
+
+| n | `L(0)` | `L(1)` | `L(2)` | `L(3)` | `L(4)` | `L(5)` | `L(6)` | `L(7)` |
+|---|---|---|---|---|---|---|---|---|
+| 5 | **3** | 3 | 3 | | | | | |
+| 6 | **4** | 4 | 7 | 7 | 9 | 9 | 9 | |
+| 7 | **5** | 5 | 8 | 9 | 10 | 13 | 14 | 18 |
+
+`L(0) = n−2` **exactly** at all three `n`. That is the Pentad cap recovered as
+the `f = 0` case — the honest content of `RES`, and of `CHLB` before it was
+refuted. Past `f = 0`, `L` grows at roughly **1.4 components per fringe edge**
+at n = 7.
+
+**The route fails, and cleanly.** The bound needs an upper bound on fringe
+edges, and there is none:
+
+* fringe edges are **75%** of all free edges across the corpus;
+* at the 5906 champion specifically there are **118 fringe against 16 core**,
+  and its 18-component chain needs **10** of them.
+
+A budget of 10 out of 118 available is not scarcity. So the core/fringe split
+says *why* long chains are possible — they buy fringe edges, which need
+incomplete blocks, which need splits — and supplies no number.
+
+**Checked against what already existed**, as the plan required. Chain-Count's
+general form `c_{n−1} ≤ (n−2)(1 + Y + (B − c_{n−1}))` is recorded in the arsenal
+as **vacuous away from `B = (n−2)!`**. This is the same wall reached from the
+free-join side: the `f = 0` case is sharp and everything above it is unbounded.
+Registered as `FRINGE` **[MEAS]** so the route is not attempted a third time.
+
+### 10d. What is left
+
+`FORCE` is banked and `CH1` is corrected, but the residue of §9e is unchanged:
+**no lower bound on `p` without residue-uniformity is in sight.** The three
+things now known to be sharp and simultaneously useless are the same fact in
+three languages — Pentad (`ord(s) = n−2`), `RES` (`ord(a^r b)` under uniform
+residue), and `FRINGE` (`L(0) = n−2`). Each is exact at `f = 0` and silent
+above it.
