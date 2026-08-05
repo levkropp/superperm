@@ -1271,3 +1271,69 @@ things now known to be sharp and simultaneously useless are the same fact in
 three languages — Pentad (`ord(s) = n−2`), `RES` (`ord(a^r b)` under uniform
 residue), and `FRINGE` (`L(0) = n−2`). Each is exact at `f = 0` and silent
 above it.
+
+---
+
+## 11. `p` is a break-point phenomenon, and nothing else
+
+§10 closed the core/fringe route. This section reports what replaced it, which
+is not a bound but is the most useful thing learned about `p` so far: it says
+where the bound *cannot* be, and it does so exhaustively.
+
+### 11a. The measurement
+
+A state is `(component, break-point)`, and the break point fixes the entry
+**and** the exit together. Drop that coupling — keep only "some break of `i` can
+free-join to some break of `j`" — and `p` becomes an ordinary min path cover on
+`comps` nodes. `code/freejoin.py --relax` computes both:
+
+| n | strings | relaxed `p` | exact `p` − relaxed `p` |
+|---|---|---|---|
+| 5 | 188 | 1 on **187** | 0 on 186, 1 on 2 |
+| 6 | 1030 | 1 on **all 1030** | 0 on 1011, 1 on 18, 5 on 1 |
+| 7 | 241 | 1 on **all 241** | 0 on 239, 3 on 2 |
+
+Per `v`, as `(min relaxed p, min exact p)`:
+
+```
+n = 6    24:(1,6)   28:(1,2)   29:(1,1)   30:(1,1)
+n = 7   140:(1,4)  142:(1,1)  144:(1,1)
+```
+
+> **`PCOUPLE`.** Component-level connectivity is **never** the obstruction.
+> Every arc set measured — 1459 of them — has a component-level Hamiltonian
+> path. What stops `p = 1` is that the breaks cannot be chosen consistently
+> along it.
+
+The n = 6 `v = 28` strings are the cleanest witness: `S = 18, comps = 10,
+p = 2`, and their ten components *do* admit a Hamiltonian path at component
+level. If the breaks could be made consistent, `CH3 = 18 + 10 + 1 − 1 = 28` and
+the bound would permit 871. They cannot.
+
+### 11b. What this rules out, and what it leaves
+
+**It closes the matching relaxation properly.** §3b recorded that maximum
+bipartite matching "returns 0 or 1 at every state tested" and diagnosed it as
+discarding the state-consistency coupling. That diagnosis was right and is now
+quantified: matching is not weak — *the relaxed problem's answer is identically
+1*. Any lower bound on `p` read off the component graph, its degrees, its
+connectivity, or its packing structure is **provably worthless**, because that
+graph's min path cover is 1 on every arc set measured.
+
+That retires, in one stroke, the whole family of attacks that forget the break
+point — including the one §10 was building toward, since `L(f)` is also a
+statement about edges rather than about consistent break selection.
+
+**And it says where a bound must live.** `RES` and the Pentad Lemma are already
+consistency statements in disguise: at an exact cover a component is a whole
+loop, its break point *determines* its om successor, and the `⟨s⟩`-orbit closes
+after `ord(s) = n−2`. That is the only known mechanism that survives `PCOUPLE`,
+and generalising it away from uniform residue is the open problem — now stated
+in the right language.
+
+So the target has sharpened from
+
+> *"lower-bound `p`"*  to  *"lower-bound the number of chains in a
+> break-consistent path cover, given that the unconstrained one is 1"*.
+
+Nothing above is a bound, and `v + p ≥ 143` at n = 7 remains open.

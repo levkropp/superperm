@@ -752,6 +752,37 @@ CLAIMS = [
      lambda r: False,
      lambda r: True),
 
+    ("PCOUPLE", "[MEAS]",
+     "p lives ENTIRELY in the break-point coupling: drop it and the min path "
+     "cover is 1 on every string measured, 1459/1459",
+     "A state is (component, break-point), and the break point fixes the entry "
+     "AND the exit together.  Drop that coupling -- keep only 'some break of i "
+     "can free-join to some break of j' -- and `p` becomes an ordinary min path "
+     "cover on `comps` nodes.  `code/freejoin.py --relax` computes both:\n"
+     "    n = 5   188 strings   relaxed p = 1 on 187\n"
+     "    n = 6  1030 strings   relaxed p = 1 on ALL 1030\n"
+     "    n = 7   241 strings   relaxed p = 1 on ALL 241\n"
+     "against exact p running 1, 2, 4, 6, 24.  Per-v, (min relaxed, min exact):\n"
+     "    n = 6   24:(1,6)  28:(1,2)  29:(1,1)  30:(1,1)\n"
+     "    n = 7  140:(1,4)  142:(1,1)  144:(1,1)\n"
+     "So component-level connectivity is NEVER the obstruction.  Every arc set "
+     "measured has a component-level Hamiltonian path; what stops p = 1 is that "
+     "the breaks cannot be chosen consistently along it.\n"
+     "TWO CONSEQUENCES.  (1) It explains, and closes, the matching relaxation "
+     "of notes/pbound.md 3b: matching returned 0 or 1 not because matching is "
+     "weak but because the relaxed PROBLEM has answer 1.  (2) It rules out an "
+     "entire family of attacks -- any lower bound on p read off the component "
+     "graph, its degrees, its connectivity or its packing structure, is "
+     "provably worthless, because that graph's answer is identically 1.\n"
+     "It also says where the bound must live.  RES and the Pentad Lemma are "
+     "already consistency statements in disguise: at an exact cover a "
+     "component is a whole loop, its break point DETERMINES its om successor, "
+     "and the <s>-orbit closes after ord(s) = n-2.  That is the only known "
+     "mechanism that survives, and generalising it away from uniform residue "
+     "is the open problem.",
+     lambda r: False,
+     lambda r: True),
+
     ("SLOT", "[THM]",
      "A is exactly the number of FREE GENERATOR SLOTS in the entered loops: "
      "A = sum_L (n-1 - a_L).  1463/1463",

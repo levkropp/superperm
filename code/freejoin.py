@@ -169,6 +169,100 @@ def chain_law(g, arcs, cap=400_000):
     return best, True
 
 
+def relaxed_p(g, arcs, cap=300_000):
+    """Min path cover of the COMPONENT graph, ignoring break-point consistency.
+
+    A state is (component, break-point) and the break point fixes the entry AND
+    the exit together.  Drop that coupling -- keep only "some break of i can
+    free-join to some break of j" -- and the problem becomes an ordinary min
+    path cover on `comps` nodes.  The gap between this and the exact `p` is
+    exactly what the coupling costs.
+
+    That gap is the whole question.  `pbound.md` 3b already found that the
+    matching relaxation for `p` is useless because it "discards exactly the
+    state-consistency coupling"; this measures how much that coupling is
+    actually carrying.
+    """
+    edges, ldat, _ = graph(g, arcs)
+    comps, _ = g.components(arcs)
+    N = len(comps)
+    cg = collections.defaultdict(set)
+    for s, es in edges.items():
+        for (j, _k, _c) in es:
+            cg[s[0]].add(j)
+    best = [N + 1]
+    nodes = [0]
+
+    def dfs(cur, seen, chains):
+        if chains >= best[0]:
+            return
+        nodes[0] += 1
+        if nodes[0] > cap:
+            raise TimeoutError
+        if len(seen) == N:
+            best[0] = chains
+            return
+        ext = [j for j in cg.get(cur, ()) if j not in seen]
+        for j in ext:
+            dfs(j, seen | {j}, chains)
+        if not ext:
+            for j in range(N):
+                if j not in seen:
+                    dfs(j, seen | {j}, chains + 1)
+                    break
+
+    try:
+        for s0 in range(N):
+            dfs(s0, frozenset([s0]), 1)
+            if best[0] == 1:
+                break
+    except TimeoutError:
+        return None
+    return best[0]
+
+
+def main_relax(ns, limit=None):
+    import census
+    import pbound
+    cache, rows = {}, collections.defaultdict(list)
+    for n, label, path in census.sources(9):
+        if n not in ns:
+            continue
+        for digits in census.read_strings(path):
+            if not digits or max(digits) != n or min(digits) != 1:
+                continue
+            p_ = string_to_path(digits, n)
+            if len(p_) != math.factorial(n):
+                continue
+            g = cache.setdefault(n, Gen(n))
+            arcs = [tuple(a) for a in design_of(p_)]
+            rp = relaxed_p(g, arcs)
+            if rp is None:
+                continue
+            b, S, C, p = pbound.value(g, arcs)
+            if not pbound.value.exact:
+                continue
+            v = len({g.st.loop_of[a[0]] for a in arcs})
+            rows[n].append((v, C, rp, p))
+            if limit and len(rows[n]) >= limit:
+                break
+    for n in sorted(rows):
+        rs = rows[n]
+        gap = collections.Counter(p - rp for _v, _C, rp, p in rs)
+        rpd = collections.Counter(rp for _v, _C, rp, _p in rs)
+        print(f"\n  n = {n}: {len(rs)} strings with both values exact")
+        print(f"    relaxed p (no coupling):  {dict(sorted(rpd.items()))}")
+        print(f"    exact p - relaxed p:      {dict(sorted(gap.items()))}")
+        byv = collections.defaultdict(lambda: [99, 99])
+        for v, _C, rp, p in rs:
+            byv[v][0] = min(byv[v][0], rp)
+            byv[v][1] = min(byv[v][1], p)
+        print("    v -> (min relaxed p, min exact p):")
+        print("      " + "  ".join(f"{v}:({a},{b})"
+                                   for v, (a, b) in sorted(byv.items())))
+    return 0
+
+
 def main_chains(ns):
     import census
     cache, agg = {}, collections.defaultdict(collections.Counter)
@@ -263,7 +357,10 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--n", type=int, action="append")
     ap.add_argument("--chains", action="store_true")
+    ap.add_argument("--relax", action="store_true")
     args = ap.parse_args()
     print(__doc__.split("Usage:")[0].strip())
     ns = args.n or [5, 6, 7]
+    if args.relax:
+        sys.exit(main_relax(ns))
     sys.exit(main_chains(ns) if args.chains else main(ns))
