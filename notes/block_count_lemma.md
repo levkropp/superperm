@@ -1234,9 +1234,20 @@ about the absolute gap, and that grows factorially. "Splits matter less and less
 as `n` grows" is true of the *ratio* and false of the *count*: a split-free walk
 loses 719 characters at n = 10 and 40,319 at n = 12.
 
-> So split-free champions exist at **n = 5** only (n ≤ 3 trivially; n = 4 has
-> `g = 1`), n = 6 is proved negative, and nothing here suggests a return.
-> There is no threshold `n ≥ 9` past which split-freeness stops costing.
+**But this does NOT exclude split-free champions, and the first version of this
+section wrongly said it did.** `SFREC` gives `σ(n) ≤ s(n−1) + n!`, so
+
+```
+    σ(n) − s(n)   ≤   g(n).
+```
+
+`g` only **upper**-bounds the deficit. A growing upper bound excludes nothing —
+the true deficit could be 0 at every `n ≥ 7` and `g` would still grow like
+`(n−4)!`. Ruling out a split-free champion needs a **lower** bound on `σ`
+exceeding `s`, and exactly one is known: `β₆ = 30` gives `σ(6) = 873 > 872`.
+
+> **n = 6 is the only `n` where split-free champions are ruled out.** Everything
+> from n = 7 up is open, in both directions.
 
 ### 13c. What would refute this
 
@@ -1248,11 +1259,32 @@ Two one-sided inputs, both of which could move:
   split-free construction** would lower `σ` and could close the gap.
 
 The second is the live one, and it is not idle: the length-5912 string is
-exactly such an improvement over the `Σ k!` guess, worth 1. Refuting `SFGAP`
-means finding one worth `(n−4)!`. Nothing known does that, and the mechanism
-argues against it — a split-free walk pays either the Chain-Count tax
-`Y ≥ (n−3)! − 1` or a `B`-tax to fragment out of it, while every champion has
-`Y = 0`.
+exactly such an improvement over the `Σ k!` guess.
+
+**And Egan's near-optimality does not settle it either way.** Egan is *not*
+split-free — `B = 1` forces `S = T − 1` — so how good Egan is says nothing
+directly about `σ`. What matters is how close *split-free* can get to Egan, and
+at n = 6 it gets there exactly:
+
+```
+    σ(6) = 873 = Egan(6).
+```
+
+If `σ(n) = Egan(n)` in general, then a split-free champion exists **precisely
+when Egan is optimal** — and the record of `Egan(n) − s(n)` is
+
+| n | 6 | 7 | 8 | 9 |
+|---|---|---|---|---|
+| `Egan − s` (best known) | 1 | 2 | 1 | **0** |
+
+so n = 9 is the first `n` at which nothing beats Egan. That is a real reason to
+look at n ≥ 9, though the n = 6 data point is degenerate — `Egan(6) = Σk! = 873`,
+so n = 6 cannot distinguish "σ tracks Egan" from "σ tracks Σk!" — and at n = 7
+the best known split-free (5912) is **4 above** Egan(7) = 5908.
+
+> **The concrete open question: can a split-free construction match Egan's
+> length?** At n = 9 the gap to close is `409084 − 408966 = 118`, against the
+> best split-free the recursion currently supplies.
 
 **Note the one genuinely open case.** At n = 7, `σ(7) ∈ [5889, 5912]` — the
 lower bound is §11's split-free ladder, the upper is the 5912 above — and

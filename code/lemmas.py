@@ -745,9 +745,9 @@ CLAIMS = [
      lambda r: True),
 
     ("SFGAP", "[MEAS]",
-     "the split advantage g(n) = s(n-1) + n! - s(n) grows like (n-4)! in "
-     "ABSOLUTE terms while decaying like n^-4 relatively -- so split-free "
-     "champions do NOT return at large n",
+     "g(n) = s(n-1) + n! - s(n) grows like (n-4)! absolutely and decays like "
+     "n^-4 relatively -- but it only UPPER-bounds the deficit, so it excludes "
+     "nothing",
      "By SFREC a split-free champion at n needs g(n) = 0 exactly.  Measured, "
      "with best-known s(n) and Egan above n = 8:\n"
      "    n      4   5   6   7    8    9    10    11     12\n"
@@ -761,13 +761,28 @@ CLAIMS = [
      "'Splits matter less and less' is true of the ratio and false of the "
      "count: a split-free walk loses by 719 characters at n = 10 and 40,319 "
      "at n = 12.\n"
-     "So on current evidence split-free champions exist at n = 5 only "
-     "(n <= 3 trivially; n = 4 has g = 1), n = 6 is PROVED negative, and "
-     "nothing suggests they return.  Honest gaps: g(n) uses best-known s(n), "
-     "so it is an upper bound on the truth for n >= 7; and sigma(n) <= "
-     "s(n-1)+n! is one-sided, so a better split-free construction would lower "
-     "it.  Refuting SFGAP means finding one -- exactly what 5912 did to the "
-     "sum-k! guess.",
+     "CORRECTION -- this entry first concluded 'split-free champions do not "
+     "return at large n'.  That does not follow and is withdrawn.  The TRUE "
+     "deficit is sigma(n) - s(n); SFREC gives sigma(n) <= s(n-1) + n!, so\n"
+     "    sigma(n) - s(n)  <=  g(n),\n"
+     "i.e. g only UPPER-bounds the deficit.  A growing upper bound excludes "
+     "nothing: the deficit could be 0 at every n >= 7 and g would still grow "
+     "like (n-4)!.  Excluding a split-free champion needs a LOWER bound on "
+     "sigma exceeding s, and exactly one is known -- beta_6 = 30 gives "
+     "sigma(6) = 873 > 872.  **n = 6 is the only n where split-free champions "
+     "are ruled out.**\n"
+     "WHERE THE HOPE ACTUALLY IS.  Egan is not split-free (B = 1 forces "
+     "S = T - 1), so its near-optimality says nothing directly.  What matters "
+     "is how close SPLIT-FREE can get to Egan, and at n = 6 it gets there "
+     "exactly: sigma(6) = 873 = Egan(6).  If sigma(n) = Egan(n) in general, a "
+     "split-free champion exists precisely when Egan is optimal -- and n = 9 "
+     "is the first n where nothing beats Egan (Egan - s = 1, 2, 1, **0** at "
+     "n = 6, 7, 8, 9 on best-known values).  That one data point is "
+     "degenerate, though: Egan(6) = sum k! = 873, so n = 6 cannot distinguish "
+     "the two guesses.  Best-known split-free at n = 7 is 5912, which is 4 "
+     "ABOVE Egan(7) = 5908.\n"
+     "So the concrete open question is: **can a split-free construction match "
+     "Egan's length?**  At n = 9 the gap to close is 409084 - 408966 = 118.",
      lambda r: False,
      lambda r: True),
 
