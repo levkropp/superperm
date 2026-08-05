@@ -1418,23 +1418,21 @@ every nonempty subset sweeps every `A`. A 5905 at `v = 121` needs `p ≤ 21`:
 floor, which returns `p ≥ 24` there. So the rung does not actually need
 `PFRINGE` at `A = 1`; the two sound floors close different parts of it.
 
-`code/rung7.py` prices the family, every value a sound *lower* bound on `CH3`
-(the packing floor understates `p`, which understates the bound, so a MINIMUM
-computed this way is safe to conclude from). Over 25 fresh loops per base cover
-— 1,575 arc sets each, spanning every `A` from 0 to 6, on all four base covers
-on disk:
+`code/rung7.py` prices the family **exhaustively** — all 720 fresh loops × 63
+generator subsets = 45,360 arc sets per base cover, on all four base covers on
+disk, **181,440 in total** — every value a sound *lower* bound on `CH3` (the
+packing floor understates `p`, which understates the bound, so a minimum
+computed this way is safe to conclude from):
 
 ```
-minimum CH3 over the family = 144        (a 5905 needs 141)
+CH3 floor histogram   {144: 12240, 145: 2160, 146: 22320, 147: 3572, 148: 5068}
+minimum               144            (a 5905 needs 141)
 ```
 
-with the histogram identical on every base (`{144: 425, 145: 75, 146: 775,
-147: 109, 148: 191}`). The full sweep — all 720 fresh loops × 63 generator
-subsets, 45,360 arc sets per base — is a ~1.5 h run; this note will be updated
-with its figure. The margin is 3 against a requirement of 141, so the sampled
-result is not marginal.
+The histogram is **identical on all four bases**, and the minimiser is the same
+arc set every time (`S=1, comps=120, p=24, A=5`). The margin is 3.
 
-> **No 5905 in the sampled cover-plus-one-loop family at `v = 121`, at any `A`.**
+> **No 5905 in the cover-plus-one-loop family at `v = 121`, at any `A`.**
 
 **Scope, stated plainly.** This is exhaustive over *exact cover + one partial
 fresh loop*. It is **not** exhaustive over all `v = 121` arc sets: for `A > 0`
