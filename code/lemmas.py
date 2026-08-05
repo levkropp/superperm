@@ -744,6 +744,49 @@ CLAIMS = [
      lambda r: False,
      lambda r: True),
 
+    ("SFA5", "[REF]",
+     "F <= A/5 for split-free arc sets  -- FALSE, and with it the clean route "
+     "to 'split-free => length >= 5907'",
+     "The route was: split-free gives S = 0 so CH3 = comps + p - 1; A2 gives "
+     "comps >= v; PFRINGE gives p >= ceil(comps/(n-2)) - F.  With "
+     "v = 120 + A/6 for split-free at n = 7, CH3 >= 143 reduces EXACTLY to "
+     "F <= A/5.  So the whole thing turned on one small lemma.\n"
+     "It is false.  Perturbing an exact cover over the split-free range, 5 of "
+     "76 sampled arc sets violate it -- e.g. v=122, A=12, F=3 > 2.4, and "
+     "v=123, A=18, F=4 > 3.6.  Worse, at v=125, A=30, F=7 the resulting bound "
+     "is 142, BELOW the 143 needed, so the route does not merely fail to prove "
+     "the target, it cannot reach it.\n"
+     "PFRINGE is simply weaker than the packing floor here: the same arc sets "
+     "have actual CH3 = 147 at v = 125.  The measured statement survives (see "
+     "SFCH3); only this proof of it is dead.",
+     lambda r: False,
+     lambda r: True),
+
+    ("SFCH3", "[MEAS]",
+     "every split-free arc set measured has CH3 >= 143, i.e. length >= 5907 -- "
+     "which would settle 'no n = 7 champion is split-free', but the provable "
+     "floor is only 124",
+     "Split-free means S = 0, so CH3 = comps + p - 1.  Perturbing an exact "
+     "cover by re-cutting k classes (which keeps S = 0) sweeps the split-free "
+     "range; min CH3 by v:\n"
+     "    120:143  121:144  122:144  123:146  124:146  125:147  126:150\n"
+     "    130:157  135:169  140:179  150:200  176:259\n"
+     "The minimum is EXACTLY 143, attained only at v = 120 -- the rung already "
+     "proved by RUNG0 -- and the margin grows monotonically above it.  Nothing "
+     "sampled dips below.\n"
+     "WHY IT MATTERS: s(7) <= 5906 is known, so sigma(7) >= 5907 would PROVE "
+     "no n = 7 champion is split-free, which notes/block_count_lemma.md 13 "
+     "leaves open, and would raise the recorded split-free floor by 18.\n"
+     "WHAT IS ACTUALLY PROVED IS MUCH LESS.  For split-free at n = 7, "
+     "A = 6v - 720 so the complete-block count is c6 >= 720 - 5v, and "
+     "Chain-Count's general form gives T >= 1.2*c6 - 1 while HPV gives T >= v.  "
+     "Their max is minimised near v = 124 at T >= 124 -- essentially the "
+     "recorded ladder value beta_7 = 125.  So the gap between measured (143) "
+     "and proved (124) is 19 units, and SFA5, the one clean bridge, is "
+     "refuted.",
+     lambda r: False,
+     lambda r: True),
+
     ("SFPENT", "[MEAS]",
      "the all-complete split-free family goes from BEATING Egan at n = 5 to "
      "losing by 5 at n = 7 -- the gap grows, so no better constructor is in "

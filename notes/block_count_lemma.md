@@ -1380,3 +1380,66 @@ from `+5` to `+4`.
 rather than exhausting them. Refuting it needs a split-free family that is
 neither all-complete nor the recursion — and nothing in the structure suggests
 where such a family would come from.
+
+
+---
+
+## 15. Split-free at n = 7: measured 5907, proved 5888
+
+§14 asked whether a better split-free constructor exists. This section asks the
+dual question — how good a **lower** bound can we prove for the split-free
+slice — because `s(7) ≤ 5906` is known, so `σ(7) ≥ 5907` would *prove* what §13
+leaves open: **no n = 7 champion is split-free.**
+
+### 15a. What is measured
+
+Split-free means `S = 0`, so `CH3 = comps + p − 1`. Re-cutting `k` classes of an
+exact cover keeps `S = 0` and sweeps the range. Minimum `CH3` by `v`:
+
+```
+120:143  121:144  122:144  123:146  124:146  125:147  126:150
+130:157  135:169  140:179  150:200  176:259
+```
+
+The minimum is **exactly 143**, attained only at `v = 120` — the rung already
+proved by `RUNG0` — and the margin grows monotonically above it. Nothing sampled
+dips below. So `σ(7) ≥ 5907` is what the arc sets say.
+
+### 15b. What is proved, which is much less
+
+For split-free at n = 7, `A = 6v − 720`, so the complete-block count satisfies
+`c₆ ≥ 720 − 5v`. Chain-Count's general form gives `T ≥ 1.2·c₆ − 1`, and HPV
+gives `T ≥ v`. Their maximum is minimised near `v = 124`:
+
+| v | 120 | 121 | 122 | 123 | **124** | 125 | 130 |
+|---|---|---|---|---|---|---|---|
+| `1.2c₆ − 1` | **143** | 137 | 131 | 125 | 119 | 113 | 83 |
+| `HPV = v` | 120 | 121 | 122 | 123 | **124** | 125 | 130 |
+| max | 143 | 137 | 131 | 125 | **124** | 125 | 130 |
+
+`T ≥ 124`, i.e. length ≥ 5888 — essentially the recorded ladder value
+`β₇ = 125`. **The gap between measured (143) and proved (124) is 19 units.**
+
+### 15c. The clean bridge, and its refutation
+
+The route looked short. `A2` gives `comps ≥ v`; `PFRINGE` gives
+`p ≥ ⌈comps/(n−2)⌉ − F`; and with `v = 120 + A/6` the target `CH3 ≥ 143`
+reduces **exactly** to
+
+```
+F  ≤  A/5.
+```
+
+One small lemma. **It is false** — 5 of 76 sampled split-free arc sets violate
+it (`v=122, A=12, F=3 > 2.4`; `v=123, A=18, F=4 > 3.6`), and at
+`v=125, A=30, F=7` the resulting bound is **142**, below the 143 needed. So the
+route cannot reach the target even in principle.
+
+The reason is that `PFRINGE` is far weaker than the packing floor on these
+instances: the same `v = 125` arc sets have actual `CH3 = 147`. Registered as
+`SFA5` **[REF]**; the measured statement survives as `SFCH3` **[MEAS]**.
+
+> **Status: `σ(7) ≥ 5907` is measured and wanted, `σ(7) ≥ 5888` is proved, and
+> the natural bridge between them is refuted.** Closing it needs a lower bound
+> on `p` for split-free arc sets that beats `PFRINGE` — which is the same `p`
+> problem as everywhere else, now on a slice where `S = 0` removes one variable.

@@ -1,5 +1,14 @@
 # The Pentad Lemma, and the $v = 120$ rung at $n = 7$
 
+> **Superseded, by this repository's own later work.** `RUNG0` **[THM]**
+> ([`pbound.md`](pbound.md) §5b) gives `CH3 = (n−2)! + (n−3)! − 1 = 143` at
+> `v = (n−2)!`, hence **`v = 120` ⟹ length ≥ 5907** — twelve better than the
+> 5895 below, by a different route (the residue cap `p ≥ (n−3)!`, with zero
+> fringe edges at `S = 0`). This note is kept because its argument is
+> independent, elementary, and machine-checked by `code/rigidity7.py`, and
+> because the Pentad Lemma it proves is used throughout. The headline number,
+> though, is no longer the best we have.
+
 **Result.** Every superpermutation on 7 symbols that enters exactly 120
 two-loops has length $\ge 5895$. HPV gives only 5884 at that rung, and the
 Hunter–Raudvere bound 5888 needs only 5888. So the tightest rung of the
