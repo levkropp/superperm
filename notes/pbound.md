@@ -1439,3 +1439,72 @@ fresh loop*. It is **not** exhaustive over all `v = 121` arc sets: for `A > 0`
 the 121 entered loops need not contain an exact cover, and nothing here rules
 that out. `RUNG1`'s "every `A = 0` arc set is a cover plus one loop" holds only
 at `A = 0`. So §5d's caveat is narrowed, not removed.
+
+---
+
+## 13. The Egan−1 line, consolidated — and the `+1` that would sharpen it
+
+`RUNG0`, the Chain-Count Lemma, the Exposure Bound `S5` and `EGAN1` are four
+records of **one statement**. Worth saying once.
+
+### 13a. `EGAN1L` [THM]
+
+`v = (n−2)!` forces `A = 0` and `S = 0` (from `R ≥ (n−1)!` with
+`R = (n−1)v − A`), so every class is a single full arc, every entered loop is
+saturated and all-full, and by `S1` each closes into a δ-cycle of `n−1` arcs.
+Then `comps = (n−2)!` with a single residue `r = n−2`, the cap is
+`ord(a^{n−2}b) = ord(s) = n−2`, so `p ≥ (n−3)!` and
+
+```
+CH3 = 0 + (n−2)! + (n−3)! − 1 = (n−1)(n−3)! − 1 = Egan_T − 1.
+```
+
+| n | 4 | 5 | 6 | 7 | 8 | 9 |
+|---|---|---|---|---|---|---|
+| bound length | 33 | 153 | 872 | **5907** | 46204 | 408965 |
+
+### 13b. What it excludes — and what it does not
+
+The bound applies **only at that rung**, and the records do not sit there for
+n ≥ 6:
+
+| n | 4 | 5 | 6 | 7 | 8 | 9 |
+|---|---|---|---|---|---|---|
+| record `v` | 2 | 6 | 29 | 142 | 839 | 5760 |
+| `(n−2)!` | 2 | 6 | 24 | 120 | 720 | 5040 |
+| at the rung? | yes | yes | **no** | **no** | **no** | **no** |
+
+So it excludes only where the bound *exceeds* the record — **n = 7**, where
+`5907 > 5906`:
+
+> **No n = 7 champion enters exactly 120 loops.**
+
+At n = 4, 5, 6, 8 the bound *equals* the record, so one more unit would exclude
+there too. At n = 9 it is one below.
+
+This also supersedes a stale headline of our own:
+[`pentad_lemma.md`](pentad_lemma.md) advertises **5895** for this same rung —
+twelve worse, by an independent route. That note now says so at the top.
+
+### 13c. The `+1`, which is the real prize
+
+At n = 6 the extra unit is a **theorem**. `T = 29` would force six om-chains of
+exactly 4 traversals — six full `⟨s⟩`-orbits exactly covering the 120 classes,
+of which 8640 exist — with all five connecting jumps of weight exactly 4. **0 of
+the 8640 can be so linked**, so `T ≥ 30` and `v = 24 ⟹ length ≥ 873`.
+
+The n = 7 analogue is *the same question*: `T = 143` forces 24 chains of 5 — a
+Pentad partition of the 720 classes — with all 23 links of weight 4, i.e. link
+cost 46. `code/pentad_search.py` solves the linking **exactly per partition**,
+and over **1507 distinct Pentad partitions**:
+
+```
+link cost   52 (867)   54 (503)   55 (137)      never 46, never below 52
+```
+
+If no partition reaches 46, then `v = 120 ⟹ T ≥ 144`, length ≥ **5908**. And
+the same `+1` at n = 8 would take 46204 to 46205 and **exclude the exact-cover
+rung there**, where the bound currently only ties the record.
+
+Registered as `EGAN1P` **[MEAS]**. Not proved: 1507 partitions is a search, not
+an exhaustion, and the total number of Pentad partitions at n = 7 is unknown.

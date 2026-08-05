@@ -744,6 +744,54 @@ CLAIMS = [
      lambda r: False,
      lambda r: True),
 
+    ("EGAN1L", "[THM]",
+     "v = (n-2)!  =>  length >= Egan(n) - 1, the Egan-1 line -- and at n = 7 "
+     "that EXCLUDES the exact-cover rung for champions",
+     "RUNG0, the Chain-Count Lemma, S5 and EGAN1 are four records of one "
+     "statement.  v = (n-2)! forces A = 0 and S = 0 (R >= (n-1)! with "
+     "R = (n-1)v - A), hence every class is a single full arc, every entered "
+     "loop is saturated and all-full, and by S1 each closes into a delta-cycle "
+     "of n-1 arcs.  So comps = (n-2)! with a single residue r = n-2, and the "
+     "cap is ord(a^(n-2) b) = ord(s) = n-2, giving p >= (n-3)!.  Then\n"
+     "    CH3 = 0 + (n-2)! + (n-3)! - 1 = (n-1)(n-3)! - 1 = Egan_T - 1.\n"
+     "As lengths:\n"
+     "    n     4     5     6      7       8        9\n"
+     "    bnd  33   153   872   5907   46204   408965\n"
+     "CONSEQUENCE, stated carefully.  The bound applies ONLY to walks at that "
+     "rung, and the records do NOT sit there for n >= 6:\n"
+     "    record v:  n=4 2, n=5 6, n=6 29, n=7 142, n=8 839, n=9 5760\n"
+     "    (n-2)!  :       2,      6,     24,     120,     720,     5040\n"
+     "So it excludes only where the bound exceeds the record, i.e. **n = 7**: "
+     "5907 > 5906, so no n = 7 champion enters exactly 120 loops.  At n = 4, 5, "
+     "6, 8 the bound EQUALS the record, so one more unit would exclude there "
+     "too; at n = 9 it is one below.\n"
+     "SUPERSEDES a stale headline: notes/pentad_lemma.md advertises 5895 for "
+     "this same rung, twelve worse, by an independent route.",
+     lambda r: False,
+     lambda r: True),
+
+    ("EGAN1P", "[MEAS]",
+     "the Egan-1 floor is NOT achieved at the exact-cover rung: proved at "
+     "n = 6, and 1507 exact Pentad solves say the same at n = 7",
+     "At n = 6 the +1 is a theorem: T = 29 would force six om-chains of "
+     "exactly 4 traversals, i.e. six full <s>-orbits exactly covering the 120 "
+     "classes -- 8640 such covers exist -- and all five connecting jumps of "
+     "weight exactly 4.  **0 of the 8640 can be so linked**, so T >= 30 and "
+     "v = 24 => length >= 873, one above the Egan-1 line.\n"
+     "The n = 7 analogue is exactly the same question: T = 143 forces 24 "
+     "chains of 5 (a Pentad partition of the 720 classes) with all 23 links of "
+     "weight 4, i.e. link cost 46.  `code/pentad_search.py` solves the linking "
+     "EXACTLY per partition and over **1507 distinct Pentad partitions** the "
+     "optimum is 52 (867), 54 (503), 55 (137) -- never 46, never below 52.\n"
+     "If no partition reaches 46 then v = 120 => T >= 144, length >= 5908.  "
+     "That is a strengthening of EGAN1L worth having, and at n = 8 the same +1 "
+     "would push 46204 to 46205 and EXCLUDE the exact-cover rung there, where "
+     "the bound currently only ties the record.\n"
+     "Not proved: 1507 partitions is a search, not an exhaustion, and the "
+     "total number of Pentad partitions at n = 7 is unknown.",
+     lambda r: False,
+     lambda r: True),
+
     ("SFA5", "[REF]",
      "F <= A/5 for split-free arc sets  -- FALSE, and with it the clean route "
      "to 'split-free => length >= 5907'",
