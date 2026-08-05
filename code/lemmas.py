@@ -723,6 +723,54 @@ CLAIMS = [
      lambda r: False,
      lambda r: True),
 
+    ("SFREC", "[THM]",
+     "the standard recursion lifts ANY (n-1)-superpermutation to a SPLIT-FREE "
+     "n one of length L + n!, so sigma(n) <= s(n-1) + n!",
+     "sigma(n) = the shortest split-free length.  The classical string, length "
+     "sum_{k<=n} k!, is split-free, which invites the guess sigma(n) = sum k!. "
+     "That guess is FALSE at n = 7: on disk there is a split-free "
+     "superpermutation of length **5912**, one shorter than sum k! = 5913, and "
+     "5912 = 872 + 5040 -- the n = 6 CHAMPION plus 7!.\n"
+     "So the recursion is not classical-to-classical.  Read off the "
+     "permutations of [n-1] in order of first occurrence, replace each pi by "
+     "pi.n.pi, merge consecutive images at their existing overlap: the output "
+     "has length L + n! and is split-free WHATEVER the input was.  Verified "
+     "constructively by `code/sfrec.py`, lifting the shortest string on disk:\n"
+     "    153-chaffin (n=5)  -> n=6 length 873   valid, S = 0\n"
+     "    houston 872 (n=6)  -> n=7 length 5912  valid, S = 0\n"
+     "Hence sigma(n) <= s(n-1) + n!, TIGHT at n = 4, 5, 6 (sigma(6) = 873 is "
+     "the e28 theorem).  Immediately:\n"
+     "    a split-free champion exists at n  <=>  s(n) = s(n-1) + n!.",
+     lambda r: False,
+     lambda r: True),
+
+    ("SFGAP", "[MEAS]",
+     "the split advantage g(n) = s(n-1) + n! - s(n) grows like (n-4)! in "
+     "ABSOLUTE terms while decaying like n^-4 relatively -- so split-free "
+     "champions do NOT return at large n",
+     "By SFREC a split-free champion at n needs g(n) = 0 exactly.  Measured, "
+     "with best-known s(n) and Egan above n = 8:\n"
+     "    n      4   5   6   7    8    9    10    11     12\n"
+     "    g(n)   1   0   1   6   22  118   719  5039  40319\n"
+     "and if s(n) = Egan(n) exactly then g(n) = (n-4)! - 1 in closed form, "
+     "reproducing 0, 1, 5, 23, 119, 719, 5039 at n = 5..11.\n"
+     "THE DISTINCTION THAT MATTERS.  The RELATIVE advantage g(n)/s(n) really "
+     "does go to zero -- 1.1e-3 at n = 6 down to 2.8e-5 at n = 15, decaying "
+     "like n^-4 since (n-4)!/n! = 1/(n(n-1)(n-2)(n-3)).  But championship is "
+     "an EXACT question about the absolute gap, and that grows factorially.  "
+     "'Splits matter less and less' is true of the ratio and false of the "
+     "count: a split-free walk loses by 719 characters at n = 10 and 40,319 "
+     "at n = 12.\n"
+     "So on current evidence split-free champions exist at n = 5 only "
+     "(n <= 3 trivially; n = 4 has g = 1), n = 6 is PROVED negative, and "
+     "nothing suggests they return.  Honest gaps: g(n) uses best-known s(n), "
+     "so it is an upper bound on the truth for n >= 7; and sigma(n) <= "
+     "s(n-1)+n! is one-sided, so a better split-free construction would lower "
+     "it.  Refuting SFGAP means finding one -- exactly what 5912 did to the "
+     "sum-k! guess.",
+     lambda r: False,
+     lambda r: True),
+
     ("CORECAP", "[EXH]",
      "a CORE-only free chain of single blocks covers at most n-2 of them -- "
      "exhaustive at n = 5, 6, 7, and NOT just the Pentad orbit",

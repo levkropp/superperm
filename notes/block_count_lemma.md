@@ -1175,3 +1175,88 @@ kind of thing a sharper argument would use:
   C_d = 141 > 4·29. With a split, a δ edge of loop L can be supplied by an arc
   that does not start at L's generator, and the "using them all closes a
   cycle" argument evaporates.
+
+---
+
+## 13. Do split-free champions come back at large `n`?
+
+§12g proved none exists at n = 6. The natural hope is that they return once `n`
+is large, since the *relative* advantage of splitting shrinks. This section
+settles the shape of that question. The short answer is **no, and the reasoning
+that suggests otherwise conflates two different quantities.**
+
+### 13a. `σ(n) ≤ s(n−1) + n!` — and `Σ k!` is not the split-free optimum
+
+Write `σ(n)` for the shortest split-free length. The classical string has length
+`Σ_{k≤n} k!` and is split-free, which invites the guess `σ(n) = Σ k!`. That
+guess is **false at n = 7**: on disk there is a split-free superpermutation of
+length **5912**, one shorter than `Σ k! = 5913` — and
+
+```
+5912  =  872 + 5040  =  (the n = 6 CHAMPION) + 7!
+```
+
+So the standard recursion is not classical-to-classical. Read off the
+permutations of `[n−1]` in order of first occurrence, replace each `π` by
+`π · n · π`, and merge consecutive images at their existing overlap: the output
+has length `L + n!` and is **split-free whatever the input was**.
+`code/sfrec.py` builds it and checks both halves:
+
+| input | output | valid | `S` |
+|---|---|---|---|
+| 153-chaffin (n = 5) | n = 6, length **873** | ✓ | **0** |
+| houston 872 (n = 6) | n = 7, length **5912** | ✓ | **0** |
+
+> **`SFREC`.** `σ(n) ≤ s(n−1) + n!`, and it is tight at n = 4, 5, 6
+> (`σ(6) = 873` is §12g).
+
+Immediately: **a split-free champion exists at `n` iff `s(n) = s(n−1) + n!`.**
+
+### 13b. The gap grows factorially, even as the ratio vanishes
+
+Define `g(n) = s(n−1) + n! − s(n) ≥ 0`. A split-free champion needs `g(n) = 0`.
+
+| n | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 |
+|---|---|---|---|---|---|---|---|---|---|
+| `g(n)` | 1 | **0** | 1 | 6 | 22 | 118 | 719 | 5039 | 40319 |
+| `g(n)/s(n)` | 3e−2 | 0 | 1.1e−3 | 1.0e−3 | 4.8e−4 | 2.9e−4 | 1.8e−4 | 1.1e−4 | 7.7e−5 |
+
+and if `s(n) = Egan(n)` exactly then in closed form
+
+```
+g(n) = (n−4)! − 1.
+```
+
+**Both readings are correct and they point opposite ways.** The relative
+advantage `g(n)/s(n)` really does vanish — it decays like `n^{-4}`, since
+`(n−4)!/n! = 1/(n(n−1)(n−2)(n−3))`. But championship is an **exact** question
+about the absolute gap, and that grows factorially. "Splits matter less and less
+as `n` grows" is true of the *ratio* and false of the *count*: a split-free walk
+loses 719 characters at n = 10 and 40,319 at n = 12.
+
+> So split-free champions exist at **n = 5** only (n ≤ 3 trivially; n = 4 has
+> `g = 1`), n = 6 is proved negative, and nothing here suggests a return.
+> There is no threshold `n ≥ 9` past which split-freeness stops costing.
+
+### 13c. What would refute this
+
+Two one-sided inputs, both of which could move:
+
+* `g(n)` uses the **best-known** `s(n)`, so for n ≥ 7 it is an upper bound on
+  the truth. A shorter champion raises `g`, making split-freeness cost *more*.
+* `σ(n) ≤ s(n−1) + n!` is a construction, hence one-sided. A **better
+  split-free construction** would lower `σ` and could close the gap.
+
+The second is the live one, and it is not idle: the length-5912 string is
+exactly such an improvement over the `Σ k!` guess, worth 1. Refuting `SFGAP`
+means finding one worth `(n−4)!`. Nothing known does that, and the mechanism
+argues against it — a split-free walk pays either the Chain-Count tax
+`Y ≥ (n−3)! − 1` or a `B`-tax to fragment out of it, while every champion has
+`Y = 0`.
+
+**Note the one genuinely open case.** At n = 7, `σ(7) ∈ [5889, 5912]` — the
+lower bound is §11's split-free ladder, the upper is the 5912 above — and
+`s(7) ≤ 5906` sits *inside* that interval. So "no split-free champion at n = 7"
+is **not** proved; it needs `σ(7) ≥ 5907`, i.e. the split-free floor `β₇` raised
+from 125 to 143. That is 18 units, and it is the concrete open problem behind
+this section.
