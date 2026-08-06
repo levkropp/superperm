@@ -1646,3 +1646,72 @@ at n = 7 over the cover-plus-one-loop family (minimum `CH3 = 144 = Egan_T`).
 
 Registered as `LADDER` **[THM]** — the framework and the ceiling are theorems;
 the individual rungs `j ≥ 1` are not.
+
+---
+
+## 15. `RUNGEQ`: the ladder is one problem, not `(n−3)!` of them
+
+Closing the ladder rung by rung would take `(n−3)!` separate arguments — 24 at
+n = 7, 120 at n = 8, 720 at n = 9. It does not have to. The equality case at
+*every* rung has the same forced shape as rung 0.
+
+### 15a. The forcing
+
+At rung `j` (`v = (n−2)! + j`), suppose `T = Egan_T − 1` — one below what the
+ladder needs. Then `S = (n−1)j − A`, and
+
+```
+CH3 = (n−2)! + j + p − 1 = Egan_T − 1   ⟹   p = (n−3)! − j
+B + Y = T − S = (n−2)! + (n−3)! − 1 − (n−1)j + A
+```
+
+The two available lower bounds are `B ≥ comps ≥ (n−2)! − (n−2)j + A` (`A2`) and
+`Y ≥ p − 1` (`CH2`) — and they **sum to exactly that value**, verified across
+n = 7, 8, 9 and a range of `j` and `A`. So both are forced tight:
+
+> **`RUNGEQ`.** `T = Egan_T − 1` at rung `j` forces
+> * `B = comps` — every δ-component traversed in one piece;
+> * `Y = p − 1` — all `p−1` inter-chain links of weight **exactly 4**, every
+>   intra-chain join of weight exactly 3;
+> * `p = (n−3)! − j`, `comps = (n−2)! − (n−2)j + A`.
+
+That is precisely the rung-0 configuration `EGAN1P` refutes, with `j` extra
+loops.
+
+### 15b. The corollary that matters
+
+The average chain length at the equality case is
+
+```
+comps / p  =  ((n−2)! − (n−2)j + A) / ((n−3)! − j)
+```
+
+and at `A = 0` this is **identically `n−2`** at every rung, since
+`(n−2)! − (n−2)j = (n−2)((n−3)! − j)`. So every free chain is exactly `n−2`
+components — the Pentad cap, *saturated* — exactly as at rung 0.
+
+And `A > 0` pushes the average strictly **above** `n−2`. So:
+
+> **A theorem capping a free chain at `n−2` components would force `A = 0`
+> outright, and collapse the entire ladder to the rung-0 configuration.**
+
+`CORECAP` **[EXH]** gives exactly that cap for **core-only** chains — which is
+why rung 0 is settled at n = 6, 7, 8. The open step is extending it to chains
+that may use fringe edges. That single lemma is now the whole ladder.
+
+### 15c. What this changes about the programme
+
+| before | after |
+|---|---|
+| `(n−3)!` independent rung arguments | one configuration, parameterised by `j` |
+| n = 9 needs 720 separate proofs | n = 9 needs one chain-length lemma |
+
+And the reward is unchanged: a complete ladder gives `s(n) = Egan(n)` exactly
+for every `n ≥ 9`, and `s(8) = 46204` at n = 8 (its champion undercuts Egan by
+1, so its ladder tops out one rung early — landing exactly on the record).
+
+**The target is now a single statement:** *a free chain of components, whose
+joins are all weight 3, covers at most `n−2` components.* True for core-only
+chains (`CORECAP`); the fringe case is where `L(f)` grows (§10c), so it is false
+in that generality and needs the equality-case hypotheses — `B = comps`,
+`A = 0`, all links weight 4 — to cut it down.

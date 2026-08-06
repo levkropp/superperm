@@ -744,6 +744,35 @@ CLAIMS = [
      lambda r: False,
      lambda r: True),
 
+    ("RUNGEQ", "[THM]",
+     "at EVERY rung, T = Egan_T - 1 forces B = comps and Y = p-1 exactly, "
+     "p = (n-3)! - j, and all p-1 links of weight exactly 4 -- the same shape "
+     "as rung 0",
+     "This is what makes the whole ladder one problem instead of (n-3)! of "
+     "them.  At rung j write v = (n-2)! + j.  Suppose T = Egan_T - 1, one below "
+     "what the ladder needs.  Then S = (n-1)j - A, and\n"
+     "    CH3 = (n-2)!+j+p-1 = Egan_T - 1   =>   p = (n-3)! - j,\n"
+     "    B + Y = T - S = (n-2)!+(n-3)!-1 - (n-1)j + A.\n"
+     "The two lower bounds are B >= comps >= (n-2)!-(n-2)j+A [A2] and "
+     "Y >= p-1 [CH2], and they SUM to exactly that value -- checked for "
+     "n = 7, 8, 9 across j and A.  So both are forced TIGHT:\n"
+     "    B = comps : every delta-component is traversed in one piece\n"
+     "    Y = p - 1 : all p-1 inter-chain links have weight EXACTLY 4, and\n"
+     "                every intra-chain join has weight exactly 3 (free/om)\n"
+     "COROLLARY, and it is the sharp one.  The average chain length is\n"
+     "    comps/p = ((n-2)! - (n-2)j + A)/((n-3)! - j),\n"
+     "which at A = 0 is IDENTICALLY n-2 -- since (n-2)!-(n-2)j = "
+     "(n-2)((n-3)!-j) -- at every rung.  So every free chain is exactly n-2 "
+     "components: the Pentad cap, saturated, exactly as at rung 0.  And A > 0 "
+     "pushes the average strictly ABOVE n-2, so any theorem capping a free "
+     "chain at n-2 components would force A = 0 outright and collapse the "
+     "whole ladder to the rung-0 configuration.\n"
+     "CORECAP gives that cap for CORE-only chains, which is why rung 0 works; "
+     "extending it to chains that may use fringe edges is the open step.  See "
+     "EGAN1P for rung 0, settled at n = 6, 7, 8.",
+     lambda r: False,
+     lambda r: True),
+
     ("LADDER", "[THM]",
      "the rung ladder: closing rungs 0..J gives s(n) >= HPV + J + 1, the "
      "ceiling is J+1 = (n-3)!, and it is blocked ONLY where a champion beats "
