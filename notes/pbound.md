@@ -1462,7 +1462,7 @@ CH3 = 0 + (n−2)! + (n−3)! − 1 = (n−1)(n−3)! − 1 = Egan_T − 1.
 | n | 4 | 5 | 6 | 7 | 8 | 9 |
 |---|---|---|---|---|---|---|
 | bound length | 33 | 153 | 872 | **5907** | 46204 | 408965 |
-| with the `+1` (§13d) | — | — | **873** | **5908** | 46205? | — |
+| with the `+1` (§13d–e) | — | — | **873** | **5908** | **46205** | ? |
 
 ### 13b. What it excludes — and what it does not
 
@@ -1539,6 +1539,35 @@ against a case whose answer we already knew.
 Dependence stated plainly: this rests on CP-SAT's infeasibility certificate,
 the same standing as the n = 6 branch-and-bound it reproduces.
 
-`EGAN1P` **[EXH]**. n = 8 is running: there the `+1` would take 46204 to 46205
-and **exclude** the exact-cover rung, where the bound currently only ties the
-record.
+### 13e. The same `+1` at n = 6, 7 and 8 — a new exclusion at n = 8
+
+The symmetry reduction is what made n = 8 reachable. Left multiplication is a
+relabelling of symbols — it preserves weights, permutes classes, and commutes
+with right multiplication by `a` and `b`, all three checked directly — so **WLOG
+the path's first chain starts at the identity**. That is an `n!`-fold reduction,
+and it also prunes every orbit clashing with that fixed chain.
+
+*(Decomposing by **family** would have been unsound: a partition may mix chains
+from different families, so checking monochromatic ones proves nothing.)*
+
+| n | states | weight-4 edges | time | verdict | bound |
+|---|---|---|---|---|---|
+| 6 | 233 | 2,540 | 0 s | INFEASIBLE | **873** |
+| 7 | 3,431 | 61,874 | 22 s | INFEASIBLE | **5908** |
+| 8 | 35,989 | 770,536 | 66 s | INFEASIBLE | **46205** |
+
+Against best-known `s(n) = 872, 5906, 46204`:
+
+> **The exact-cover rung is excluded for champions at n = 6, 7 and 8.**
+
+At n = 8 that is **new** — the Egan−1 line alone only *tied* the record there
+(46204), so the `+1` is exactly what turns a tie into an exclusion.
+
+Two things made it tractable. The symmetry above (35,989 states instead of
+40,320, and 3 GB instead of the 23.8 GB that got the first attempt OOM-killed),
+and generating weight-4 targets directly as the `4!` permutations of the first
+four symbols rather than scanning all `n!` — at n = 8 the difference between
+`8.6 × 10⁵` and `1.45 × 10⁹` weight evaluations. The fast version reproduces the
+slow one's edge counts exactly, which is how it is checked.
+
+`EGAN1P` **[EXH]**. n = 9 is running; there the `+1` would only tie 408966.

@@ -45,7 +45,18 @@ from permgraph import weight                                      # noqa: E402
 from superstruct import Struct                                    # noqa: E402
 
 
-def build(n, seconds, workers, verbose=True):
+def build(n, seconds, workers, verbose=True, fix_first=True):
+    """Feasibility model.  `fix_first` applies the symmetry reduction.
+
+    Left multiplication by any g is a relabelling of symbols: it preserves
+    weights, permutes classes, and commutes with right multiplication by a and
+    b -- all three verified directly.  So the group acts transitively on the
+    possible starting generators, and WLOG **the path's first chain starts at
+    the identity**.  That is a sound n!-fold reduction, and it also prunes: any
+    orbit sharing a class with the identity's chain can never be chosen, so its
+    states are never created at all.  That is the memory win -- the n = 8 model
+    was OOM-killed at 23.8 GB without it.
+    """
     from ortools.sat.python import cp_model
     st = Struct(n)
     orbs = ps.orbits_of(st)
@@ -56,9 +67,28 @@ def build(n, seconds, workers, verbose=True):
         print(f"\n  n = {n}: {len(orbs)} orbits x {len(orbs[0][0])} rotations, "
               f"{nclass} classes, need {K} disjoint chains")
 
+    first_oi = None
+    dead = set()
+    if fix_first:
+        for oi, (rots, cs) in enumerate(orbs):
+            if st.ident in rots:
+                first_oi, first_cs = oi, cs
+                break
+        assert first_oi is not None
+        for oi, (_r, cs) in enumerate(orbs):
+            if oi != first_oi and (cs & first_cs):
+                dead.add(oi)
+        if verbose:
+            print(f"  symmetry: first chain fixed at the identity; "
+                  f"{len(dead)} of {len(orbs)} orbits pruned as class-clashing")
+
     states = []                            # (orbit, rotation g, entry, exit)
     for oi, (rots, _cs) in enumerate(orbs):
+        if oi in dead:
+            continue
         for g in rots:
+            if oi == first_oi and g != st.ident:
+                continue               # the fixed chain has its rotation fixed
             en, ex = ps.chain_ends(st, g)
             states.append((oi, g, en, ex))
     S = len(states)
@@ -75,20 +105,33 @@ def build(n, seconds, workers, verbose=True):
         byorb[s_[0]].append(i)
     for oi, idxs in byorb.items():
         m.Add(sum(use[i] for i in idxs) == pick[oi])
+    for oi in dead:
+        assert oi not in byorb
 
+    for oi in dead:
+        m.Add(pick[oi] == 0)
     bycls = collections.defaultdict(list)
     for oi, (_r, cs) in enumerate(orbs):
+        if oi in dead:
+            continue
         for c in cs:
             bycls[c].append(oi)
     for c, ois in bycls.items():
         m.AddExactlyOne([pick[oi] for oi in ois])            # exact cover
     m.Add(sum(pick) == K)
+    if first_oi is not None:
+        m.Add(pick[first_oi] == 1)
 
     arcs, nedge = [], 0
     for i in range(S):
         arcs.append((i, i, use[i].Not()))
+    # A weight-4 target of `ex` is ex[4:] + (a permutation of ex[:4]); there are
+    # 4! = 24 candidates, against 40,320 if the whole group is scanned.  At n = 8
+    # that is the difference between 1.45e9 weight() calls and 8.6e5.
+    from itertools import permutations as _perms
     for i, (oi, _g, _en, ex) in enumerate(states):
-        for t in st.perms:
+        for q in _perms(ex[:4]):
+            t = ex[4:] + q
             if weight(ex, t) != 4:                            # cost 2 ONLY
                 continue
             for j in entry_at.get(t, ()):
@@ -104,6 +147,8 @@ def build(n, seconds, workers, verbose=True):
         a = m.NewBoolVar(f"s{i}")
         arcs.append((DEP, i, a))
         m.AddImplication(a, use[i])
+        if first_oi is not None:
+            m.Add(a == (1 if states[i][0] == first_oi else 0))
         z = m.NewBoolVar(f"e{i}")
         arcs.append((i, DEP, z))
         m.AddImplication(z, use[i])

@@ -771,8 +771,8 @@ CLAIMS = [
      lambda r: True),
 
     ("EGAN1P", "[EXH]",
-     "the Egan-1 floor is NOT achieved at the exact-cover rung -- PROVED at "
-     "n = 6 and now at n = 7: v = 120 => length >= 5908",
+     "the Egan-1 floor is NOT achieved at the exact-cover rung -- settled at "
+     "n = 6, 7 AND 8, and it EXCLUDES that rung for champions at all three",
      "At n = 6 the +1 is a theorem: T = 29 would force six om-chains of "
      "exactly 4 traversals, i.e. six full <s>-orbits exactly covering the 120 "
      "classes -- 8640 such covers exist -- and all five connecting jumps of "
@@ -796,13 +796,29 @@ CLAIMS = [
      "CP-SAT returns **INFEASIBLE in 239 s** (5040 states, 115,920 weight-4 "
      "edges).  Hence\n"
      "    v = 120  =>  T >= 144,  length >= 5908 = Egan(7).\n"
-     "GATE: the same model at n = 6 returns INFEASIBLE in **1 second** and "
-     "reproduces the known theorem (873), which previously needed enumerating "
-     "all 8640 covers.  That is the check that the encoding is right.\n"
+     "SYMMETRY.  Left multiplication is a relabelling of symbols: it preserves "
+     "weights, permutes classes and commutes with right multiplication by a and "
+     "b -- all three checked directly.  So WLOG **the path's first chain starts "
+     "at the identity**, an n!-fold reduction that also prunes every orbit "
+     "clashing with that chain.  It is what makes n = 8 reachable: 35,989 "
+     "states instead of 40,320, and 3 GB instead of the 23.8 GB that got the "
+     "first attempt OOM-killed.  (Decomposing by FAMILY would have been "
+     "unsound -- a partition may mix chains from different families.)\n"
+     "Results, every one INFEASIBLE:\n"
+     "    n=6    233 states    2,540 edges   0 s  ->  873     (reproduces THM)\n"
+     "    n=7  3,431 states   61,874 edges  22 s  ->  5908\n"
+     "    n=8 35,989 states  770,536 edges  66 s  ->  46205\n"
+     "so v = (n-2)! forces length >= 873, 5908, 46205, against best-known "
+     "s(n) = 872, 5906, 46204.  **The exact-cover rung is excluded for "
+     "champions at all three n**, and at n = 8 that is new -- the Egan-1 line "
+     "alone only tied the record there.\n"
+     "GATE: n = 6 is the check, reproducing a theorem that originally needed "
+     "enumerating all 8640 covers, and the fast edge generation (weight-4 "
+     "targets are the 4! permutations of the first four symbols, not a scan of "
+     "all n!) reproduces the slow version's edge counts exactly.\n"
      "Dependence stated: this rests on CP-SAT's infeasibility certificate, the "
-     "same standing as the n = 6 branch-and-bound.  n = 8 is running -- there "
-     "the +1 would take 46204 to 46205 and EXCLUDE the exact-cover rung, where "
-     "the bound currently only ties the record.",
+     "same standing as the n = 6 branch-and-bound it reproduces.  n = 9 is "
+     "running; there the +1 would only tie 408966.",
      lambda r: False,
      lambda r: True),
 
