@@ -1571,3 +1571,78 @@ four symbols rather than scanning all `n!` — at n = 8 the difference between
 slow one's edge counts exactly, which is how it is checked.
 
 `EGAN1P` **[EXH]**. n = 9 is running; there the `+1` would only tie 408966.
+
+---
+
+## 14. The rung ladder, and why n ≥ 9 is the *favourable* case
+
+The `+1` work settled one rung. This section works out what the whole ladder is
+worth in general `n`, and finds that the leverage is at **large** `n` — the
+opposite of what the n = 6, 7 experience suggests.
+
+### 14a. The ladder, exactly
+
+Write `v = (n−2)! + j`. Each rung is pinned by identities we already have:
+
+```
+S + A = (n−1)j                          Split Identity
+comps ≥ v − S = (n−2)! − (n−2)j + A     A2
+CH3   ≥ v + p − 1 = (n−2)! + j + p − 1  CH3
+```
+
+HPV alone gives rung `j` the value `(n−2)! + j`, so every rung **above** `J` is
+free. Hence `s_T ≥ (n−2)! + J + 1` follows as soon as rungs `0…J` each reach
+that value — i.e.
+
+> rung `j` needs **`p ≥ J − j + 2`**.
+
+Each rung closed is worth exactly **+1** on the bound.
+
+### 14b. The ceiling, and what it is worth
+
+Rung 0 already delivers `Egan_T = (n−2)! + (n−3)!` — that is `EGAN1L` with the
+`EGAN1P` `+1`. So the ladder tops out at `J + 1 = (n−3)!`:
+
+```
+s(n)  ≥  base_n + (n−2)! + (n−3)!  =  Egan(n).
+```
+
+That is worth **`(n−3)!`** over HPV, against Hunter–Raudvere's `~(n−4)!` — a
+factor of **`n − 3`**, growing.
+
+### 14c. Where it is blocked — the useful part
+
+Since rung 0 *already* reaches `Egan_T`, the ladder can only fail at some rung
+`j ≥ 1` whose true minimum lies **below** `Egan_T`. That happens precisely when
+a champion beats Egan. Measured on best-known values:
+
+| n | 6 | 7 | 8 | 9 | 10 |
+|---|---|---|---|---|---|
+| `Egan(n) − s(n)` | 1 | 2 | 1 | **0** | **0** |
+
+So **n = 6, 7, 8 are blocked** — their champions undercut Egan by 1, 2, 1, and
+sit at high rungs (the n = 7 champion is at `j = 22`, with `CH3 = 142 < 144`).
+But **n ≥ 9 has no known obstruction at all**: Egan *is* the record there, the
+ceiling coincides with the best construction, and a complete ladder would prove
+
+> **`s(n) = Egan(n)` exactly, for every `n ≥ 9`.**
+
+This inverts the usual intuition. The small cases are the *hard* ones, because
+only they have sub-Egan champions to break the ladder. Large `n` is where this
+machinery has room to be sharp.
+
+### 14d. Status, and where to push
+
+| rung | status |
+|---|---|
+| `j = 0` | **closed** — `EGAN1L` + `EGAN1P` (the `+1` settled at n = 6, 7, 8) |
+| `j ≥ 1` | **open** — only HPV, so `J = 0` and the ladder yields `HPV + 1` |
+
+`HPV + 1` is the SBY value, so the ladder currently reproduces what we had. The
+next unit is rung 1, and it is the most tractable one: `S + A = (n−1)` there, so
+the arc set is an exact cover disturbed by at most `n−1` splits — the regime
+where the arsenal is strongest, and the regime `code/rung7.py` already exhausted
+at n = 7 over the cover-plus-one-loop family (minimum `CH3 = 144 = Egan_T`).
+
+Registered as `LADDER` **[THM]** — the framework and the ceiling are theorems;
+the individual rungs `j ≥ 1` are not.

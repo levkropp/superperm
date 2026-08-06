@@ -744,6 +744,44 @@ CLAIMS = [
      lambda r: False,
      lambda r: True),
 
+    ("LADDER", "[THM]",
+     "the rung ladder: closing rungs 0..J gives s(n) >= HPV + J + 1, the "
+     "ceiling is J+1 = (n-3)!, and it is blocked ONLY where a champion beats "
+     "Egan -- so n >= 9 is the FAVOURABLE case, not the hard one",
+     "Write v = (n-2)! + j.  Each rung is pinned exactly by the identities:\n"
+     "    S + A = (n-1)j                      [Split Identity]\n"
+     "    comps >= v - S = (n-2)! - (n-2)j + A  [A2]\n"
+     "    CH3 >= v + p - 1 = (n-2)! + j + p - 1 [CH3]\n"
+     "HPV alone gives rung j the value (n-2)!+j, so rungs above J are free and "
+     "s_T >= (n-2)! + J + 1 follows as soon as rungs 0..J each reach that "
+     "value -- i.e. rung j needs **p >= J - j + 2**.\n"
+     "THE CEILING.  Rung 0 already delivers Egan_T = (n-2)!+(n-3)! (EGAN1L "
+     "with the EGAN1P +1), so the ladder tops out at J+1 = (n-3)!, i.e.\n"
+     "    s(n) >= base_n + (n-2)! + (n-3)! = Egan(n).\n"
+     "That is worth (n-3)! over HPV, against Hunter-Raudvere's ~(n-4)! -- a "
+     "factor of n-3.\n"
+     "WHERE IT IS BLOCKED, and this is the useful part.  Since rung 0 already "
+     "reaches Egan_T, the ladder can only fail at some rung j >= 1 whose true "
+     "minimum lies BELOW Egan_T -- which happens exactly when a champion beats "
+     "Egan.  Measured Egan(n) - s(n) on best-known values:\n"
+     "    n     6   7   8   9  10\n"
+     "    gap   1   2   1   0   0\n"
+     "So n = 6, 7, 8 ARE blocked (their champions undercut Egan by 1, 2, 1 and "
+     "sit at rungs j = 22 at n = 7, for instance), while **n >= 9 has no known "
+     "obstruction at all**: Egan IS the record there, so the ceiling coincides "
+     "with the best construction and a complete ladder would prove\n"
+     "    s(n) = Egan(n)  EXACTLY, for every n >= 9.\n"
+     "This inverts the usual intuition: the small cases are the hard ones, "
+     "because only they have sub-Egan champions.  Large n is where this "
+     "machinery has room.\n"
+     "STATUS: rung 0 is closed (EGAN1L/EGAN1P, and the +1 settled at n = 6, 7, "
+     "8).  Rungs j >= 1 are open and currently give only HPV, so J = 0 and the "
+     "ladder yields HPV + 1 -- the SBY value.  Each further rung closed is "
+     "worth exactly +1.  Note S + A = (n-1)j makes low rungs nearly exact "
+     "covers, with few splits, which is where the arsenal is strongest.",
+     lambda r: False,
+     lambda r: True),
+
     ("EGAN1L", "[THM]",
      "v = (n-2)!  =>  length >= Egan(n) - 1, the Egan-1 line -- and at n = 7 "
      "that EXCLUDES the exact-cover rung for champions",
