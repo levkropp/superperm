@@ -770,9 +770,9 @@ CLAIMS = [
      lambda r: False,
      lambda r: True),
 
-    ("EGAN1P", "[MEAS]",
-     "the Egan-1 floor is NOT achieved at the exact-cover rung: proved at "
-     "n = 6, and 1507 exact Pentad solves say the same at n = 7",
+    ("EGAN1P", "[EXH]",
+     "the Egan-1 floor is NOT achieved at the exact-cover rung -- PROVED at "
+     "n = 6 and now at n = 7: v = 120 => length >= 5908",
      "At n = 6 the +1 is a theorem: T = 29 would force six om-chains of "
      "exactly 4 traversals, i.e. six full <s>-orbits exactly covering the 120 "
      "classes -- 8640 such covers exist -- and all five connecting jumps of "
@@ -783,12 +783,26 @@ CLAIMS = [
      "weight 4, i.e. link cost 46.  `code/pentad_search.py` solves the linking "
      "EXACTLY per partition and over **1507 distinct Pentad partitions** the "
      "optimum is 52 (867), 54 (503), 55 (137) -- never 46, never below 52.\n"
-     "If no partition reaches 46 then v = 120 => T >= 144, length >= 5908.  "
-     "That is a strengthening of EGAN1L worth having, and at n = 8 the same +1 "
-     "would push 46204 to 46205 and EXCLUDE the exact-cover rung there, where "
-     "the bound currently only ties the record.\n"
-     "Not proved: 1507 partitions is a search, not an exhaustion, and the "
-     "total number of Pentad partitions at n = 7 is unknown.",
+     "SETTLED, and not by searching partitions.  The +1 is a FEASIBILITY "
+     "question, so every edge of cost != 2 can be deleted and the whole thing "
+     "posed as ONE model quantifying over all partitions at once -- orbit "
+     "selection, exact cover, rotation choice and ordering together "
+     "(`code/egan1p.py`).  The equality case is forced exactly:\n"
+     "    T = 143 needs B + Y = 143 with B >= comps = 120 and Y >= p-1 = 23,\n"
+     "    so B = 120 and Y = 23 EXACTLY;  B = comps makes every block a\n"
+     "    complete traversal, Y = p-1 gives exactly 24 chains with 96 free\n"
+     "    joins, and Y = sum(w-3) = 23 over 23 links makes every link w = 4.\n"
+     "So T = 143 at v = 120 IS 'link 24 disjoint Pentads by 23 weight-4 jumps'. "
+     "CP-SAT returns **INFEASIBLE in 239 s** (5040 states, 115,920 weight-4 "
+     "edges).  Hence\n"
+     "    v = 120  =>  T >= 144,  length >= 5908 = Egan(7).\n"
+     "GATE: the same model at n = 6 returns INFEASIBLE in **1 second** and "
+     "reproduces the known theorem (873), which previously needed enumerating "
+     "all 8640 covers.  That is the check that the encoding is right.\n"
+     "Dependence stated: this rests on CP-SAT's infeasibility certificate, the "
+     "same standing as the n = 6 branch-and-bound.  n = 8 is running -- there "
+     "the +1 would take 46204 to 46205 and EXCLUDE the exact-cover rung, where "
+     "the bound currently only ties the record.",
      lambda r: False,
      lambda r: True),
 

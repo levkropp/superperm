@@ -1462,6 +1462,7 @@ CH3 = 0 + (n−2)! + (n−3)! − 1 = (n−1)(n−3)! − 1 = Egan_T − 1.
 | n | 4 | 5 | 6 | 7 | 8 | 9 |
 |---|---|---|---|---|---|---|
 | bound length | 33 | 153 | 872 | **5907** | 46204 | 408965 |
+| with the `+1` (§13d) | — | — | **873** | **5908** | 46205? | — |
 
 ### 13b. What it excludes — and what it does not
 
@@ -1506,5 +1507,38 @@ If no partition reaches 46, then `v = 120 ⟹ T ≥ 144`, length ≥ **5908**. A
 the same `+1` at n = 8 would take 46204 to 46205 and **exclude the exact-cover
 rung there**, where the bound currently only ties the record.
 
-Registered as `EGAN1P` **[MEAS]**. Not proved: 1507 partitions is a search, not
-an exhaustion, and the total number of Pentad partitions at n = 7 is unknown.
+### 13d. Settled: `v = 120 ⟹ length ≥ 5908`
+
+The search over partitions could never have closed this. But the `+1` is a
+**feasibility** question, so every edge of cost ≠ 2 can be deleted and the whole
+thing posed as **one** model quantifying over all partitions at once — orbit
+selection, exact cover, rotation choice and ordering together
+(`code/egan1p.py`).
+
+The equality case is forced exactly, with every step a registered theorem:
+
+```
+T = 143  needs  B + Y = 143,  B ≥ comps = 120,  Y ≥ p − 1 = 23
+         ⟹  B = 120 and Y = 23 EXACTLY
+   B = comps  ⟹  every block is a complete traversal
+   Y = p − 1  ⟹  exactly 24 chains, 96 free joins of weight 3
+   Y = Σ(w−3) = 23 over 23 links  ⟹  every link has weight 4
+```
+
+So `T = 143` at `v = 120` **is** the statement "24 disjoint Pentads linked by 23
+weight-4 jumps". CP-SAT returns **INFEASIBLE in 239 s** — 5040 states, 115,920
+weight-4 edges. Therefore
+
+> **`v = 120` ⟹ `T ≥ 144`, length ≥ 5908 = Egan(7).**
+
+**The gate that makes this believable:** the same model at n = 6 returns
+INFEASIBLE in **one second** and reproduces the known theorem (873) — a result
+that originally required enumerating all 8640 covers. The encoding is checked
+against a case whose answer we already knew.
+
+Dependence stated plainly: this rests on CP-SAT's infeasibility certificate,
+the same standing as the n = 6 branch-and-bound it reproduces.
+
+`EGAN1P` **[EXH]**. n = 8 is running: there the `+1` would take 46204 to 46205
+and **exclude** the exact-cover rung, where the bound currently only ties the
+record.
