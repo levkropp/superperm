@@ -744,6 +744,42 @@ CLAIMS = [
      lambda r: False,
      lambda r: True),
 
+    ("PENTCAP", "[EXH]",
+     "weight-4-linked sequences of pairwise class-disjoint Pentads cap at "
+     "n-3, against the (n-3)! the rung needs -- this is WHY rung 0 fails, and "
+     "it fails factorially",
+     "EGAN1P settled rung 0 at n = 6, 7, 8 with CP-SAT infeasibility "
+     "certificates and gave no reason.  The reason is far blunter than "
+     "'infeasible'.  `code/pentcap.py` searches the longest sequence of "
+     "pairwise class-disjoint Pentads joined by weight-4 jumps:\n"
+     "    n     needed (n-3)!     longest     nodes      exhaustive\n"
+     "    6              6            3      5,040          yes\n"
+     "    7             24            4     75,600          yes\n"
+     "    8            120            5  1,249,920          yes\n"
+     "The cap is **n-3** while the rung needs **(n-3)!**, so rung 0 misses by a "
+     "factor that grows factorially rather than by a hair.  Every search ran to "
+     "completion, so these are exact values, not bounds.\n"
+     "TWO EXPLANATIONS KILLED FIRST, cheaply, and worth recording so they are "
+     "not retried:\n"
+     "  * SUBGROUP confinement.  By homogeneity a chain entered at g exits at "
+     "g.E for a fixed E, so chain entries walk a Cayley graph with steps "
+     "F = E.c^(n-1).mu over the weight-4 mu.  If <F> were a proper subgroup the "
+     "walk would be confined -- but <F> is ALL of S_n at n = 5, 6, 7.  Dead.\n"
+     "  * FAMILY/parity.  Weight-4 jumps preserve the H-coset 25% of the time "
+     "and shift it by every nonzero amount otherwise, so there is no parity "
+     "invariant.  Dead.\n"
+     "What bites is class-disjointness: a Pentad burns (n-1)(n-2) classes, and "
+     "after n-3 links no weight-4 target has a Pentad avoiding all of them.\n"
+     "CONSEQUENCE: this PROVES rung 0 wherever the cap is computed, and does so "
+     "with margin, replacing the solver certificates by a combinatorial reason. "
+     "If cap = n-3 in general then v = (n-2)! => length >= Egan(n) at EVERY n.\n"
+     "SCOPE, stated: the cap is about chains of COMPLETE Pentads, i.e. the "
+     "rung-0 structure.  At rung j > 0 the equality components span several "
+     "loops (comps = (n-2)!-(n-2)j < v), so they are not Pentads and this cap "
+     "does not apply to them.  Extending it is the ladder's remaining step.",
+     lambda r: False,
+     lambda r: True),
+
     ("RUNGEQ", "[THM]",
      "at EVERY rung, T = Egan_T - 1 forces B = comps and Y = p-1 exactly, "
      "p = (n-3)! - j, and all p-1 links of weight exactly 4 -- the same shape "

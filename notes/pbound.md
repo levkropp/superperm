@@ -1715,3 +1715,58 @@ joins are all weight 3, covers at most `n−2` components.* True for core-only
 chains (`CORECAP`); the fringe case is where `L(f)` grows (§10c), so it is false
 in that generality and needs the equality-case hypotheses — `B = comps`,
 `A = 0`, all links weight 4 — to cut it down.
+
+---
+
+## 16. `PENTCAP`: why rung 0 fails, and it fails factorially
+
+`EGAN1P` settled rung 0 at n = 6, 7, 8 with CP-SAT infeasibility certificates
+and gave **no reason**. The reason turns out to be far blunter than
+"infeasible", and finding it needed no solver at all.
+
+### 16a. Two explanations killed first
+
+Both cheap, both dead, both worth recording so they are not retried.
+
+* **Subgroup confinement.** By homogeneity a chain entered at `g` exits at `g·E`
+  for a *fixed* `E`, so the chain entries walk a Cayley graph with steps
+  `F = E·c^{n−1}·μ` over the weight-4 `μ`. If `⟨F⟩` were a proper subgroup the
+  walk would be confined and could not cover all classes. **But `⟨F⟩` is all of
+  `S_n`** at n = 5, 6, 7. Dead.
+* **Family / parity.** Weight-4 jumps preserve the `H`-coset 25% of the time and
+  shift it by every nonzero amount otherwise. No parity invariant. Dead.
+
+### 16b. The cap
+
+What actually bites is class-disjointness. `code/pentcap.py` searches for the
+longest sequence of **pairwise class-disjoint** Pentads joined by **weight-4**
+jumps:
+
+| n | chains needed `(n−3)!` | longest sequence | nodes | exhaustive |
+|---|---|---|---|---|
+| 6 | 6 | **3** | 5,040 | yes |
+| 7 | 24 | **4** | 75,600 | yes |
+| 8 | 120 | **5** | 1,249,920 | yes |
+
+> **`PENTCAP`.** The cap is **`n − 3`**, against the **`(n−3)!`** the rung needs.
+
+Every search ran to completion, so these are exact values rather than bounds.
+Rung 0 does not fail by a hair — it misses by a factor that grows factorially.
+A Pentad burns `(n−1)(n−2)` classes, and after `n−3` links no weight-4 target
+has a Pentad avoiding all of them.
+
+This **replaces the solver certificates with a combinatorial reason**, and if
+`cap = n−3` holds in general it proves `v = (n−2)! ⟹ length ≥ Egan(n)` at every
+`n`, not just the three where CP-SAT was run.
+
+### 16c. Scope — what this does *not* yet give
+
+The cap concerns chains of **complete Pentads**, which is the rung-0 structure.
+At rung `j > 0` the equality components span several loops —
+`comps = (n−2)! − (n−2)j < v` — so they are not Pentads and the cap does not
+apply to them as stated.
+
+So the ladder's remaining step is the **multi-loop analogue** of `PENTCAP`:
+under the `RUNGEQ` hypotheses, cap a weight-4-linked sequence of class-disjoint
+*components*. The rung-0 case now has a reason rather than a certificate, which
+is the right place to generalise from.
