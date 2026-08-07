@@ -98,6 +98,11 @@ exist?" — one row short.
   same scan — **VALID**, 39,916,800 and 479,001,600 permutations complete
   (1 s and 15 s). The liftable-structure check (kernel-cut groups = n−2,
   T3 hops = n−3, rooted exact cover) **passes** at n = 9, 10 and 11.
+- **The whole lift pipeline, re-run here**: the search-free `fast_lift`
+  from the degree-8 seed (hash matches the Lean-literal seed) regenerates
+  the published certificates **row-set-identically** at every level through
+  **n = 13** (43,545,588 rows) — the entire "for all n ≥ 8" mechanism,
+  end to end, in 1.5 seconds.
 - Raudvere's search engine, run here: a valid 872 at n = 6 in **0.07 s**.
 - The 5906 and 46204 certificates: extraction → compilation round-trips
   byte-exact.
@@ -136,7 +141,42 @@ The arithmetic envelope (if a 12-loop chain with a row fill exists):
 one (the 5905 gap), so treat these as upper bounds on what the design
 could give, not predictions.*
 
-## 6. What this does not say
+## 6. The hunt so far (August 7, 2026 — in progress)
+
+**Stitch mechanics, pinned by replaying the 5906.** A stitch loop is a
+kernel loop whose 6 entries split into a 4-entry traversed segment and 2
+skipped entries; the skipped entries' splices are disabled (cost-1
+fallback), and the 2 skipped classes are covered as child orbits of rows.
+The class accounting at n = 8 is therefore `5040 = 7K + 6·rows − 2s`,
+forcing **`K − 2s ≡ 0 (mod 6)`** — the integrality condition every gain-two
+design must satisfy.
+
+**The chain stage is complete.** At n = 8 the 720 pivot-8 loops partition
+the 5040 classes, and every cost-3 swap door from a pivot-8 arc-end lands
+in another pivot-8 loop, so chain feasibility reduces to distinct loops
+plus the om-stretch cap. The cap was recomputed exhaustively: **exactly 6**
+at n = 8 (CORECAP/Pentad). Consequences:
+
+| `K` | stitches | est. length | chain exists? |
+|---|---|---|---|
+| 12 | 0 | 46203 | **no** — om-cap 6 (exhaustive) |
+| 18 | 3 | **46203** | **yes** — stretches 2-4-4-5 |
+| 24 | 3 | 46202 | **no** (exhaustive, 100,800 trials) |
+| 30 | 6 | 46202 | yes |
+| 36 | 6 | 46201 | yes |
+
+**The fill stage is open.** The K=18 instance (126 roots, 6 slack classes,
+4,920 columns, 820 rows, 36,981 candidate rows) resisted ~2.5M Python-DLX
+nodes, ~70M C-DLX nodes, CP-SAT (420 s) and MILP within the first compute
+budget — but plain DLX is demonstrably too weak for this cover family at
+n = 8 (it cannot even recover the standard kernel's known cover), so this
+is engine weakness, not evidence of infeasibility. What is proved: the
+46204's cover cannot be *locally* repaired into the new kernel's cover —
+the residual is global. A longer solve, or a smarter chain screen, is next.
+**A fill would be a new record (46203); an infeasibility proof for the
+820-row cover would be the first hard obstruction to gain-two.**
+
+## 7. What this does not say
 
 - Nothing here bounds s(n) from below: the best lower bounds remain
   Hunter & Raudvere's Lean-checked 869 / 5888 / 46103 at n = 6, 7, 8.

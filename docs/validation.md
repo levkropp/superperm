@@ -90,6 +90,7 @@ here.
 | Echols 4,037,046 (n = 10) | rank-bitmap scan (wordcheck) | **VALID**, 3,628,800/3,628,800 (0.1 s) |
 | Raudvere 43,948,807 (n = 11) | rank-bitmap scan | **VALID**, 39,916,800/39,916,800 (1 s) |
 | Raudvere 522,910,088 (n = 12) | rank-bitmap scan | **VALID**, 479,001,600/479,001,600 (15 s) |
+| the whole lift pipeline | `fast_lift` re-run from the degree-8 seed (hash matches the Lean-literal seed) | regenerated certificates are **row-set-identical** to the published ones at n = 9, 10, 11, 12 **and 13** (43,545,588 rows); each step milliseconds |
 | n = 9, 10, 11 words | liftable-structure check (kernel-cut groups = n−2, T3 hops = n−3, rooted exact cover) | **PASS** at all three (n = 12: word validity as above) |
 | Raudvere 46,204 (n = 8), Egan 46,205 | shipped in `census.json` (`up8/…`), registry-tested | all ledger identities hold |
 | Raudvere `gain1.py` search engine | `gain1.py search --n 6` run here | produced a valid 872 in 0.07 s |
@@ -99,6 +100,14 @@ here.
 Sources: [urdvr/superpermutation-examples](https://github.com/urdvr/superpermutation-examples),
 [WilliamEchols/superpermutations](https://github.com/WilliamEchols/superpermutations).
 The n = 9 record word ships in this repo as `data/n9/408965-echols.txt`.
+The n = 13 word (6.75 GB, external release asset) was not itself scanned
+here (its size); instead its certificate was **regenerated row-set-identically**
+by the re-run lift pipeline (above), and the author's own independent
+rank-bitmap log (`n13/wordcheck.log` in that repo) reports all
+6,227,020,800 permutations present. The replay verifier
+(`superperm_verify_emit`) could not run at n = 13 here — its in-memory row
+table needs ~20 GB — which is why the lift-pipeline regeneration is the
+n = 13 check.
 
 ## Not re-runnable on this machine
 
