@@ -1,2 +1,3 @@
-title: The absorption lemma
-description: An elegant elementary proof that s(6) >= 868
+title: Superpermutation notebook
+description: Lemmas, patterns, and independent proofs on the shortest-superpermutation problem
+baseurl: /superperm

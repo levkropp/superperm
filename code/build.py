@@ -162,7 +162,7 @@ def comps(design, n):
     repaired form is `B + sigma2 >= comps`.  For LOWER BOUNDS nothing is lost:
     the sigma^2 jump can always be exchanged away without lengthening the walk,
     so the minimum is attained where `T >= S + comps` does hold.  See
-    `notes/ordering.md` and `code/sig2x.py`.
+    `docs/notes/ordering.md` and `code/sig2x.py`.
     """
     st = struct(n)
     start_ix = {a[0]: i for i, a in enumerate(design)}

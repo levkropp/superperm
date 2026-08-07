@@ -39,14 +39,24 @@ $A \ge 0$ corollary of an exact bookkeeping identity,
 $R = (n-1)v - A$, where $A$ counts *accidents* — generators covered mid-arc
 instead of entered cleanly. It is exact on all five champion strings at
 $n = 6$ and $n = 7$.
-[Details](https://github.com/levkropp/superperm/blob/main/notes/split_identity.md).
+[Details](notes/split_identity).
 
-**The Pentad Lemma** ($n = 7$, new). At most *five* complete 2-loop
+**The Pentad Lemma** ($n = 7$). At most *five* complete 2-loop
 traversals can be chained by weight-3 jumps, because the map that advances
 the entry point, $a^5 b \in S_7$, has order 5. It is sharp and it is
-cover-independent. Applied to the tightest rung of the $n=7$ ladder it gives
-**length $\ge 5895$ whenever $v = 120$**, where HPV gives 5884 and the
-current certified bound needs 5888. See below.
+cover-independent. It is the seed of the now-settled exact-cover rung:
+**$v = 120 \Rightarrow$ length $\ge 5908$** at $n = 7$, with the same
+settlement at $n = 6$ (873) and $n = 8$ (46205) — that rung is excluded
+for champions at all three. See below.
+
+**The CH3 bound and `A2`** (all $n$). The first ordering-free lower bound
+here to beat HPV: $T \ge S + \mathrm{comps} + p - 1$, worth 29 against
+HPV's 24 over all 10,068 exact covers at $n = 6$ — and 29 is the true
+optimum. Its load-bearing step $\mathrm{comps} \ge v - S$ (`A2`) was a
+conjecture for most of this notebook's life and is now **proved**, via the
+cycle rank of the loop quotient. With it, $s(7) = 5906$ is *exactly* the
+question "is $v + p \ge 143$?"
+[Details](notes/pbound).
 
 **The SBY identity and the block-count lemma** (new). An exact rewriting,
 $\mathrm{length} = n + n! + (n-1)! - 3 + S + B + Y$, under which the HPV bound
@@ -60,10 +70,11 @@ obligation down to one rung at $n = 6$ and four at $n = 7$. See below.
 **The macro-chain capacity table** ($n = 7$). Nineteen new exact values of
 $M_7$, and a diagnosis of why capacity alone plateaus.
 
-**Two retractions**, kept up rather than quietly deleted: [the 5905
+**Two retractions**, recorded rather than quietly deleted: [the 5905
 question](5905-question) (I posed a dichotomy whose both halves were wrong)
-and a note describing vlad-ds's method as a Lean proof it isn't. If a page
-here is unreliable it says so at the top.
+and, in the repo's claim registry, a wrong description of vlad-ds's method
+as a Lean proof it isn't. If a page here is unreliable it says so at the
+top.
 
 ## Where things actually stand
 
@@ -96,10 +107,15 @@ $\delta = \mathrm{length} - 5884$.
 claimed a 5905-string needs $v \ge 141$, and that the whole question reduced
 to whether 141 two-loops can cover the 720 classes. Both were wrong: the
 bound is $v \le 141$, and 120 disjoint loops already cover everything —
-`code/audit_n7.py` builds an explicit exact cover. The honest statement is
+`code/pentad_orbits.py` exhibits 24 pairwise class-disjoint $\langle s
+\rangle$-orbits partitioning all 720 classes. The honest statement is
 the 22-rung ladder above.)*
 
-## New result: the Pentad Lemma clears the tightest rung by eleven
+## The elementary route: the Pentad Lemma at the tightest rung
+
+*This was the first clearance of the $v = 120$ rung, at 5895 — since
+superseded by the exact 5908 settlement in the next section. It stays
+because the Pentad Lemma itself is load-bearing throughout the notebook.*
 
 Rung $v = 120$ is the hard one — it is where HPV is exactly tight, and it is
 the direct analogue of the $n = 6$ rigidity argument behind $s(6) \ge 868$.
@@ -139,7 +155,7 @@ it still costs 130.
 
 Everything is checked by `code/rigidity7.py`, which rebuilds the structure
 from the definitions and asserts each step on all 5040 permutations.
-[Full writeup](https://github.com/levkropp/superperm/blob/main/notes/pentad_lemma.md).
+[Full writeup](notes/pentad_lemma).
 
 **What this is not.** It is one rung. A string of length $L$ has
 $v \le L - 5764$, so a complementary elementary proof of $s(7) \ge 5889$ also
@@ -147,6 +163,41 @@ needs slack $\ge 4, 3, 2, 1$ at $v = 121, \dots, 124$ ($v \ge 125$ is
 automatic). The Pentad Lemma applies there verbatim — it never mentions $v$ —
 but the bound on the number of complete traversals is currently too weak, and
 that is the open piece.
+
+## Settled: the exact-cover rung is excluded at $n = 6, 7, 8$
+
+The 5895 above left the rung short of the champion. The settlement came from
+re-posing the equality case as **one feasibility model**. At $v = (n-2)!$
+the cover is exact, every class a single full arc, and the one-below target
+is exactly the statement "$(n-3)!$ pairwise class-disjoint Pentads linked by
+weight-4 jumps". CP-SAT over all orbit-chain assignments at once:
+
+| $n$ | states | weight-4 edges | time | verdict | bound |
+|---|---|---|---|---|---|
+| 6 | 233 | 2,540 | 0 s | INFEASIBLE | **873** |
+| 7 | 3,431 | 61,874 | 22 s | INFEASIBLE | **5908** |
+| 8 | 35,989 | 770,536 | 66 s | INFEASIBLE | **46205** |
+
+against best-known $s(n) = 872, 5906, 46204$ — **the exact-cover rung is
+excluded for champions at $n = 6, 7$ and $8$** (`code/egan1p.py`; the $n=6,7$
+models re-run in seconds on a laptop).
+
+The certificate now has a combinatorial reason as well: **PENTCAP** —
+weight-4-linked sequences of pairwise class-disjoint Pentads cap at exactly
+$n - 3$ (exhaustively: 3, 4, 5 at $n = 6, 7, 8$), against the $(n-3)!$ the
+rung needs. Rung 0 does not fail by a hair; it fails factorially
+(`code/pentcap.py`).
+
+And the whole ladder turns out to be one lemma. **RUNGEQ**: at *every*
+rung, sitting one below the ladder's need forces the rung-0 shape — every
+component traversed whole, all chain links of weight exactly 4, average
+chain length exactly $n-2$. So a single statement — *a free chain of
+components, joined at weight 3, covers at most $n-2$ components* — closes
+every rung at once, giving $s(n) = \mathrm{Egan}(n)$ for $n \ge 9$ and
+$s(8) = 46204$ exactly. The core-only case of that lemma is proved
+(CORECAP, exhaustive at $n = 5, 6, 7$); the fringe case is the open piece,
+and it is now the whole problem.
+[Details](notes/pbound).
 
 ## New result: split-free strings, and what HPV really says
 
@@ -301,7 +352,7 @@ $\#\text{chains} = \#\text{T-blocks} + \#(\text{dirty T}\to\text{T})
 dirty transitions make the period map branch instead of being a single group
 element.
 
-[Full writeup](https://github.com/levkropp/superperm/blob/main/notes/block_count_lemma.md).
+[Full writeup](notes/block_count_lemma).
 
 ## Settled: no $n = 6$ champion is split-free
 
@@ -396,7 +447,9 @@ target-independent floor on the post-move block bound out of the loop cuts that
 to a couple of dozen — node counts byte-identical, only the constant changes.
 $E \le 25$ went from 134 s to 0.24 s. Growth is $\approx 114\times$ per unit,
 so the decisive run $E \le 28$ is $\approx 4 \times 10^{12}$ nodes, about
-13 hours on 20 cores. It is running.
+13 hours on 20 cores. **It has since completed**: no split-free walk with
+$E \le 28$ exists (`data/e28_certificate.txt`), which is the "Settled"
+result above.
 
 What the Coset Lemma does give is a change of variables. The $\delta$ step is
 right multiplication by $a$, so a 2-loop is a coset of $\langle a \rangle$ and
@@ -503,8 +556,10 @@ fullness hypothesis forceable in the first place, and the tax is what
 converts it into kills on rows capacity can never reach. 78 residual cases is
 the same order as the 14 branches finished by hand at $\delta = 11$.
 
-Forcing fullness at $\delta = 12$ is the live problem, and it's what I'm
-working on.
+That was the state of play when the notebook pivoted to the ordering-free
+bounds above (`CH3`, the `A2` proof, and the rung settlement); the capacity
+table and the plateau diagnosis stand as the record of this route, and the
+19 new exact $M_7$ values remain the sharpest public table.
 
 ---
 

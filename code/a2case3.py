@@ -1,6 +1,6 @@
 """Case 3 of the A2 rescue lemma: what stops the chains escaping?
 
-`A2RESCUE` (notes/pbound.md 7d): a multiply-covered class C whose loops all have
+`A2RESCUE` (docs/notes/pbound.md 7d): a multiply-covered class C whose loops all have
 `b_L = 1` must meet a delta-cycle or a dead exit.  581/581, no exceptions.
 `A2PATH` [THM] discharges two of its three cases -- the mu paths `P_1..P_mu`
 have in- and out-degree <= 1, so they form disjoint chains and cycles, and

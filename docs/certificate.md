@@ -1,9 +1,22 @@
+---
+layout: math
+title: "Certificate: s(6) >= 868"
+---
+
 # Certificate: s(6) ≥ 868
 
+> **Status note (August 2026).** This is **not a new bound**: days before this
+> certificate was produced, stronger results were already public — s(6) ≥ 869
+> (Hunter & Raudvere, Lean-4 machine-checked) and s(6) = 872 exactly
+> (vlad-ds, computer-assisted, preliminary). What follows is this
+> repository's **independent** proof of 868 by an elementary counting route,
+> kept because every step of it is re-checkable from this repo alone.
+
 **Claim.** Every superpermutation on 6 symbols has length at least **868**
-(walk weight ≥ 862). This improves the 2011/2018 bound of 867
-(4chan / Houston–Pantone–Vatter). Status: computer-assisted theorem,
-independently verified in this repository as described below.
+(walk weight ≥ 862). This was computed before the results above were known to
+us, and improves the 2011/2018 bound of 867 (4chan / Houston–Pantone–Vatter).
+Status: computer-assisted theorem, independently verified in this repository
+as described below.
 
 ## The proof chain
 
@@ -58,22 +71,38 @@ soundness check available.
 
 ## Reproduction
 
+Everything runs from the repo root against shipped data:
+
 ```
-# V1: absorption lemma          (this repo, script in session log; PASS)
-# V2: exact covers              -> /tmp/my_covers.pkl  (10,068, DLX)
-# V3: per-orbit class-TSP       -> results_orbit_tsp.log, results_orbit_tsp.pkl
-cd ~/superperm && .venv/bin/python verify_orbits_tsp.py
+python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
+.venv/bin/python code/certify.py --string data/houston_872.txt --n 6   # string validity
+.venv/bin/python code/verify_v1_absorption.py                          # step (1), PASS
+.venv/bin/python code/verify_v2_covers.py                              # step (4): re-enumerates
+                                                   # all 10,068 covers and byte-compares
+                                                   # with data/covers_10068.npz
+.venv/bin/python code/verify_family_orbit.py       # CI-sized step (4): classical ordering
+                                                   # costs exactly 267; smoke bound >= 264
+.venv/bin/python code/verify_orbits_tsp.py         # full step (4): all 29 orbits
+                                                   # certified TSP >= 265 (~1 h;
+                                                   # reads data/orbits29.json)
 ```
 
-Artifacts: `verify_orbits_tsp.py` (matrix construction + CP-SAT),
-`results_orbit_tsp.log`, `results_orbit_tsp.pkl`, `/tmp/my_covers.pkl`,
-`/tmp/sp/orbits6.pkl` (agent-1's orbits; cover set verified identical).
+Artifacts: `data/covers_10068.npz` (the 10,068 covers),
+`data/orbits29.json` (the 29 orbit representatives), and
+`data/orbit_tsp_results.json` (the recorded per-orbit outcomes: 28 orbits
+OPTIMAL at 267–274, one certified 265).
 
 ## Cross-checks and predictions
 
-- The exhaustive GPU BFS prover (validated: n=4 → 1 solution, n=5 b29 →
-  0 solutions at 41M nodes, n=5 b30 → exactly the 8 known solutions) run at
-  budget 143 (R+E ≤ 143 ⟺ wt ≤ 861) **must find 0 solutions** — a
-  heavyweight independent arbiter of the same theorem.
+- `code/egan1p.py --n 6` settles the exact-cover rung by a *different* model
+  (CP-SAT feasibility over disjoint Pentad chains linked by weight-4 jumps):
+  INFEASIBLE in under a second, giving `v = 24` ⟹ length ≥ 873 — stronger
+  than the 865 this certificate gets from the same rung, and reproducing the
+  873 originally proved by the E ≤ 28 exhaustive search
+  (`data/e28_certificate.txt`).
 - Consequence for the upper-bound hunt: an 871-string must have v ≤ 28,
   R ≤ 140, E ≥ 7 (v-ladder) — a precise search target.
+- (Historical) an earlier GPU BFS prover, validated at n = 4 and n = 5, was
+  planned as a heavyweight arbiter at budget 143 (wt ≤ 861). Those artifacts
+  were retired with the search hardware; the two checks above are the
+  in-repo corroborations that remain.

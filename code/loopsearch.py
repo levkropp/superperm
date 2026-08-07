@@ -1,6 +1,6 @@
 """Search LOOP SYSTEMS, not cut structures.
 
-`notes/constructor.md` 10 measured why every cut-level move set fails at n = 6:
+`docs/notes/constructor.md` 10 measured why every cut-level move set fails at n = 6:
 
   * all 43,096 optima are distinct arc sets, and **no two differ by a single
     relocation** -- 43,096 connected components of size 1;

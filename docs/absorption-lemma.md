@@ -187,15 +187,17 @@ constraint — *distinct loops entered*, a set-cover condition — is precisely
 what these relaxations dissolve. The absorption lemma is the first
 invariant that prices that constraint correctly.
 
-## 7. Where it points next
+## 7. What it pointed to next
 
-- **$s(6) \ge 869$** requires ruling out $\operatorname{wt} \in \{862,
-  863\}$: only the $v \in \{25, 26\}$ channels survive (the $v=24$ channel
-  already certifies $\ge 865$).
-- An **871-string** must satisfy $v \le 28$, $R \le 140$, $E \ge 7$ — a
-  sharply delimited search space.
-- The pruning rule "reject any branch with $v < \lceil (R-1)/5 \rceil$" is
-  exact and free, and is now part of the exhaustive prover.
+Both items on the original roadmap are now settled elsewhere: $s(6) \ge 869$
+was proved by Hunter & Raudvere (Lean-4 machine-checked), and $s(6) = 872$
+exactly by vlad-ds (computer-assisted, preliminary). What survived of this
+route is the *structure*: the $v$-ladder pricing of the channels, and the
+exact-cover rigidity idea, which reappears one rung up — at $n = 7$, $v = 120$,
+where the same argument shape now gives length $\ge 5908$ and excludes the
+exact-cover rung for champions (see the
+[notebook](index)). The absorption lemma itself is the $A \ge 0$ corollary of
+the all-$n$ Split Identity $R = (n-1)v - A$ proved in the repository.
 
 ---
 

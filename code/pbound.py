@@ -29,7 +29,7 @@ true minimum is `>=` what is reported.
 WHAT THIS IS AIMED AT.  5905 at n = 7 means `T = 141`.  The 5906 champion has
 `S=124, comps=18, p=1`, so the bound reads 142 there -- tight.  If the global
 minimum at n = 7 is 142, then 5905 is excluded.  Searching for an arc set below
-142 is NOT a proof either way; see `notes/pbound.md` for what is claimed.
+142 is NOT a proof either way; see `docs/notes/pbound.md` for what is claimed.
 
 Usage:
   python3 code/pbound.py                 # validity + the exact-cover minimum
@@ -124,7 +124,7 @@ def exact_cover_min(n=6, limit=None):
 def minimise(n, iters, seed=1, quiet=False):
     """Anneal loop systems to MINIMISE the bound.
 
-    This is the objective the annealers of `notes/constructor.md` 11 lacked: it
+    This is the objective the annealers of `docs/notes/constructor.md` 11 lacked: it
     is ordering-free, so no chaining is needed, and the target is a global
     minimum rather than a champion -- flatness near optima does not matter, only
     the floor does.

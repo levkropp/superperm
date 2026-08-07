@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{{ page.title | default: "s(6) >= 868" }}</title>
+<title>{{ page.title | default: "Superpermutation notebook" }}</title>
 <style>
   body { font-family: Georgia, 'Times New Roman', serif; max-width: 46em;
          margin: 2.5em auto; padding: 0 1em; line-height: 1.6; color: #111; }
@@ -20,6 +20,17 @@
 </style>
 </head>
 <body>
+<nav style="font-size:.9em; margin-bottom:.5em;">
+<a href="{{ '/' | relative_url }}">Home</a> ·
+<a href="{{ '/notes/levs_lemmas' | relative_url }}">Results</a> ·
+<a href="{{ '/certificate' | relative_url }}">The s(6) ≥ 868 certificate</a> ·
+<a href="{{ '/layperson' | relative_url }}">Layperson</a> ·
+<a href="{{ '/notes/' | relative_url }}">Notebook</a> ·
+<a href="{{ '/validation' | relative_url }}">Validation</a> ·
+<a href="{{ '/data' | relative_url }}">Data</a> ·
+<a href="https://github.com/levkropp/superperm">GitHub</a>
+</nav>
+<hr>
 {{ content }}
 </body>
 </html>

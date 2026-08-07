@@ -1,7 +1,7 @@
 """Attack the target region directly: minimise CH3 subject to `v <= 141`.
 
 Every previous n = 7 search started somewhere and hoped to arrive.  `VLOCK`
-(notes/pbound.md 9c) now says that cannot work from a champion: no thin loop is
+(docs/notes/pbound.md 9c) now says that cannot work from a champion: no thin loop is
 fully movable in ANY of the 237 known optima, so `v` cannot fall below 142 by
 re-cutting, at any move width.  And `CH3LOC` says the champion is a certified
 strict local minimum, so there is nothing to descend to either.
@@ -27,7 +27,7 @@ WHAT EACH OUTCOME MEANS.
 Only VERIFIED values count.  `chainer.min_chains` returns the sound packing
 floor when its node budget runs out, which UNDERSTATES `p` and so understates
 the bound -- exactly the direction that manufactures a false refutation, and
-exactly how the spurious "140" of notes/pbound.md 3 happened.  The fast bound
+exactly how the spurious "140" of docs/notes/pbound.md 3 happened.  The fast bound
 is used to steer and never to conclude.
 
 Usage:

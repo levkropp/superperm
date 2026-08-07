@@ -21,7 +21,7 @@ miss an improving neighbour, and it terminates at a certified local minimum.
 Every value reported is the exact bound with `p` verified by
 `chainer.min_chains`; unverified rows are counted and excluded, because an
 unverified `p` understates the bound and is exactly what manufactured the
-spurious "140" in notes/pbound.md 3.
+spurious "140" in docs/notes/pbound.md 3.
 
 Usage:
   python3 code/nbhd.py                      # n = 7 champion, radius 1

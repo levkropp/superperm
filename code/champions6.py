@@ -5,7 +5,7 @@ length 872, plus 772 in `-slack1` and 36 in `-slack2`.  `census.py` reads one
 string per file, so it silently measured only the first line of each -- this
 file does the rest.
 
-Why it matters: every conjecture in `notes/second_order.md` was resting on
+Why it matters: every conjecture in `docs/notes/second_order.md` was resting on
 **seven** n = 6 strings.  Here the same claims meet 43,096, which is
 (as far as anyone knows) essentially the complete set of standard-kernel
 optima at n = 6.  A relation that survives this is no longer a champion
@@ -79,7 +79,7 @@ def report(rows, hist, per_file):
         print(f"    {name:<52} {flag}")
         return k
 
-    print("\n  claims from notes/second_order.md, now against 43k champions:")
+    print("\n  claims from docs/notes/second_order.md, now against 43k champions:")
     frac("S > 0  (every champion has splits)", lambda r: r["S"] > 0)
     frac("Y = 0", lambda r: r["Y"] == 0)
     frac("HPV-tight (T = v)", lambda r: r["hpv_tight"])

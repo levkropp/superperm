@@ -15,6 +15,8 @@ jobs:
           python-version: "3.12"
       - name: Install dependencies
         run: pip install -r requirements.txt
+
+      # the n = 6 certificate chain
       - name: Houston 872 string is a valid superpermutation (independent checker)
         run: python code/certify.py --string data/houston_872.txt --n 6
       - name: V1 absorption lemma
@@ -23,3 +25,31 @@ jobs:
         run: python code/verify_v2_covers.py
       - name: V3 class-TSP on the family orbit (>= 265)
         run: python code/verify_family_orbit.py
+
+      # the claim registry: every tagged claim vs 44,564 census strings + 108 pool walks
+      - name: Claim registry (no [THM] violated)
+        run: python code/lemmas.py
+
+      # the current results
+      - name: CH3 beats HPV at the binding rung (min 29 vs 24)
+        run: python code/pbound.py --quick
+      - name: FORCE — at most one core out-edge per free-join state
+        run: python code/freejoin.py
+      - name: A2 four-count slack is 0 on the census
+        run: python code/a2hall.py
+      - name: EGAN1P — the exact-cover rung is excluded at n = 6 and n = 7
+        run: python code/egan1p.py --n 6 --seconds 120 && python code/egan1p.py --n 7 --seconds 600
+
+      # the self-contained structural gates
+      - name: SBY ladder, Pentad rung, chain count, cosets, split-free 5889
+        run: |
+          python code/sby_ladder.py
+          python code/rigidity7.py
+          python code/chain_count.py
+          python code/coset_lemma.py
+          python code/pentad_orbits.py
+          python code/split_free_5889.py
+      - name: Macro-chain witness validates (M_7(40) >= 71)
+        run: python code/verify_witness.py code/witness.txt
+      - name: Census summary (master identity, read-only)
+        run: python code/census.py --summary

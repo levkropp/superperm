@@ -1,12 +1,12 @@
 """Shared n-generic group and loop structure for the permutation overlap graph.
 
-Seven files in this repo (`coset_lemma`, `rung124`, `exit_table`, `loop_runs`,
-`after_traversal`, `chain_count`, `pentad_orbits`) each re-derive sigma, delta,
+Several files in this repo (`coset_lemma`, `exit_table`, `loop_runs`,
+`chain_count`, `pentad_orbits`, and others) each re-derive sigma, delta,
 composition, `a`, `b` and `s` from scratch.  Those files carry verified results
 and published rung values, so they are deliberately left alone; this module
 exists for NEW code (the constructor) and asserts that it agrees with them.
 
-Everything follows `notes/lemma_arsenal.md`:
+Everything follows `docs/notes/lemma_arsenal.md`:
 
   sigma(u) = u[1:] + u[:1]                rotation, order n
   delta(u) = u[2:] + (u[1], u[0])         arc-to-arc step

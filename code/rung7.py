@@ -1,6 +1,6 @@
 """The n = 7 v = 121 rung, exhausted over the cover-plus-one-loop family.
 
-`RUNG1` (notes/pbound.md 5d) closed `v = (n-2)!+1` by exhausting the arc sets
+`RUNG1` (docs/notes/pbound.md 5d) closed `v = (n-2)!+1` by exhausting the arc sets
 with `A = 0` -- at that rung every `A = 0` arc set is an exact cover plus one
 whole loop, 720 of them, all giving `CH3 = 146`.  Its caveat was explicit:
 
@@ -24,7 +24,7 @@ SOUNDNESS.  `p` is the packing floor (`bound_only=True`), which is a valid LOWER
 bound on `p`, so `S + comps + p - 1` is a valid lower bound on `CH3` and hence
 on `T`.  Understating `p` can only understate the bound, so a MINIMUM computed
 this way is safe to conclude from -- the opposite direction to the fallback that
-manufactured the spurious "140" of notes/pbound.md 3.
+manufactured the spurious "140" of docs/notes/pbound.md 3.
 
 Usage:
   python3 code/rung7.py                # every base cover on disk

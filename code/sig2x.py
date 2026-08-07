@@ -2,7 +2,7 @@
 
 `IN5` (`B >= comps`, hence `T >= S + comps`) is false because a weight-2 jump
 has two targets, `delta(u)` and `sigma^2(u)`, and `comps` follows only the first
-(see `code/inflate.py` and `notes/ordering.md`).  Losing it costs the repo its
+(see `code/inflate.py` and `docs/notes/ordering.md`).  Losing it costs the repo its
 only ordering-free lower bound.  This file gets it back.
 
 THE MOVE.  Suppose arc `A_p` ends at `e` and the walk jumps `sigma^2` to

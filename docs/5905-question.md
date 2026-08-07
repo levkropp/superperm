@@ -29,8 +29,10 @@ HPV-tight, $\mathrm{wt} = 5757 + 142$.
 
 **1. The covering question is trivially "yes".** Not 141 — **120** two-loops
 suffice, and they can be made pairwise disjoint. $120 \times 6 = 720$ exactly,
-and an explicit exact cover is constructed in
-[`code/audit_n7.py`](https://github.com/levkropp/superperm/blob/main/code/audit_n7.py).
+and explicit exact covers are exhibited in
+[`code/pentad_orbits.py`](https://github.com/levkropp/superperm/blob/main/code/pentad_orbits.py)
+(24 pairwise class-disjoint $\langle s \rangle$-orbits = 120 loops, partitioning
+all 720 classes).
 So "no 141-route cover can work" was never a live branch, and the "⟹ $s(7) \ge
 5906$" half of the dichotomy is a non sequitur.
 
@@ -65,8 +67,9 @@ stuck at $\delta = 12$ with 332 surviving cases.
 I rebuilt the bundle's capacity machinery from its specification and
 reproduced it exactly, then extended its exact table past where it stopped —
 see [the notebook front page](./) and
-[`notes/m7_capacity.md`](https://github.com/levkropp/superperm/blob/main/notes/m7_capacity.md).
+[`notes/m7_capacity.md`](notes/m7_capacity).
 The headline there is a *negative* result worth as much as the positive one:
-sharpening capacity does not clear $\delta = 12$. It plateaus at roughly 240
-surviving rows no matter how good the capacity bound gets. That rung needs a
-new **structural** necessary condition, not a better count.
+sharpening capacity does not clear $\delta = 12$. The surviving rows fall
+from 332 to 253 with the extended table and then plateau at 252, no matter
+how good the capacity bound gets. That rung needs a new **structural**
+necessary condition, not a better count.

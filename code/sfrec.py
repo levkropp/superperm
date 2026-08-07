@@ -1,7 +1,7 @@
 """Split-free superpermutations from the standard recursion, and what they cost.
 
 `WA1` guesses no champion is split-free for n > 5, and n = 6 proves it
-(notes/block_count_lemma.md 12g).  The natural follow-up is whether split-free
+(docs/notes/block_count_lemma.md 12g).  The natural follow-up is whether split-free
 champions come BACK at some larger n.  The classical recursive superpermutation
 has length `sum_{k<=n} k!` and is split-free, which would make the question a
 race between `sum k!` and Egan's `n!+(n-1)!+(n-2)!+(n-3)!+n-3`.

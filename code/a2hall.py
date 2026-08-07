@@ -3,7 +3,7 @@
 `CH3` (`T >= S + comps + p - 1`) is the first ordering-free bound here to beat
 HPV, and its reduction to the 5905 question rests on `A2` (`comps >= v - S`),
 still [CONJ].  This session reduced A2 through three proved equivalences
-(notes/pbound.md 6) to four elementary counts:
+(docs/notes/pbound.md 6) to four elementary counts:
 
     A2FOUR    A2  <=>  v <= S + W + D + cyc
 

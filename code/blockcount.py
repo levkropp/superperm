@@ -16,7 +16,7 @@ Vocabulary (all for a fixed complete walk):
     K        costly jumps = B - 1,   Y = sum over costly jumps of (weight - 3)
 
 Identities proved here by measurement (and by the algebra in
-notes/pentad_lemma.md):
+docs/notes/pentad_lemma.md):
 
     length = n + n! - 2 + R + E                      (arc/jump bookkeeping)
     R      = (n-1) v - A                             (split identity)

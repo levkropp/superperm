@@ -1,6 +1,6 @@
 """Cover rigidity at n = 7, v = 121: how many full om-chains can coexist?
 
-The pinned state at v = 121, A = 0 (notes/block_count_lemma.md section 6) has
+The pinned state at v = 121, A = 0 (docs/notes/block_count_lemma.md section 6) has
 115 complete traversals in at most 25 om-chains.  Chains cap at
 ord(s) = 5 with s = a^5 b, so
 

@@ -1,13 +1,13 @@
 """The SBY ladder: an elementary s(6) >= 868, and exactly what is left.
 
-With  length = n + n! + (n-1)! - 3 + S + B + Y  (notes/block_count_lemma.md)
+With  length = n + n! + (n-1)! - 3 + S + B + Y  (docs/notes/block_count_lemma.md)
 everything is a lower bound on  T := S + B + Y.  Four inputs, three of them
 standard and one new, already close n = 6:
 
   [HPV]     T >= v.                       Houston-Pantone-Vatter, cited.
   [COVER]   v >= (n-2)!.                  the entered loops must cover all
                                           (n-1)! rotation classes, n-1 each.
-  [SPLIT]   R = (n-1)v - A,  A >= 0.      the split identity (notes/).
+  [SPLIT]   R = (n-1)v - A,  A >= 0.      the split identity (docs/notes/).
             With R = (n-1)! + S this reads  S = (n-1)(v - (n-2)!) - A,  so
             v = (n-2)! forces A = S = 0 -- the walk is SPLIT-FREE.
   [BLOCK]   split-free  =>  B + Y >= beta_n.   the block-count lemma:

@@ -8,7 +8,7 @@ A relation can hold on all 182 records and still be false: `comps = v - S` did
 exactly that, and three walks out of `mcolour` refuted it immediately.  So no
 claim here is trusted on the census alone.
 
-Status tags follow `notes/lemma_arsenal.md`:
+Status tags follow `docs/notes/lemma_arsenal.md`:
 
     [THM]   elementary proof, given in `why`; a violation is a BUG and this
             file exits non-zero
@@ -57,7 +57,7 @@ CLAIMS = [
 
     ("ID2", "[THM]",
      "R = (n-1)v - A",
-     "The Split Identity itself (notes/split_identity.md).",
+     "The Split Identity itself (docs/notes/split_identity.md).",
      lambda r: True,
      lambda r: r["R"] == (r["n"] - 1) * r["v"] - r["A"]),
 
@@ -324,7 +324,7 @@ CLAIMS = [
      "with d = (n-3)!, B = 1, Y = 0, S = (n-1)(n-3)!-1.  So no length-872 "
      "string has A = 1, which is why A = 1 is the single gap in the n = 6 "
      "optimum spectrum {0,2,3,4,5}.  Still open, and now known to need a "
-     "hypothesis on the ORDERING: see notes/ordering.md.",
+     "hypothesis on the ORDERING: see docs/notes/ordering.md.",
      lambda r: r["A"] == 1,
      lambda r: r["B"] == 1 and r["Y"] == 0
      and r["d"] == math.factorial(r["n"] - 3)),
@@ -350,7 +350,7 @@ CLAIMS = [
      "implication of the form '(ordering-free hypothesis) => (upper bound on "
      "B, Y or T)' can be a theorem.  Only LOWER bounds on those three survive. "
      "Every claim here that bounds B, Y or T from above therefore needs an "
-     "optimality guard -- see notes/ordering.md for the audit.",
+     "optimality guard -- see docs/notes/ordering.md for the audit.",
      lambda r: False,
      lambda r: True),
 
@@ -597,7 +597,7 @@ CLAIMS = [
      "(n-1)(n-3)! - 1, the Egan-1 line, which Chain-Count and S5 also give "
      "there but only under their own hypotheses.  This is the first "
      "ordering-free bound here to beat HPV and it corrects A3; see "
-     "notes/pbound.md.  Not row-wise: p is not carried in the corpus rows.",
+     "docs/notes/pbound.md.  Not row-wise: p is not carried in the corpus rows.",
      lambda r: False,
      lambda r: True),
 
@@ -685,7 +685,7 @@ CLAIMS = [
      "with 4, 138 saturated with 6; A = 8 = 4 x 2), so emptying even the "
      "thinnest needs FOUR classes re-cut at once.  Measured: 3588 single-class "
      "re-cuts, none changes v.\n"
-     "This is why every search in notes/pbound.md from the champion found "
+     "This is why every search in docs/notes/pbound.md from the champion found "
      "nothing.  With A2 tight everywhere measured, CH3 = S + comps + p - 1 = "
      "v + p - 1, so beating the champion needs v + p <= 142 against its 143, "
      "and the precise target is\n"
@@ -868,7 +868,7 @@ CLAIMS = [
      "5907 > 5906, so no n = 7 champion enters exactly 120 loops.  At n = 4, 5, "
      "6, 8 the bound EQUALS the record, so one more unit would exclude there "
      "too; at n = 9 it is one below.\n"
-     "SUPERSEDES a stale headline: notes/pentad_lemma.md advertises 5895 for "
+     "SUPERSEDES a stale headline: docs/notes/pentad_lemma.md advertises 5895 for "
      "this same rung, twelve worse, by an independent route.",
      lambda r: False,
      lambda r: True),
@@ -956,7 +956,7 @@ CLAIMS = [
      "proved by RUNG0 -- and the margin grows monotonically above it.  Nothing "
      "sampled dips below.\n"
      "WHY IT MATTERS: s(7) <= 5906 is known, so sigma(7) >= 5907 would PROVE "
-     "no n = 7 champion is split-free, which notes/block_count_lemma.md 13 "
+     "no n = 7 champion is split-free, which docs/notes/block_count_lemma.md 13 "
      "leaves open, and would raise the recorded split-free floor by 18.\n"
      "WHAT IS ACTUALLY PROVED IS MUCH LESS.  For split-free at n = 7, "
      "A = 6v - 720 so the complete-block count is c6 >= 720 - 5v, and "
@@ -1152,7 +1152,7 @@ CLAIMS = [
      "measured has a component-level Hamiltonian path; what stops p = 1 is that "
      "the breaks cannot be chosen consistently along it.\n"
      "TWO CONSEQUENCES.  (1) It explains, and closes, the matching relaxation "
-     "of notes/pbound.md 3b: matching returned 0 or 1 not because matching is "
+     "of docs/notes/pbound.md 3b: matching returned 0 or 1 not because matching is "
      "weak but because the relaxed PROBLEM has answer 1.  (2) It rules out an "
      "entire family of attacks -- any lower bound on p read off the component "
      "graph, its degrees, its connectivity or its packing structure, is "
@@ -1206,7 +1206,7 @@ CLAIMS = [
      "    n = 7  5906 champ   CH3 = 142: neighbourhood {143: 145, 144: 3122, "
      "145: 1175}\n"
      "So neither champion has even a TYING neighbour, let alone a better one.  "
-     "This replaces 'the annealer found nothing' (notes/pbound.md 3c), which "
+     "This replaces 'the annealer found nothing' (docs/notes/pbound.md 3c), which "
      "was a statement about the sampler, with a complete statement about the "
      "point: 142 is a certified local minimum of CH3 under single-cut moves.\n"
      "The sharper reading is the trade-off table, which is the same at both n:\n"
@@ -1393,7 +1393,7 @@ CLAIMS = [
      "CYCLES.  If they close among themselves that is a delta-cycle and A2RESCUE "
      "holds; if they chain, the last exit is dead and A2RESCUE holds.  The "
      "remaining gap is to rule out all mu paths chaining OUT of X with live "
-     "exits -- see notes/pbound.md 7e.",
+     "exits -- see docs/notes/pbound.md 7e.",
      lambda r: False,
      lambda r: True),
 
@@ -1431,7 +1431,7 @@ CLAIMS = [
      "called this 'the whole Hall condition', which was an overstatement.  What "
      "remains is that those surpluses must cover all of C(X) without contention: "
      "a loop with b_L = k can absorb k-1 classes, so Hall in general is a "
-     "CAPACITY-MATCHING statement one level down.  See notes/pbound.md 7g.",
+     "CAPACITY-MATCHING statement one level down.  See docs/notes/pbound.md 7g.",
      lambda r: False,
      lambda r: True),
 

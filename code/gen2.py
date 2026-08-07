@@ -39,8 +39,8 @@ are right.  Cold-start it does NOT reach 29 -- and the reason is structural, not
 a tuning failure:
 
   * every ORDERING-FREE objective is minimised by the exact cover
-    (`min (S + comps) = (n-2)!`, notes/second_order.md A3 -- and `T >= S+comps`
-    is valid against the optimum, notes/ordering.md 3a);
+    (`min (S + comps) = (n-2)!`, docs/notes/second_order.md A3 -- and `T >= S+comps`
+    is valid against the optimum, docs/notes/ordering.md 3a);
   * adding the admissible chain bound `Y >= ceil(comps/(n-2)) - 1` scores the
     exact cover at 0 + 24 + 5 = 29 at n = 6 -- exactly the true optimum -- so
     the search sees no gradient away from it;
