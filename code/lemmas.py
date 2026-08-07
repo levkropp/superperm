@@ -780,6 +780,44 @@ CLAIMS = [
      lambda r: False,
      lambda r: True),
 
+    ("RUNGJ", "[THM]",
+     "at rung j, T = Egan_T - 2 forces j((n-1)(n-2)+1) >= (n-3)! - (n-2) + "
+     "A(n-2) - m, m = Egan_T - 1 - T -- hence T >= Egan_T - 1 on the "
+     "factorially-long proved prefix j < ((n-3)!-(n-2))/((n-1)(n-2)+1)",
+     "The defect count behind docs/notes/large_n_lower_bound.md.  At "
+     "T = Egan_T - 1 - m, RUNGEQ forces B = comps, Y = p - 1 with "
+     "p = (n-3)! - j - m free chains forming one weight-4-linked sequence.  "
+     "A chain whose components are all complete Pentads is an om-chain, an "
+     "<s>-orbit segment (Pentad Lemma); a maximal run of such chains embeds "
+     "as a PENTCAP sequence over distinct orbits (distinct by class-"
+     "disjointness), so a pure run has at most n - 3 chains.  Chains with a "
+     "multi-loop component number at most the merges v - comps <= S = "
+     "(n-1)j - A (A2), hence p <= (S+1)(n-3) + S, which rearranges to the "
+     "stated condition.  Conditional on PENTCAP's cap n - 3 (exhaustive at "
+     "n = 6, 7, 8).  Corpus gate: every string with T <= Egan_T - 2 must "
+     "satisfy it -- the 5906 sits at j = 22, A = 8: 682 >= 58.",
+     lambda r: r["T"] <= (r["n"] - 1) * math.factorial(r["n"] - 3) - 2,
+     lambda r: r["d"] * ((r["n"] - 1) * (r["n"] - 2) + 1)
+     >= math.factorial(r["n"] - 3) - (r["n"] - 2) + r["A"] * (r["n"] - 2)
+     - ((r["n"] - 1) * math.factorial(r["n"] - 3) - 1 - r["T"])),
+
+    ("MLCAP", "[REF]",
+     "a chain cap over delta-components + weight-4 links holds below "
+     "Pentad size (the naive multi-loop PENTCAP) -- FALSE",
+     "Measured exhaustively (exit model made generous, the sound "
+     "direction): components of 1-2 loops weight-4-chain to >= 20 at "
+     "n = 6, >= 84 at n = 7, >= 416 at n = 8, and 2-loop components chain "
+     "LONGER than single loops.  PENTCAP's cap is a property of COMPLETE "
+     "Pentads (big class burns), not of class-disjointness alone -- the "
+     "naive cap is false already at n = 6.  Witness chains: code/mlcap2.py "
+     "and docs/notes/large_n_lower_bound.md.  The viable multi-loop "
+     "statement must use "
+     "the RUNGEQ core (weight-3 om intra-chain joins, where CORECAP caps "
+     "at n - 2 exhaustively) -- i.e. price the fringe doors against the "
+     "accidents that create them.",
+     lambda r: False,
+     lambda r: True),
+
     ("RUNGEQ", "[THM]",
      "at EVERY rung, T = Egan_T - 1 forces B = comps and Y = p-1 exactly, "
      "p = (n-3)! - j, and all p-1 links of weight exactly 4 -- the same shape "
@@ -830,15 +868,17 @@ CLAIMS = [
      "minimum lies BELOW Egan_T -- which happens exactly when a champion beats "
      "Egan.  Measured Egan(n) - s(n) on best-known values:\n"
      "    n     6   7   8   9  10\n"
-     "    gap   1   2   1   0   0\n"
-     "So n = 6, 7, 8 ARE blocked (their champions undercut Egan by 1, 2, 1 and "
-     "sit at rungs j = 22 at n = 7, for instance), while **n >= 9 has no known "
-     "obstruction at all**: Egan IS the record there, so the ceiling coincides "
-     "with the best construction and a complete ladder would prove\n"
-     "    s(n) = Egan(n)  EXACTLY, for every n >= 9.\n"
-     "This inverts the usual intuition: the small cases are the hard ones, "
-     "because only they have sub-Egan champions.  Large n is where this "
-     "machinery has room.\n"
+     "    gap   1   2   1   1   1\n"
+     "UPDATE (July 2026 gain-one wave): Egan - 1 is now the record at EVERY "
+     "n >= 8 (Raudvere/Echols words, verified in-repo, and the Lean-verified "
+     "lift), so the ladder is blocked at the top rung everywhere n >= 8 and "
+     "s(n) = Egan(n) is FALSE there -- the attainable ceiling is Egan(n) - 1, "
+     "not Egan(n).  The earlier version of this entry called n >= 9 the "
+     "favourable case because Egan was still the record there; that is "
+     "superseded.  What replaces it: RUNGJ, the first theorem on WHERE the "
+     "ladder must fail -- T >= Egan_T - 1 is proved on a factorially-long "
+     "prefix of rungs, so any sub-(Egan-1) champion must live in the top band "
+     "or spend accidents.  n = 7 remains the sole place with gain 2.\n"
      "STATUS: rung 0 is closed (EGAN1L/EGAN1P, and the +1 settled at n = 6, 7, "
      "8).  Rungs j >= 1 are open and currently give only HPV, so J = 0 and the "
      "ladder yields HPV + 1 -- the SBY value.  Each further rung closed is "
