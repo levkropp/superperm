@@ -82,6 +82,24 @@ time cap — the same holdout as in the original run, which certified it at
 classical construction's own cover at exactly 267, matching the floor seen
 here.
 
+### The July 2026 construction wave (independent re-verification)
+
+| word | check | outcome |
+|---|---|---|
+| Echols 408,965 (n = 9) | `code/certify.py --n 9` | **VALID**, 362,880/362,880; ledger anatomy `v = 5759, A = 0, B = 7, Y = 0`, HPV-tight (the gain-one vertex) |
+| Echols 4,037,046 (n = 10) | rank-bitmap scan (wordcheck) | **VALID**, 3,628,800/3,628,800 (0.1 s) |
+| Raudvere 43,948,807 (n = 11) | rank-bitmap scan | **VALID**, 39,916,800/39,916,800 (1 s) |
+| Raudvere 522,910,088 (n = 12) | rank-bitmap scan | **VALID**, 479,001,600/479,001,600 (15 s) |
+| n = 9, 10, 11 words | liftable-structure check (kernel-cut groups = n−2, T3 hops = n−3, rooted exact cover) | **PASS** at all three (n = 12: word validity as above) |
+| Raudvere 46,204 (n = 8), Egan 46,205 | shipped in `census.json` (`up8/…`), registry-tested | all ledger identities hold |
+| Raudvere `gain1.py` search engine | `gain1.py search --n 6` run here | produced a valid 872 in 0.07 s |
+| 5906 and 46204 certificates | extract → compile round-trip via his `certificate.py` | **byte-exact** both |
+| Echols 408,965 added to `census.json` | `code/lemmas.py` re-run | registry clean on 44,565 strings (was 44,564), no [THM] violated |
+
+Sources: [urdvr/superpermutation-examples](https://github.com/urdvr/superpermutation-examples),
+[WilliamEchols/superpermutations](https://github.com/WilliamEchols/superpermutations).
+The n = 9 record word ships in this repo as `data/n9/408965-echols.txt`.
+
 ## Not re-runnable on this machine
 
 These exceed an 8 GB laptop in time or hardware; their evidence is in-repo

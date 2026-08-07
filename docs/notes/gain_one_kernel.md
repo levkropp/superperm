@@ -1,0 +1,147 @@
+---
+layout: math
+title: "The gain-one design, the kernel arithmetic, and the gain-two question"
+---
+
+# The gain-one design, the kernel arithmetic, and the gain-two question
+
+*Status: external results **[EXT]** independently verified in this repo
+(August 7, 2026); our measurements **[MEAS]**; the gain-two hunt is
+in progress. Claims about Raudvere's `formal/` Lean development are as
+reported by its README (no Lean toolchain here); every word-level claim
+below was re-checked on this machine.*
+
+## 1. The July–August 2026 construction wave
+
+In the same two weeks that the lower bounds moved, the *constructions*
+moved too — answering the long-standing conjecture that Egan's bound could
+be beaten at every large n:
+
+- **s(8) ≤ 46204** — Uku Raudvere, July 26
+  ([thread](https://groups.google.com/g/superpermutators/c/TBZsctlczM4);
+  [examples repo](https://github.com/urdvr/superpermutation-examples)).
+- **s(9) ≤ 408,965, s(10) ≤ 4,037,046** — William Echols, July 27
+  ([repo](https://github.com/WilliamEchols/superpermutations)), one day
+  later, the same design.
+- **s(n) ≤ Egan(n) − 1 for all n ≥ 8** — Raudvere's
+  [`formal/`](https://github.com/urdvr/superpermutation-examples), a Lean
+  development with a kernel-checked degree-8 base and a uniform
+  certificate lift; concrete verified words through n = 13
+  (s(11) ≤ 43,948,807, s(12) ≤ 522,910,088, s(13) ≤ 6,749,568,009).
+
+So the upper-bound landscape is now: **Egan − 1 everywhere from n = 8 on**,
+with n = 7 sitting at Egan − 2 (the 5906 champions) and n = 6 settled at
+Egan − 1 = 872. This note translates the design into this repo's ledger
+vocabulary and states exactly what is open.
+
+## 2. The certificate model, in one screen
+
+A word of the new design is a **certificate**:
+
+- **Kernel**: `|K|` marked 2-loops, chained by `|K|−1` **hop doors** — each
+  a cost-3 move `door(u,3) = u[3:] + u[:3] reversed` replacing a cost-2
+  splice of its loop. The kernel loops are orbit-disjoint; their
+  `(n−1)|K|` rotation classes are the **roots**.
+- **Rows**: oriented 2-loops. Each row has one **parent orbit** (shared
+  with its parent loop) and covers `n−2` **child classes**; the children
+  partition the non-root classes exactly, and parent pointers form a
+  forest rooted in the kernel.
+- **Disabled splices** (optional): a cost-2 splice replaced by a cost-1
+  orbit edge — this repo's **stitches** (the A-cost law, `a_cost_law`).
+
+Raudvere's `certificate.py` compiles a certificate to the word
+deterministically and validates every constraint; extraction is the
+inverse. Both round-trips were re-run here **byte-exact** for the 5906
+champion and Raudvere's 46204.
+
+## 3. The kernel arithmetic
+
+Counting classes: `|K|` kernel loops root `(n−1)|K|` classes; rows cover
+the rest, `n−2` each. Hence
+
+```
+v(|K|) = |K| + ⌈ ((n−1)! − (n−1)|K|) / (n−2) ⌉  ≈  (n−1)(n−3)! − |K|/(n−2)
+```
+
+— **every n−2 kernel loops save one character** — and with the ledger
+identity, `length = base(n) + T`,
+
+```
+T = (n−1)(v − (n−2)!) + (B + Y − A),   base(n) = n + n! + (n−1)! − 3 .
+```
+
+The arithmetic against reality:
+
+| design | n | `|K|` | formula floor v | achieved v | T | length |
+|---|---|---|---|---|---|---|
+| Egan/Williams | 8 | 1 | 840 | 840 | 840 | 46205 |
+| Raudvere | 8 | 6 = n−2 | 839 | 839 | 839 | 46204 |
+| Echols/Raudvere | 9 | 7 | 5759 | 5759 | 5759 | 408965 |
+| **5906 champions** | 7 | **18** | **141** | **142** | 142 | **5906** |
+| split-free | 8 | 720 | 720 | T = B+Y ≥ 839 | ≥ 839 | ≥ 46204 |
+
+Two things to notice. The split-free end (`|K| = (n−2)!`, no rows) meets
+the kernel end *at the same T* — the block-count lemma's β-floor closes
+exactly where the kernel arithmetic lands. And the **5905 question is
+visible**: at n = 7 the floor for `|K| ∈ [15, 18]` is v = 141, but the
+champions achieve 142. `s(7) = 5905` ⟺ "does a certificate at the floor
+exist?" — one row short.
+
+## 4. Verified in this repo (August 7, 2026)
+
+- Echols' **408,965** word: `code/certify.py` — **VALID**, 362,880/362,880;
+  ledger anatomy `v = 5759, A = 0, B = 7, Y = 0`, HPV-tight — the textbook
+  gain-one vertex.
+- Echols' **4,037,046** word: independent rank-bitmap scan — **VALID**,
+  3,628,800/3,628,800 (0.1 s).
+- Raudvere's **43,948,807** (n = 11) and **522,910,088** (n = 12) words:
+  same scan — **VALID**, 39,916,800 and 479,001,600 permutations complete
+  (1 s and 15 s). The liftable-structure check (kernel-cut groups = n−2,
+  T3 hops = n−3, rooted exact cover) **passes** at n = 9, 10 and 11.
+- Raudvere's search engine, run here: a valid 872 at n = 6 in **0.07 s**.
+- The 5906 and 46204 certificates: extraction → compilation round-trips
+  byte-exact.
+- Echols' word added to the verification corpus (`data/n9/408965-echols.txt`,
+  `census.json`): the claim registry re-ran clean on 44,565 strings.
+
+## 5. The gain-two question (= T ≤ 838 at n = 8, i.e. ≤ 46203)
+
+Three routes, and only three:
+
+1. **v = 838** — a kernel of `|K| = 12` pivot-8 loops (roots 84 classes,
+   rows exactly 826), same block/stitch budget as Raudvere.
+2. **v = 839, B+Y−A = 5** — Raudvere's cover with one fewer block or one
+   stitch.
+3. **v = 840, B+Y−A = −2** — all of Egan's loops, two net stitches (the
+   5906's mechanism, `A = 8`).
+
+The obstruction lives in the chain. A cost-3 door out of a *complete* loop
+that lets the next loop also run full is exactly **om** (the repo's FORCE),
+and om-chains of complete loops cap at **n−2** (CORECAP — 6 at n = 8). A
+12-loop chain therefore needs **stitch-broken loops** whose fringe doors
+link stretches of ≤ 6 complete loops. The 5906 shows the pattern at n = 7:
+18 loops, 4 stitch sites, stretches [3, 3, 2, 3, 3] all ≤ 5. How rare such
+kernels are: the n = 7 corpus came from **7 working kernels in 1,572,390**
+palindromic candidates.
+
+The arithmetic envelope (if a 12-loop chain with a row fill exists):
+
+| `|K|` | stitches s | v | T = 7(v−720) + \|K\| − 2s | length |
+|---|---|---|---|---|
+| 12 | 0 | 838 | 838 | **46203** |
+| 12 | 1 | 838 | 836 | 46201 |
+| 18 | 3 | 837 | 831 | 46196 |
+
+*The envelope assumes the row fill hits its floor; at n = 7 it misses by
+one (the 5905 gap), so treat these as upper bounds on what the design
+could give, not predictions.*
+
+## 6. What this does not say
+
+- Nothing here bounds s(n) from below: the best lower bounds remain
+  Hunter & Raudvere's Lean-checked 869 / 5888 / 46103 at n = 6, 7, 8.
+- The Lean `formal/` development is reported, not re-verified here; the
+  word-level evidence (through n = 10, verified independently) is
+  consistent with it.
+- The gain-two hunt at n = 8 is **open**; this note will carry the outcome
+  either way.

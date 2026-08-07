@@ -103,6 +103,8 @@ def sources(max_n):
     out = []
     for p in sorted(glob.glob("data/n7/*.txt")):
         out.append((7, "local/" + os.path.basename(p), p))
+    for p in sorted(glob.glob("data/n9/*.txt")):
+        out.append((9, "local/" + os.path.basename(p), p))
     if os.path.exists("data/houston_872.txt"):
         out.append((6, "local/houston_872.txt", "data/houston_872.txt"))
     for n in range(5, max_n + 1):

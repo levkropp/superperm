@@ -39,3 +39,10 @@ project (provenance: `n7/Readme.txt`, KernelFinder + PermutationChains). Read
 as a directory by `census.py`, `n7_champions.py`, and (via `census.sources`)
 `a2hall.py`, `freejoin.py`, `vlock.py`. The `twoCycles_*` files are the same
 solutions in Mathematica notation; the digit parsers skip them.
+
+## n = 9 corpus
+
+`n9/408965-echols.txt` — William Echols' n = 9 record (July 2026, Egan−1),
+from [WilliamEchols/superpermutations](https://github.com/WilliamEchols/superpermutations)
+via [urdvr/superpermutation-examples](https://github.com/urdvr/superpermutation-examples).
+Verified in-repo (VALID; the gain-one vertex) and added to `census.json`.

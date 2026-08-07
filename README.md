@@ -17,13 +17,23 @@ exactly: s(1..5) = 1, 3, 9, 33, 153.
 |---|---|---|---|
 | 6 | 872 (preliminary, vlad-ds) | 872 (Houston 2014) | **probably done** |
 | 7 | 5888 (Hunter & Raudvere, Lean) | 5906 (Egan/Houston 2019) | the open frontier |
-| 8 | 46103 (Hunter & Raudvere, Lean) | 46204 | wide open |
+| 8 | 46103 (Hunter & Raudvere, Lean) | 46204 (Raudvere 2026) | Egan−1; gain-2 open |
+| 9 | 408246 (HPV 2018) | 408,965 (Echols 2026) | Egan−1 |
+| 10 | 4,032,007 (HPV 2018) | 4,037,046 (Echols 2026) | Egan−1 |
+| ≥ 8 | … | **Egan(n) − 1 for all n ≥ 8** (Raudvere, Lean lift) | words through n = 13 |
 
 This repo's s(6) ≥ 868 certificate was **not** the first — stronger results
 (Hunter & Raudvere's Lean-checked 869, vlad-ds's preliminary s(6) = 872)
 landed days earlier. It is an independent proof by an elementary counting
 route, and every step is re-checkable here.
 [The honest status page](https://levkropp.github.io/superperm/#where-things-actually-stand).
+
+The upper bounds moved too (July 2026): Raudvere's 46204 at n = 8, Echols'
+408,965 and 4,037,046 at n = 9, 10, and **s(n) ≤ Egan(n) − 1 for all n ≥ 8**
+(Raudvere, Lean-verified lift) — the n = 9/10 words independently verified
+on this machine. The design, translated into this repo's ledger vocabulary,
+and the new open question — **gain-two at n = 8**, a 46203 — are in
+[the gain-one note](https://levkropp.github.io/superperm/notes/gain_one_kernel).
 
 ## The results, in one breath
 

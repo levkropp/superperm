@@ -33762,5 +33762,28 @@
   "hpv_tight": false,
   "excess": 867,
   "label": "up9/409113.txt"
+ },
+ {
+  "n": 9,
+  "length": 408965,
+  "T": 5759,
+  "v": 5759,
+  "d": 719,
+  "A": 0,
+  "S": 5752,
+  "B": 7,
+  "Y": 0,
+  "BYA": 7,
+  "R": 46072,
+  "N": 11506,
+  "dirty": 11499,
+  "n_partial": 11504,
+  "f": 4737,
+  "comps": 7,
+  "mu_max": 2,
+  "m": 5752,
+  "hpv_tight": true,
+  "excess": 719,
+  "label": "local/408965-echols.txt"
  }
 ]

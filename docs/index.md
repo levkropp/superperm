@@ -82,16 +82,27 @@ top.
 |---|---|---|---|
 | 6 | 872 (preliminary, vlad-ds) | 872 (Houston 2014) | **probably done** |
 | 7 | 5888 (Hunter & Raudvere, Lean) | 5906 (Egan/Houston 2019) | the open frontier |
-| 8 | 46103 (Hunter & Raudvere, Lean) | 46204 | wide open |
+| 8 | 46103 (Hunter & Raudvere, Lean) | 46204 (Raudvere 2026) | Egan−1; gain-2 open |
+| 9 | 408246 (HPV 2018) | 408,965 (Echols 2026) | Egan−1 |
+| 10 | 4,032,007 (HPV 2018) | 4,037,046 (Echols 2026) | Egan−1 |
+| ≥ 8 | … | **Egan($n$) − 1 for all $n \ge 8$** (Raudvere, Lean lift) | words through n = 13 |
 
-A wave of AI-assisted work hit this problem in July 2026 — Raudvere's
-Lean-4 [coeff2](https://github.com/urdvr/superperm-coeff2) (July 17),
-Hunter & Raudvere's Lean-4
+Two waves hit this problem in July 2026. On the lower-bound side:
+Raudvere's Lean-4 [coeff2](https://github.com/urdvr/superperm-coeff2)
+(July 17), Hunter & Raudvere's Lean-4
 [completion](https://github.com/urdvr/superpermutations-hunter) of the 2019
 draft (July 28), and vlad-ds's computer-assisted
-[a6-872](https://github.com/vlad-ds/a6-872) (July 29). My 868 is not a new
+[a6-872](https://github.com/vlad-ds/a6-872) (July 29). On the
+*construction* side, days later: Raudvere's 46204 at $n=8$ (July 26),
+Echols' 408,965 and 4,037,046 at $n=9,10$ (July 27), and then
+[s(n) ≤ Egan(n) − 1 for all n ≥ 8](https://github.com/urdvr/superpermutation-examples),
+Lean-verified as a uniform lift. My 868 is not a new
 bound; it's an independent proof of one the field got days earlier by three
-other methods. I'd rather say that plainly than dress it up.
+other methods. I'd rather say that plainly than dress it up. The new
+design is translated into this notebook's vocabulary — and its open
+question ("gain-two", a 46203 at $n=8$) is stated — in
+[the gain-one note](notes/gain_one_kernel); the n = 9 and n = 10 words are
+independently verified there.
 
 ## The $n = 7$ frontier, stated correctly
 

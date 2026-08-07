@@ -12,6 +12,9 @@ dead ends are not walked twice), **[DEAD]** dead end.
 
 ## Start here
 
+- **[The gain-one design and the gain-two question](gain_one_kernel)** —
+  the July–August 2026 construction wave (`s(n) ≤ Egan(n)−1` for all n ≥ 8),
+  independently verified here, and the hunt for 46203 at n = 8.
 - **[Lev's Lemmas](levs_lemmas)** — the five proved results, each with
   proof, verification counts, and an explicit *what it does not give*.
 - **[The claim arsenal](lemma_arsenal)** — every ingredient with its
