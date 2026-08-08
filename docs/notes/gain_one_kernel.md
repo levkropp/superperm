@@ -176,6 +176,33 @@ the residual is global. A longer solve, or a smarter chain screen, is next.
 **A fill would be a new record (46203); an infeasibility proof for the
 820-row cover would be the first hard obstruction to gain-two.**
 
+**The Hall/LP analysis (August 7) — why the fill fails, in numbers.** Two
+relaxations of the K=18 instance, against the 5906's own fill as control:
+
+- **Matching (Hall) level**: max-flow with loop-distinctness saturates
+  **all 4,920 columns** — there is no Hall violator. Scarcity of candidate
+  rows is *not* the obstruction. (Control at n = 7: saturates too, as
+  expected of a feasible instance.)
+- **Fractional exact cover (LP)**: the n = 7 control LP is feasible (sum
+  124 = the champion's own count). The n = 8 LP is **feasible** (HiGHS
+  interior-point, support 4,920, sum exactly **820.000** = the target row
+  count).
+
+**Verdict: the fill is unobstructed at every testable relaxation** —
+matching saturates, and the fractional exact cover exists with the exact
+row count. What makes it hard is integrality plus the rooted-forest
+constraint, not any scarcity we can find. Two readings: (construction)
+gain-two at n = 8 is probably *real* and merely needs a cluster-scale
+solve — 46203 is the most likely place a record is currently hiding;
+(lower bound) a clean "gain-two fills die at n ≥ 8" theorem cannot come
+from scarcity or fractional arguments — it would have to live in the
+integrality or the forest, so `s(n) = Egan(n) − 1` for all n ≥ 8 is now
+the *less* likely side of the conjecture. The one relaxation never yet
+tested is the forest (no engine reached a cover to check); that is the
+only place a clean obstruction could still live.
+The 5905 gap says the n = 7 fill missed its own floor by one row; whether
+n = 8 misses by a hair or by a wall is the deciding fact.
+
 ## 7. What this does not say
 
 - Nothing here bounds s(n) from below: the best lower bounds remain
