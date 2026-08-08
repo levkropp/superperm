@@ -225,12 +225,18 @@ was the last untested relaxation, and it yields nothing either:
 **Brainstorm verdict.** Every testable relaxation of the gain-two fill is
 clean: matching saturates, LP feasible at the exact row count, forest
 fully reachable, scarcity nowhere near zero. The cover is simply hard
-(NP-hard core: integral exact cover under a forest order). Two
-consequences, stated plainly: the 46,203 word is probably *real* and
-awaits a cluster-scale solve (or a port of the trade-repair machinery);
-and no "gain-two fills die at n ≥ 8" theorem can come from cover theory —
-the lower-bound side of `s(n) = Egan(n) − 1` at large n must come from
-elsewhere.
+(NP-hard core: integral exact cover under a forest order). The sharpest
+instrument is a **rooted-flow LP relaxation of the forest constraint**
+(each selected row ships one unit child→parent→…→kernel; a cycle cannot
+conserve flow, so LP-infeasibility would certify no forest cover exists).
+The model is validated on the n = 7 control (feasible in 5 s, mass 124 =
+the champion's count); at n = 8 the 1.7M-variable instance sits at the
+edge of this machine's LP capacity — unresolved within one hour, a long
+run pending. Two consequences, stated plainly: the 46,203 word is
+probably *real* and awaits a cluster-scale solve (or a port of the
+trade-repair machinery); and no "gain-two fills die at n ≥ 8" theorem can
+come from cover theory — the lower-bound side of `s(n) = Egan(n) − 1` at
+large n must come from elsewhere.
 
 ## 7. What this does not say
 
