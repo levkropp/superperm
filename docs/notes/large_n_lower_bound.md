@@ -62,6 +62,34 @@ So the gain-one design is *one free chain of `n−2` components joined at
 weight 3*, and CH3 cannot see it — the bound reads exactly `T` there. (The
 5906 is the same shape one level down: `comps = 18, p = 1`, one chain.)
 
+## 3a. The champions' fringe anatomy — and the fringe-price route is dead
+
+Splitting each walk into blocks (maximal weight-≤2 runs) and chains (split
+at weight-≥4 joins), tagging every weight-3 join core/fringe by FORCE
+(exit arc full and `tr + ld ≥ 2n−3`):
+
+| word | gain | blocks | chains | core joins | fringe joins |
+|---|---|---|---|---|---|
+| Egan 5908 / 46205 | 0 | 1 | 1 | 0 | 0 |
+| Houston 872 | 1 | 4 | 1 | 2 | 1 |
+| Raudvere 46204 | 1 | 6 | 1 | 1 | 4 |
+| Echols 408965 | 1 | 7 | 1 | 1 | 5 |
+| **5906 champion** | **2** | **18** | **1** | **7** | **10** |
+| 5913 exact cover | — | 120 | 24 | 96 | 0 |
+
+The 5906's 10 fringe joins match the corpus's earlier figure exactly, and
+its core stretches are `[1,2,1,3,1,2,1,3,1,2,1]` — all within the n−2
+core cap. The read across the table: **fringe joins are cheap and
+abundant, and the champions use few**. One fringe join buys a whole extra
+core stretch of up to `n−2` components, so the count-price of a chain is
+tiny (the 5906's 18 blocks cost 10), and the available fringe at champions
+is ~`S` (hundreds). No scarcity ⟹ no bound. This confirms §10c of
+`pbound` ("the route fails, and cleanly") on the full current champion
+set: **the fringe-price route to a lower bound is dead in every
+count-based form**; its structural content is exactly the cap theorems
+already proved (CORECAP/PENTCAP). What remains open is the top band
+itself — the equality case's realizability, which is the fill question.
+
 ## 4. The one lemma the lower bound hangs on — and a first theorem
 
 `PENTCAP` **[EXH]** (`pbound` §16): weight-4-linked chains of pairwise
