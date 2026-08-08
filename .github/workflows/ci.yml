@@ -41,7 +41,7 @@ jobs:
         run: python code/egan1p.py --n 6 --seconds 120 && python code/egan1p.py --n 7 --seconds 600
 
       # the self-contained structural gates
-      - name: SBY ladder, Pentad rung, chain count, cosets, split-free 5889
+      - name: SBY ladder, Pentad rung, chain count, cosets, split-free 5889, CORECAP
         run: |
           python code/sby_ladder.py
           python code/rigidity7.py
@@ -49,6 +49,7 @@ jobs:
           python code/coset_lemma.py
           python code/pentad_orbits.py
           python code/split_free_5889.py
+          python code/corecap.py
       - name: Macro-chain witness validates (M_7(40) >= 71)
         run: python code/verify_witness.py code/witness.txt
       - name: Census summary (master identity, read-only)

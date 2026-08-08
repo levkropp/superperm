@@ -135,8 +135,68 @@ boundary moves up; if pure-and-mixed chains jointly cap at `n−3`, the
 proved prefix extends to essentially the whole ladder and
 `s(n) ≥ Egan(n) − 1` follows at large n.
 
-**Measured, and the naive form is dead** (August 7, exhaustive DFS, exit
-model made generous in the sound direction): components of 1–2 loops
+## 4b. The core cap is a theorem at general n (CORECAP [EXH] → [THM])
+
+The input the whole fringe instrument rests on — the core cap `n−2`,
+previously only *exhaustive* at n = 5, 6, 7 (§12b) — is now proved at
+general n. The proof is elementary algebra from the explicit forms plus
+the repo's exit structure ([THM] FORCE: the unique core exit is om, and
+two consecutive length-`n−2` blocks never chain).
+
+**The elements, made explicit** (direct from their definitions; verified
+numerically at n = 5–10):
+
+```
+a = (1 2 … n−1)              the (n−1)-cycle fixing n; ord(a) = n−1
+b: i ↦ i+2 (i ≤ n−3),  n−2 ↦ 2,  n−1 ↦ 1,  n ↦ n
+s = a^{n−2}b = (1 2 … n−2)   ⟹ ord(s) = n−2 — the Pentad order is a one-line computation
+u = a^{n−3}b                 ⟹ u² = e   (four-case check: b a^{n−3} b = a²)
+```
+
+**The two identities the collision mechanisms rest on.** With
+`s = a·u` (definitional): `s·u = a·u² = a`, and
+`u·s^{n−3} = u·s^{−1} = u²·a^{−1} = a^{−1} = a^{n−2}` (using
+`ord(s) = n−2`).
+
+**The word game.** A core chain's blocks have length `n−1` (an s-step)
+or `n−2` (a u-step), never two u's in a row (FORCE). Three mechanisms,
+each now a proved identity:
+
+- **M1** (`s·u` must be terminal): after steps `s, u` the position is
+  `(block m−1's start)·a` (since `s·u = a`), which block `m−1` burned at
+  power 1 — any further block dies at its first generator. So an `s.u`
+  factor is always terminal.
+- **M3′** (pure-s boundary): `s^{n−2} = e` returns the position to the
+  start; any extension's first class is the start's own class, burned by
+  block 1.
+- **M2** (`u` then a long s-run): after prefix `u·s^{n−3}` the position
+  is `a^{−1}` (the second identity); the next block's second generator is
+  the start's class, burned by block 1.
+
+**Classification and cap.** No-`uu` plus M1 forces every valid word into
+one of four shapes — `S^a (a ≤ n−2)`, `S^a.u (a ≤ n−3)`,
+`u.S^a (a ≤ n−3)`, `u.S^a.u (a ≤ n−4)` — and each shape's boundary
+extension dies by M1, M2 or M3′. Hence **a core-only chain of single
+blocks covers at most `n−2` blocks, at every `n`**; the Pentad chain
+`S^{n−2}` attains it. ∎  The exhaustive evidence agrees everywhere:
+the cap `n−2` was computed at n = 5–8 (witnesses `[3,4,3]`, `[4,5,5,4]`,
+`[5,6,6,6,5]`, `[6,7,7,7,7,6]`), the four-shape census at n = 5, 6, 7
+(10/14/18 words, no fourth mechanism), and the identities at n = 5–10.
+
+**Consequence.** `PFRINGE` (`p ≥ ⌈comps/c⌉ − F`, §12c) now stands on a
+theorem at general `n`: `p ≥ ⌈comps/(n−2)⌉ − F` unconditionally. The
+fringe price is proved — a fringe edge's freedom costs a short block,
+and short-block (core) runs cap at `n−2` by proof, not by enumeration.
+
+**Still [EXH], for honesty.** `PENTCAP`'s weight-4 cap `n−3` (the
+`RUNGJ` input) remains exhaustive at n = 6, 7, 8; its mechanism (suffix
+rotation through the ordered-class budget) is identified, with the
+E-form and mask-law expansions from the explicit `a, b` the remaining
+symbolic steps.
+
+**Measured, and the naive form of MLCAP is dead** (August 7, exhaustive
+DFS, exit model made generous in the sound direction): components of 1–2
+loops
 weight-4-chain to **≥ 20 at n = 6, ≥ 84 at n = 7, ≥ 416 at n = 8** — no
 cap below Pentad size exists, and 2-loop components chain *longer* than
 single loops. PENTCAP's cap is a property of *complete* Pentads (big
@@ -179,12 +239,14 @@ PENTCAP's cap) already sit at the right scale.
   **[MEAS]** gain-one words are single-chain, CH3-tight (§3).
 - **[THM]** **`RUNGJ`** (§4): `T ≥ Egan_T − 1` on a factorially-long rung
   prefix — registered and corpus-gated (`code/lemmas.py`, 237/237).
+- **[THM]** **`CORECAP` at general n** (§4b): the core cap `n−2` is now
+  proved, not enumerated — gates in `code/corecap.py`, and `PFRINGE` is
+  unconditional with it.
 - **[DEAD]** **naive MLCAP** (§4): no cap over δ-components + weight-4
   links below Pentad size exists (measured chains ≥ 416 at n = 8).
-- **Next**: the core-side version — bound the *fringe* doors available in
-  the equality case (`CORECAP` caps core-only chains at `n−2`
-  exhaustively; the 5906's own chain uses fringe, so the statement must
-  price fringe edges against `A`, the accidents that create them).
+- **Next**: PENTCAP's general-n cap (the suffix-rotation E-form and the
+  mask law, from the same explicit `a, b`) — that upgrades `RUNGJ` to
+  unconditional; then the multi-block component case of CORECAP.
 - **Either outcome is a result**: a fringe-priced chain lemma tightens the
   lower bound at large n; a counterexample fill at n = 8 is a new record
   (46203) and reshapes the conjecture `s(n) = Egan(n) − 1`.
