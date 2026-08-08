@@ -203,6 +203,35 @@ only place a clean obstruction could still live.
 The 5905 gap says the n = 7 fill missed its own floor by one row; whether
 n = 8 misses by a hair or by a wall is the deciding fact.
 
+**The forest probe (August 7) — also clean.** The rooted-forest constraint
+was the last untested relaxation, and it yields nothing either:
+
+- **Reachability**: every one of the 4,920 columns is reachable from the
+  kernel through candidate parent links (depth ≤ 3; level sizes 6 / 1,363
+  / 3,272 / 279). The champion's own n = 7 instance is shallower (depth
+  ≤ 2) — the n = 8 instance's depth-3 tail (279 columns) is its hardest
+  region, but far from starved (48 candidates each).
+- **Scarcity by level**: the scarcest columns are the six stitch-slack
+  classes (13 candidate rows each — the known pinch, the stitch-skipped
+  classes), then level-1 columns at 15–16. Nothing anywhere near zero.
+- A purpose-built forest-first exact-cover search (rows placed
+  parent-first from the kernel, so every partial state is acyclic) failed
+  to recover even the *n = 7 champion's own* cover within 2M nodes — while
+  a control run with the champion's rows as the only candidates finds it
+  in 125 nodes. So the fill's difficulty is engine weakness on this cover
+  family (plain DLX likewise cannot recover the standard 46,204 cover),
+  not a measurable obstruction.
+
+**Brainstorm verdict.** Every testable relaxation of the gain-two fill is
+clean: matching saturates, LP feasible at the exact row count, forest
+fully reachable, scarcity nowhere near zero. The cover is simply hard
+(NP-hard core: integral exact cover under a forest order). Two
+consequences, stated plainly: the 46,203 word is probably *real* and
+awaits a cluster-scale solve (or a port of the trade-repair machinery);
+and no "gain-two fills die at n ≥ 8" theorem can come from cover theory —
+the lower-bound side of `s(n) = Egan(n) − 1` at large n must come from
+elsewhere.
+
 ## 7. What this does not say
 
 - Nothing here bounds s(n) from below: the best lower bounds remain
