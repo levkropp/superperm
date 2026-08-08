@@ -744,39 +744,37 @@ CLAIMS = [
      lambda r: False,
      lambda r: True),
 
-    ("PENTCAP", "[EXH]",
+    ("PENTCAP", "[THM]",
      "weight-4-linked sequences of pairwise class-disjoint Pentads cap at "
-     "n-3, against the (n-3)! the rung needs -- this is WHY rung 0 fails, and "
-     "it fails factorially",
-     "EGAN1P settled rung 0 at n = 6, 7, 8 with CP-SAT infeasibility "
-     "certificates and gave no reason.  The reason is far blunter than "
-     "'infeasible'.  `code/pentcap.py` searches the longest sequence of "
-     "pairwise class-disjoint Pentads joined by weight-4 jumps:\n"
-     "    n     needed (n-3)!     longest     nodes      exhaustive\n"
-     "    6              6            3      5,040          yes\n"
-     "    7             24            4     75,600          yes\n"
-     "    8            120            5  1,249,920          yes\n"
-     "The cap is **n-3** while the rung needs **(n-3)!**, so rung 0 misses by a "
-     "factor that grows factorially rather than by a hair.  Every search ran to "
-     "completion, so these are exact values, not bounds.\n"
-     "TWO EXPLANATIONS KILLED FIRST, cheaply, and worth recording so they are "
-     "not retried:\n"
-     "  * SUBGROUP confinement.  By homogeneity a chain entered at g exits at "
-     "g.E for a fixed E, so chain entries walk a Cayley graph with steps "
-     "F = E.c^(n-1).mu over the weight-4 mu.  If <F> were a proper subgroup the "
-     "walk would be confined -- but <F> is ALL of S_n at n = 5, 6, 7.  Dead.\n"
-     "  * FAMILY/parity.  Weight-4 jumps preserve the H-coset 25% of the time "
-     "and shift it by every nonzero amount otherwise, so there is no parity "
-     "invariant.  Dead.\n"
-     "What bites is class-disjointness: a Pentad burns (n-1)(n-2) classes, and "
-     "after n-3 links no weight-4 target has a Pentad avoiding all of them.\n"
-     "CONSEQUENCE: this PROVES rung 0 wherever the cap is computed, and does so "
-     "with margin, replacing the solver certificates by a combinatorial reason. "
-     "If cap = n-3 in general then v = (n-2)! => length >= Egan(n) at EVERY n.\n"
+     "n-3, against the (n-3)! the rung needs -- PROVED at general n (was "
+     "[EXH] at n = 6, 7, 8)",
+     "Everything is right multiplication, so the chain-end exit of an orbit "
+     "entered at g is x = g.E for a fixed E.  From the explicit forms "
+     "(a = (1 2 ... n-1), b: i -> i+2 fixing n, c = (1 2 ... n)):\n"
+     "  E-form:       E = s^(n-3).a^(n-2).c^(-1) = (n, n-1, n-2, 1, ..., n-3)\n"
+     "  suffix law:   (g.E)[4:] = g[1:n-3]\n"
+     "  state law:    T(g') = (T(g)[1:], q[0]), T(g) = g[0:n-3]\n"
+     "  ordered-target: T(g) a rotation of (1..n-3) => every weight-4 target "
+     "of g.E lands in an ordered class (2..(n-3) in increasing relative "
+     "order -- a cyclic property of the arrangement)\n"
+     "  mask law:     s and a are single position-cycles, so orderedness "
+     "survives every orbit step -- rotation-T entries burn only ordered "
+     "classes\n"
+     "  budget:       ordered classes = (n-3)(n-1)(n-2); each orbit burns "
+     "(n-1)(n-2) of them disjointly => at most n-3 orbits per chain, "
+     "attained.  The chain dies of UNREACHABILITY, not scarcity: after n-3 "
+     "orbits the state completes its cycle and every door lands on an "
+     "ordered, already-burned class (burned fraction is only 1/(n-4)!).\n"
+     "Gates: code/pentcap_thm.py (E-form + all four laws + the budget at "
+     "n = 6..10; exhaustive cap re-confirmed at n = 6, 7, 8).  Full "
+     "write-up: docs/notes/large_n_lower_bound.md section 4c.\n"
+     "CONSEQUENCE: this proves rung 0 at every n with a combinatorial reason "
+     "for the CP-SAT certificates: v = (n-2)! => length >= Egan(n).  And it "
+     "makes RUNGJ unconditional.\n"
      "SCOPE, stated: the cap is about chains of COMPLETE Pentads, i.e. the "
      "rung-0 structure.  At rung j > 0 the equality components span several "
-     "loops (comps = (n-2)!-(n-2)j < v), so they are not Pentads and this cap "
-     "does not apply to them.  Extending it is the ladder's remaining step.",
+     "loops, so they are not Pentads and this cap does not apply to them "
+     "(the naive multi-loop extension is [REF] MLCAP).",
      lambda r: False,
      lambda r: True),
 
@@ -793,8 +791,9 @@ CLAIMS = [
      "disjointness), so a pure run has at most n - 3 chains.  Chains with a "
      "multi-loop component number at most the merges v - comps <= S = "
      "(n-1)j - A (A2), hence p <= (S+1)(n-3) + S, which rearranges to the "
-     "stated condition.  Conditional on PENTCAP's cap n - 3 (exhaustive at "
-     "n = 6, 7, 8).  Corpus gate: every string with T <= Egan_T - 2 must "
+     "stated condition.  Now UNCONDITIONAL at every n: PENTCAP's cap n - 3 "
+     "is [THM] (code/pentcap_thm.py).  Corpus gate: every string with "
+     "T <= Egan_T - 2 must "
      "satisfy it -- the 5906 sits at j = 22, A = 8: 682 >= 58.",
      lambda r: r["T"] <= (r["n"] - 1) * math.factorial(r["n"] - 3) - 2,
      lambda r: r["d"] * ((r["n"] - 1) * (r["n"] - 2) + 1)

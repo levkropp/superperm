@@ -50,6 +50,7 @@ jobs:
           python code/pentad_orbits.py
           python code/split_free_5889.py
           python code/corecap.py
+          python code/pentcap_thm.py
       - name: Macro-chain witness validates (M_7(40) >= 71)
         run: python code/verify_witness.py code/witness.txt
       - name: Census summary (master identity, read-only)

@@ -188,11 +188,8 @@ theorem at general `n`: `p ≥ ⌈comps/(n−2)⌉ − F` unconditionally. The
 fringe price is proved — a fringe edge's freedom costs a short block,
 and short-block (core) runs cap at `n−2` by proof, not by enumeration.
 
-**Still [EXH], for honesty.** `PENTCAP`'s weight-4 cap `n−3` (the
-`RUNGJ` input) remains exhaustive at n = 6, 7, 8; its mechanism (suffix
-rotation through the ordered-class budget) is identified, with the
-E-form and mask-law expansions from the explicit `a, b` the remaining
-symbolic steps.
+**And PENTCAP is a theorem too (§4c below)** — the weight-4 orbit-chain
+cap `n−3` is proved at general n, so `RUNGJ` is now unconditional.
 
 **Measured, and the naive form of MLCAP is dead** (August 7, exhaustive
 DFS, exit model made generous in the sound direction): components of 1–2
@@ -208,6 +205,62 @@ in the core, where `CORECAP` already gives `n−2` exhaustively), i.e. a
 statement about how many *fringe* doors the equality case can afford —
 `FRINGE`/`PCOUPLE` measured: fringe edges are abundant exactly at
 champions, zero at `S = 0`.
+
+## 4c. The weight-4 cap is a theorem at general n (PENTCAP [EXH] → [THM])
+
+`RUNGJ`'s remaining input is now proved too: a weight-4-linked sequence of
+pairwise class-disjoint `⟨s⟩`-orbits has at most `n−3` of them, at every
+`n` — and the mechanism is transparent, not just enumerated. All gates in
+`code/pentcap_thm.py`.
+
+**Setup.** A chain visits orbits one at a time; each orbit is entered at
+some `g` and left by a weight-4 door. Everything is right multiplication,
+so the chain-end exit is `x = g·E` for a fixed group element `E`.
+
+**1. The E-form (derived, was G1).** From the explicit forms of §4b, with
+`c = (1 2 … n)` the rotation (`end_of(u) = u·c^{−1}`),
+
+```
+E = s^{n−3} · a^{n−2} · c^{−1} = s^{−1} ∘ a^{−1} ∘ c^{−1}
+  = (n, n−1, n−2, 1, 2, …, n−3),
+```
+
+a direct telescoping: `E(i) = i−3` for `i ≥ 4`, `E(1) = n`, `E(2) = n−1`,
+`E(3) = n−2`. Verified at n = 6–10.
+
+**2. Suffix and state laws (from the E-form).** `(g·E)[4:] = g[1:n−3]` —
+the door-preserved suffix of the exit equals the entry's positions
+`1..n−4` — and with `T(g) := g[0:n−3]`, a door-entered next entry has
+`T(g′) = (T(g)[1:], q[0])`: the state rotates one step per orbit.
+
+**3. Ordered-target law (proved).** "Ordered" = the canonical rep has
+`2,3,…,(n−3)` in increasing relative order — a cyclic-order property of
+the arrangement, rotation-invariant. If `T(g)` is a rotation of
+`(1,…,n−3)`, then **every** weight-4 door target of `g·E` lands in an
+ordered class: the target is `(k+2,…,n−3,1,…,k, q)` where `q` permutes a
+set that always contains `k+1`, so `2..(n−3)` stay cyclically increasing
+for every `q`.
+
+**4. Mask law (proved, was G2).** `s` and `a` are single position-cycles
+(the `(n−2)`- and `(n−1)`-cycles), and a single position-cycle preserves
+the cyclic order of every symbol subset. So orderedness survives every
+orbit step: an entry with `2..(n−3)` cyclically ordered has its entire
+orbit burning ordered classes. Verified exhaustively at n = 6–8
+(18/18, 24/24, 30/30 such entries) and at n = 6–9 on random entries.
+
+**5. The budget.** Ordered classes number
+`(n−1)!/(n−4)! = (n−3)(n−1)(n−2)` (counted in the gate). Each chain orbit
+burns `(n−1)(n−2)` of them, and chain orbits are pairwise class-disjoint —
+so **at most `n−3` orbits per chain**, attained (the maximal chains of the
+exhaustive searches). ∎  And now the mechanism is visible: the state
+rotates one step per orbit through a 4-cycle, so after `n−3` orbits every
+door lands on an ordered — already burned — class. The chain dies of
+**unreachability**, not scarcity: the burned fraction is only
+`1/(n−4)!`.
+
+**Consequence.** `RUNGJ` is now unconditional at every `n` (both cap
+inputs are theorems), and the `EGAN1P` CP-SAT certificates at n = 6, 7, 8
+have a combinatorial proof of the same fact.
 
 A plausible route is **defect counting**: at rung `j` only a bounded
 number of components can be multi-loop (each split class costs a merge),
@@ -235,18 +288,20 @@ PENTCAP's cap) already sit at the right scale.
 
 ## 6. Status and next steps
 
-- **[THM]** RUNGEQ equality shape; **[EXH]** PENTCAP at n = 6–8;
+- **[THM]** RUNGEQ equality shape; **[THM]** **PENTCAP at general n** (§4c,
+  the weight-4 orbit cap `n−3` proved);
   **[MEAS]** gain-one words are single-chain, CH3-tight (§3).
 - **[THM]** **`RUNGJ`** (§4): `T ≥ Egan_T − 1` on a factorially-long rung
-  prefix — registered and corpus-gated (`code/lemmas.py`, 237/237).
+  prefix — registered and corpus-gated (`code/lemmas.py`, 237/237), now
+  **unconditional** at every n.
 - **[THM]** **`CORECAP` at general n** (§4b): the core cap `n−2` is now
   proved, not enumerated — gates in `code/corecap.py`, and `PFRINGE` is
   unconditional with it.
 - **[DEAD]** **naive MLCAP** (§4): no cap over δ-components + weight-4
   links below Pentad size exists (measured chains ≥ 416 at n = 8).
-- **Next**: PENTCAP's general-n cap (the suffix-rotation E-form and the
-  mask law, from the same explicit `a, b`) — that upgrades `RUNGJ` to
-  unconditional; then the multi-block component case of CORECAP.
+- **Next**: the multi-block component case of CORECAP, and then the
+  top-band question (where champions live): with both caps proved, the
+  lower bound at large n hinges on the equality case's fringe pricing.
 - **Either outcome is a result**: a fringe-priced chain lemma tightens the
   lower bound at large n; a counterexample fill at n = 8 is a new record
   (46203) and reshapes the conjecture `s(n) = Egan(n) − 1`.
